@@ -43,7 +43,7 @@ class App extends Component {
         <div className="flyout">
           <MDBNavbar color="indigo" dark expand="md" scrolling fixed="top">
             <MDBNavbarBrand href="/" className="py-0 font-weight-bold">
-              <i class="fas fa-school" style={{ height: "1.5rem", width: "2rem", paddingRight: "10px" }}></i>
+              <i className="fas fa-school" style={{ height: "1.5rem", width: "2rem", paddingRight: "10px" }}></i>
               <strong className="align-middle">MODREG</strong>
             </MDBNavbarBrand>
             <MDBNavbarToggler
@@ -96,6 +96,15 @@ class App extends Component {
                     <strong>Submit Appeals</strong>
                   </MDBNavLink>
                 </MDBNavItem>
+                {/* for admin */}
+                <MDBNavItem style={{ paddingRight: 10 }}>
+                  <MDBNavLink
+                    onClick={this.closeCollapse("mainNavbarCollapse")}
+                    to="/users"
+                  >
+                    <strong>Users</strong>
+                  </MDBNavLink>
+                </MDBNavItem>
                 <MDBNavItem style={{ paddingRight: 10 }}>
                   <MDBNavLink
                     onClick={this.closeCollapse("mainNavbarCollapse")}
@@ -113,7 +122,7 @@ class App extends Component {
           </main>
           <MDBFooter color="indigo">
             <p className="footer-copyright mb-0 py-3 text-center">
-              &copy; {new Date().getFullYear()} Copyright Learning Management System
+              &copy; {new Date().getFullYear()} Copyright Module Registration System
             </p>
           </MDBFooter>
         </div>
