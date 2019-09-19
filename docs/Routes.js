@@ -64,10 +64,11 @@ import AnalyticsPage from './pages/AnalyticsPage';
 
 // LMS IMPORTS
 import LoginPage from './dev/LoginPage';
-import DashboardPage from './dev/DashboardPage';
 import UnderMaintenancePage from "./dev/UnderMaintenancePage";
 import MyClassesPage from './dev/Student/MyClassesPage';
 import SelectModulesPage from './dev/Student/SelectModulesPage';
+import Home from "./dev/Home";
+import UsersManagementPage from "./dev/UsersManagementPage";
 
 class Routes extends React.Component {
   render() {
@@ -75,8 +76,9 @@ class Routes extends React.Component {
       <Switch>
 
         {/* LMS PAGES */}
+        <Route exact path="/home" component={Home} />
         <Route exact path="/login" component={LoginPage} />
-        <Route exact path="/dashboard" component={DashboardPage} />
+        <Route exact path="/users" component={UsersManagementPage} />
         <Route exact path="/undermaintenance" component={UnderMaintenancePage} />
 
         {/* MODULE REGISTRATION (STUDENT) */}
