@@ -66,6 +66,8 @@ import AnalyticsPage from './pages/AnalyticsPage';
 import LoginPage from './dev/LoginPage';
 import DashboardPage from './dev/DashboardPage';
 import UnderMaintenancePage from "./dev/UnderMaintenancePage";
+import MyClassesPage from './dev/Student/MyClassesPage';
+import SelectModulesPage from './dev/Student/SelectModulesPage';
 
 class Routes extends React.Component {
   render() {
@@ -76,6 +78,10 @@ class Routes extends React.Component {
         <Route exact path="/login" component={LoginPage} />
         <Route exact path="/dashboard" component={DashboardPage} />
         <Route exact path="/undermaintenance" component={UnderMaintenancePage} />
+
+        {/* MODULE REGISTRATION (STUDENT) */}
+        <Route exact path="/student/:studentId/classes" component={MyClassesPage} />
+        <Route exact path="/student/:/studentId/select-modules" component={SelectModulesPage} />
 
         {/* FREE Templates */}
         <Route exact path="/" component={HomePage} />

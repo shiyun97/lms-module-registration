@@ -67,7 +67,7 @@ class App extends Component {
                 <MDBNavItem style={{ paddingRight: 10 }}>
                   <MDBNavLink
                     onClick={this.closeCollapse("mainNavbarCollapse")}
-                    to="/:accountId/classes"
+                    to="/student/:studentId/classes"
                   >
                     <strong>My Classes</strong>
                   </MDBNavLink>
@@ -75,7 +75,7 @@ class App extends Component {
                 <MDBNavItem style={{ paddingRight: 10 }}>
                   <MDBNavLink
                     onClick={this.closeCollapse("mainNavbarCollapse")}
-                    to="/modules"
+                    to="/student/:/studentId/select-modules"
                   >
                     <strong>Select Modules</strong>
                   </MDBNavLink>
@@ -83,7 +83,7 @@ class App extends Component {
                 <MDBNavItem style={{ paddingRight: 10 }}>
                   <MDBNavLink
                     onClick={this.closeCollapse("mainNavbarCollapse")}
-                    to="/tutorials"
+                    to="/student/tutorials"
                   >
                     <strong>Select Tutorials</strong>
                   </MDBNavLink>
@@ -91,7 +91,7 @@ class App extends Component {
                 <MDBNavItem style={{ paddingRight: 10 }}>
                   <MDBNavLink
                     onClick={this.closeCollapse("mainNavbarCollapse")}
-                    to="/appeals"
+                    to="/student/appeals"
                   >
                     <strong>Submit Appeals</strong>
                   </MDBNavLink>
