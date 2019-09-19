@@ -10,7 +10,6 @@ import {
   MDBNavLink
 } from "mdbreact";
 import { BrowserRouter as Router } from "react-router-dom";
-import SideNav from './dev/SideNav';
 import Routes from "./Routes";
 
 class App extends Component {
@@ -41,11 +40,10 @@ class App extends Component {
 
     return (
       <Router>
-        <SideNav />
         <div className="flyout">
           <MDBNavbar color="indigo" dark expand="md" scrolling fixed="top">
-            <MDBNavbarBrand href="/" className="py-0 font-weight-bold" style={{ paddingLeft: "80px" }}>
-              <img src="https://www.iconsdb.com/icons/preview/white/graduation-cap-xxl.png" style={{ height: "1.5rem", width: "2rem", paddingRight: "10px" }} />
+            <MDBNavbarBrand href="/" className="py-0 font-weight-bold">
+              <i class="fas fa-school" style={{ height: "1.5rem", width: "2rem", paddingRight: "10px" }}></i>
               <strong className="align-middle">MODREG</strong>
             </MDBNavbarBrand>
             <MDBNavbarToggler
@@ -57,7 +55,7 @@ class App extends Component {
               navbar
             >
               <MDBNavbarNav right>
-                <MDBNavItem>
+                <MDBNavItem style={{ paddingRight: 10 }}>
                   <MDBNavLink
                     exact
                     to="/home"
@@ -66,84 +64,44 @@ class App extends Component {
                     <strong>Home</strong>
                   </MDBNavLink>
                 </MDBNavItem>
-                <MDBNavItem>
+                <MDBNavItem style={{ paddingRight: 10 }}>
                   <MDBNavLink
                     onClick={this.closeCollapse("mainNavbarCollapse")}
-                    to="/analytics"
+                    to="/:accountId/classes"
                   >
-                    <strong>Analytics</strong>
+                    <strong>My Classes</strong>
                   </MDBNavLink>
                 </MDBNavItem>
-                <MDBNavItem>
+                <MDBNavItem style={{ paddingRight: 10 }}>
+                  <MDBNavLink
+                    onClick={this.closeCollapse("mainNavbarCollapse")}
+                    to="/modules"
+                  >
+                    <strong>Select Modules</strong>
+                  </MDBNavLink>
+                </MDBNavItem>
+                <MDBNavItem style={{ paddingRight: 10 }}>
+                  <MDBNavLink
+                    onClick={this.closeCollapse("mainNavbarCollapse")}
+                    to="/tutorials"
+                  >
+                    <strong>Select Tutorials</strong>
+                  </MDBNavLink>
+                </MDBNavItem>
+                <MDBNavItem style={{ paddingRight: 10 }}>
+                  <MDBNavLink
+                    onClick={this.closeCollapse("mainNavbarCollapse")}
+                    to="/appeals"
+                  >
+                    <strong>Submit Appeals</strong>
+                  </MDBNavLink>
+                </MDBNavItem>
+                <MDBNavItem style={{ paddingRight: 10 }}>
                   <MDBNavLink
                     onClick={this.closeCollapse("mainNavbarCollapse")}
                     to="/login"
                   >
                     <strong>Login</strong>
-                  </MDBNavLink>
-                </MDBNavItem>
-                <MDBNavItem>
-                  <MDBNavLink
-                    onClick={this.closeCollapse("mainNavbarCollapse")}
-                    to="/css"
-                  >
-                    <strong>CSS</strong>
-                  </MDBNavLink>
-                </MDBNavItem>
-                <MDBNavItem>
-                  <MDBNavLink
-                    onClick={this.closeCollapse("mainNavbarCollapse")}
-                    to="/components"
-                  >
-                    <strong>Components</strong>
-                  </MDBNavLink>
-                </MDBNavItem>
-                <MDBNavItem>
-                  <MDBNavLink
-                    onClick={this.closeCollapse("mainNavbarCollapse")}
-                    to="/advanced"
-                  >
-                    <strong>Advanced</strong>
-                  </MDBNavLink>
-                </MDBNavItem>
-                <MDBNavItem>
-                  <MDBNavLink
-                    onClick={this.closeCollapse("mainNavbarCollapse")}
-                    to="/navigation"
-                  >
-                    <strong>Navigation</strong>
-                  </MDBNavLink>
-                </MDBNavItem>
-                <MDBNavItem>
-                  <MDBNavLink
-                    onClick={this.closeCollapse("mainNavbarCollapse")}
-                    to="/forms"
-                  >
-                    <strong>Forms</strong>
-                  </MDBNavLink>
-                </MDBNavItem>
-                <MDBNavItem>
-                  <MDBNavLink
-                    onClick={this.closeCollapse("mainNavbarCollapse")}
-                    to="/tables"
-                  >
-                    <strong>Tables</strong>
-                  </MDBNavLink>
-                </MDBNavItem>
-                <MDBNavItem>
-                  <MDBNavLink
-                    onClick={this.closeCollapse("mainNavbarCollapse")}
-                    to="/modals"
-                  >
-                    <strong>Modals</strong>
-                  </MDBNavLink>
-                </MDBNavItem>
-                <MDBNavItem>
-                  <MDBNavLink
-                    onClick={this.closeCollapse("mainNavbarCollapse")}
-                    to="/addons"
-                  >
-                    <strong>Addons</strong>
                   </MDBNavLink>
                 </MDBNavItem>
               </MDBNavbarNav>

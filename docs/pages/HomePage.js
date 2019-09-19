@@ -53,7 +53,7 @@ class HomePage extends React.Component {
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      <MDBIcon icon="graduation-cap" className="mr-2" />
+                      <MDBIcon icon="school" className="mr-2" />
                       <span className="font-weight-bold">Official Documentation</span>
                     </a>
                   </MDBRow>

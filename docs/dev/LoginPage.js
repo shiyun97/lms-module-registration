@@ -34,10 +34,6 @@ const LoginPage = () => {
                   </button>
                       <br />
                       <br />
-                      <p className="text-center grey-text">
-                        Do you have an account? If not, sign up
-                        <a href="/register"> here</a>.
-                        </p>
                     </div>
                   </form>
                 </ul>

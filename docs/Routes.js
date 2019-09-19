@@ -64,7 +64,6 @@ import AnalyticsPage from './pages/AnalyticsPage';
 
 // LMS IMPORTS
 import LoginPage from './dev/LoginPage';
-import RegisterPage from './dev/RegisterPage';
 import DashboardPage from './dev/DashboardPage';
 import UnderMaintenancePage from "./dev/UnderMaintenancePage";
 
@@ -75,7 +74,6 @@ class Routes extends React.Component {
 
         {/* LMS PAGES */}
         <Route exact path="/login" component={LoginPage} />
-        <Route exact path="/register" component={RegisterPage} />
         <Route exact path="/dashboard" component={DashboardPage} />
         <Route exact path="/undermaintenance" component={UnderMaintenancePage} />
 
