@@ -194,15 +194,16 @@ class SelectModulesPage extends Component {
                         <MDBCol>
                             <MDBRow>
                                 <MDBCol>
-                                    Selected Modules<button type="submit" style={{ "float": "right" }} className="btn btn-danger btn-md mt-0 mr-0">Delete</button>
+                                    <h5>Selected Modules<button type="submit" style={{ "float": "right" }} className="btn btn-danger btn-md mt-0 mr-0">Delete</button></h5>
                                     <div className="mb-3"></div>
                                 </MDBCol>
                             </MDBRow>
 
-                            <MDBTable bordered striped btn fixed>
-                                <MDBTableHead columns={selectedModules.columns} />
+                            <MDBTable bordered btn fixed>
+                                <MDBTableHead columns={selectedModules.columns} color="mdb-color lighten-5"/>
                                 <MDBTableBody rows={selectedModules.rows} />
                             </MDBTable>
+                            <div className="mb-5"/>
                         </MDBCol>
                     </MDBRow>
                 }

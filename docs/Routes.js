@@ -65,10 +65,11 @@ import AnalyticsPage from './pages/AnalyticsPage';
 // LMS IMPORTS
 import LoginPage from './dev/LoginPage';
 import UnderMaintenancePage from "./dev/UnderMaintenancePage";
-import MyClassesPage from './dev/Student/MyClassesPage';
-import SelectModulesPage from './dev/Student/SelectModulesPage';
 import Home from "./dev/Home";
 import UsersManagementPage from "./dev/UsersManagementPage";
+import MyClassesPage from './dev/Student/MyClassesPage';
+import SelectModulesPage from './dev/Student/SelectModulesPage';
+import SelectTutorialsPage from './dev/Student/SelectTutorialsPage';
 import SubmitAppeal from './dev/Student/SubmitAppeal'
 
 class Routes extends React.Component {
@@ -84,7 +85,8 @@ class Routes extends React.Component {
 
         {/* MODULE REGISTRATION (STUDENT) */}
         <Route exact path="/student/:studentId/classes" component={MyClassesPage} />
-        <Route exact path="/student/:/studentId/select-modules" component={SelectModulesPage} />
+        <Route exact path="/student/:studentId/select-modules" component={SelectModulesPage} />
+        <Route exact path="/student/:studentId/select-tutorials" component={SelectTutorialsPage} />
         <Route exact path="/student/appeals" component={SubmitAppeal}/>
 
 
