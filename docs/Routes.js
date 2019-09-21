@@ -70,18 +70,20 @@ import UsersManagementPage from "./dev/UsersManagementPage";
 import MyClassesPage from './dev/Student/MyClassesPage';
 import SelectModulesPage from './dev/Student/SelectModulesPage';
 import SelectTutorialsPage from './dev/Student/SelectTutorialsPage';
-import SubmitAppeal from './dev/Student/SubmitAppeal'
+import SubmitAppeal from './dev/Student/SubmitAppeal';
+import AllocateModulesPage from './dev/Admin/AllocateModulesPage';
 
 class Routes extends React.Component {
   render() {
     return (
       <Switch>
 
-        {/* LMS PAGES */}
+        {/*  MODULE REGISTRATION (ADMIN) */}
         <Route exact path="/home" component={Home} />
         <Route exact path="/login" component={LoginPage} />
         <Route exact path="/users" component={UsersManagementPage} />
         <Route exact path="/undermaintenance" component={UnderMaintenancePage} />
+        <Route exact path="/allocate-modules" component={AllocateModulesPage} />
 
         {/* MODULE REGISTRATION (STUDENT) */}
         <Route exact path="/student/:studentId/classes" component={MyClassesPage} />

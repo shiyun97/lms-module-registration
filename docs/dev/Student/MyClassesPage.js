@@ -1,98 +1,41 @@
 import React, { Component } from "react";
-import { MDBContainer, MDBRow, MDBCol, MDBTable, MDBTableHead, MDBTableBody } from "mdbreact";
+import { 
+    MDBContainer, 
+    MDBRow, 
+    MDBCol, 
+    MDBTable, 
+    MDBTableHead, 
+    MDBTableBody 
+} from "mdbreact";
+import axios from "axios";
+
+const classColumns = [
+    {
+        label: "Class",
+        field: "classCode",
+        sort: "asc"
+    },
+    {
+        label: "Activity",
+        field: "type",
+        sort: "asc"
+    },
+    {
+        label: "Units",
+        field: "credits",
+        sort: "asc"
+    },
+    {
+        label: "Status",
+        field: "enrollStatus",
+        sort: "asc"
+    },
+]
 
 class MyClassesPage extends Component {
 
     state = {
-        modules: [
-            {
-                moduleId: "1",
-                moduleName: "Module 1",
-                moduleCode: "IS4103",
-                classes: {
-                    columns: [
-                        {
-                            label: "Class",
-                            field: "classSlot",
-                            sort: "asc"
-                        },
-                        {
-                            label: "Activity",
-                            field: "type",
-                            sort: "asc"
-                        },
-                        {
-                            label: "Units",
-                            field: "credits",
-                            sort: "asc"
-                        },
-                        {
-                            label: "Status",
-                            field: "enrollStatus",
-                            sort: "asc"
-                        },
-                    ],
-                    rows: [
-                        {
-                            classSlot: "L1",
-                            type: "Lecture",
-                            credits: 4.00,
-                            enrollStatus: "Enrolled"
-                        },
-                        {
-                            classSlot: "T1",
-                            type: "Tutorial",
-                            credits: "-",
-                            enrollStatus: "Enrolled"
-                        }
-                    ]
-                }
-            },
-            {
-                moduleId: "2",
-                moduleName: "Module 2",
-                moduleCode: "IS3103",
-                classes: {
-                    columns: [
-                        {
-                            label: "Class",
-                            field: "classSlot",
-                            sort: "asc"
-                        },
-                        {
-                            label: "Activity",
-                            field: "type",
-                            sort: "asc"
-                        },
-                        {
-                            label: "Units",
-                            field: "credits",
-                            sort: "asc"
-                        },
-                        {
-                            label: "Status",
-                            field: "enrollStatus",
-                            sort: "asc"
-                        },
-                    ],
-                    rows: [
-                        {
-                            classSlot: "L2",
-                            type: "Lecture",
-                            credits: 4.00,
-                            enrollStatus: "Enrolled"
-                        },
-                        {
-                            classSlot: "T2",
-                            type: "Tutorial",
-                            credits: "-",
-                            enrollStatus: "-"
-                        }
-                    ]
-                },
-            }
-        ],
-        
+        modules: []
     }
 
     componentDidMount() {
@@ -104,13 +47,46 @@ class MyClassesPage extends Component {
         if (studentId) {
             console.log(studentId);
             // retrieve student & set state for classes
+            axios
+                .get("http://localhost:3001/myClasses")
+                .then(result => {
+                    let data = result.data;
+                    let arr = [];
+                    Object.keys(data).forEach(function (key) {
+                        let classesArr = [];
+                        let classes = data[key].classes;
+                        Object.keys(classes).forEach(function (key2) {
+                            let tempClass = {
+                                classCode: classes[key2].classCode,
+                                type: classes[key2].type,
+                                credits: classes[key2].credits,
+                                enrollStatus: classes[key2].enrollStatus
+                            }
+                            classesArr.push(tempClass);
+                        })
+                        let tempModule = {
+                            moduleCode: data[key].moduleCode,
+                            moduleName: data[key].moduleName,
+                            classes: {
+                                columns: classColumns,
+                                rows: classesArr
+                            }
+                        }
+                        arr.push(tempModule);
+                    });
+                    this.setState({
+                        modules: arr
+                    });
+                })
+                .catch(error => {
+                    console.error("error in axios " + error);
+                });
 
         }
     }
 
     render() {
         let modules = this.state.modules;
-        console.log(modules);
         return (
                 <MDBContainer className="mt-3">
                     <MDBRow className="py-3">
@@ -126,7 +102,7 @@ class MyClassesPage extends Component {
                         {
                             modules.length > 0 &&
                             modules.map((module) => (
-                                <ModuleListItem key={module.moduleId}
+                                <ModuleListItem key={module.moduleCode}
                                 module={module}></ModuleListItem>
                             ))
                         }

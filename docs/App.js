@@ -108,6 +108,14 @@ class App extends Component {
                 <MDBNavItem style={{ paddingRight: 10 }}>
                   <MDBNavLink
                     onClick={this.closeCollapse("mainNavbarCollapse")}
+                    to="/allocate-modules"
+                  >
+                    <strong>Allocate Modules</strong>
+                  </MDBNavLink>
+                </MDBNavItem>
+                <MDBNavItem style={{ paddingRight: 10 }}>
+                  <MDBNavLink
+                    onClick={this.closeCollapse("mainNavbarCollapse")}
                     to="/login"
                   >
                     <strong>Login</strong>
