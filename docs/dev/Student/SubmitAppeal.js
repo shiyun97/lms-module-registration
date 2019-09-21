@@ -9,13 +9,7 @@ var url = "http://localhost:3001/";
 class SubmitAppeal extends Component {
   state = {
     value: "",
-    scheduledDate: "",
-    scheduledMonth: "",
-    scheduledYear: "",
-    scheduledHour: "",
-    scheduledMinute: "",
-    scheduledSecond: "",
-    scheduledMillisecond: "",
+    schedule: "",
     appealModule: "",
     appealReason: "",
     appealStatus: "Pending",
@@ -27,15 +21,7 @@ class SubmitAppeal extends Component {
   componentDidMount() {
     axios.get(url + "schedule")
       .then(result => {
-        this.setState({
-          scheduledDate: result.data.date,
-          scheduledMonth: result.data.month,
-          scheduledYear: result.data.year,
-          scheduledHour: result.data.hour,
-          scheduledMinute: result.data.minute,
-          scheduledSecond: result.data.seconds,
-          scheduledMillisecond: result.data.millisecond
-        });
+        this.setState({schedule: result.data});
       })
       .catch(error => {
         console.error("error in axios " + error);
@@ -85,20 +71,17 @@ class SubmitAppeal extends Component {
       });
   };
 
+  handleSubmitChangeGroup = event => {
+    console.log("post to axios")
+  }
+
   checkSchedule = () => {
     //if current date exceeds schedule, display all appeals and unable to submit appeal
     // else display the submit appeal options and all appeals
     var date = new Date();
-    var currentYear = date.getFullYear();
-    var currentMonth = date.getMonth();
-    var currentDate = date.getDate();
-    var currentHour = date.getHours();
-    var currentMinute = date.getMinutes();
-    var currentSeconds = date.getSeconds();
-    var currentMillisecond = date.getMilliseconds();
-
-    if (currentYear < this.state.scheduledYear || currentMonth < this.state.scheduledMonth || currentDate < this.state.scheduledDate ||
-      currentHour < this.state.scheduledHour || currentMinute < this.state.minute || currentSeconds < this.state.seconds || currentMillisecond < this.state.millisecond) {
+    
+    if (date.getFullYear() < this.state.schedule.year || date.getMonth() < this.state.schedule.month || date.getDate() < this.state.schedule.date ||
+    date.getHours() < this.state.schedule.hour || date.getMinutes() < this.state.schedule.minute || date.getSeconds() < this.state.schedule.second || date.getMilliseconds() < this.state.schedule.millisecond) {
       return this.appealOpen();
     } else {
       return this.appealClosed();
@@ -198,7 +181,7 @@ class SubmitAppeal extends Component {
           </MDBRow>
 
           <MDBRow style={{ paddingTop: "20px" }}>
-            <MDBCol sm="4">Current Group: </MDBCol>
+            <MDBCol sm="4">Appeal Group: </MDBCol>
             <MDBCol sm="8">
               {/*display appeal group based on whether it is lecture/ tutorial in the previous uption */}
               appeal group
