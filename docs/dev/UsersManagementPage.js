@@ -1,19 +1,38 @@
 import React, { Component } from "react";
 import { MDBDataTable, MDBInputGroup, MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter, MDBContainer, MDBRow, MDBCol, MDBBtn, MDBCard, MDBCardBody } from "mdbreact";
-import data from '../test/users_data'
+import axios from "axios";
 
-const widerData = {
-    columns: [...data().columns.map(col => {
-        col.width = 200;
-        return col;
-    })], rows: [...data().rows]
+function goToProfilePage(userId) {
+    console.log(userId);
 }
 
 class UsersManagementPage extends Component {
 
     state = {
-        modal1: false
+        modal1: false,
+        columns: [],
+        rows: [{ text: "Retrieving data..." }],
+        status: "retrieving"
     };
+
+
+    componentDidMount() {
+        axios
+            .get("http://localhost:3001/users")
+            .then(result => {
+                this.setState({
+                    columns: result.data.columns,
+                    rows: result.data.rows,
+                    status: "done"
+                });
+            })
+            .catch(error => {
+                this.setState({
+                    status: "error"
+                });
+                console.error("error in axios " + error);
+            });
+    }
 
     toggle = nr => () => {
         let modalNumber = "modal" + nr;
@@ -22,7 +41,7 @@ class UsersManagementPage extends Component {
         });
     };
 
-    render() {
+    renderUserTable = (tableData) => {
         return (
             <MDBContainer className="mt-3">
                 <MDBRow style={{ paddingTop: 60 }}>
@@ -121,13 +140,72 @@ class UsersManagementPage extends Component {
                     <MDBCol md="12">
                         <MDBCard>
                             <MDBCardBody>
-                                <MDBDataTable striped bordered hover scrollX scrollY maxHeight="400px" data={widerData} pagesAmount={4} />
+                                <MDBDataTable striped bordered hover scrollX scrollY maxHeight="400px" data={tableData} pagesAmount={4} />
                             </MDBCardBody>
                         </MDBCard>
                     </MDBCol>
                 </MDBRow>
             </MDBContainer>
-        );
+        )
+    }
+
+    renderTableWithMessage = (message) => {
+        const data = () => ({ columns: [], rows: [{ label: message }] })
+
+        const tableData = {
+            columns: [...data().columns.map(col => {
+                col.width = 200;
+                return col;
+            })], rows: [...data().rows]
+        }
+        return (
+            <MDBContainer className="mt-3">
+                <MDBRow style={{ paddingTop: 60 }}>
+                    <MDBCol md="12">
+                        <MDBCard>
+                            <MDBCardBody>
+                                <MDBDataTable striped bordered hover scrollX scrollY maxHeight="400px" data={tableData} pagesAmount={4} />
+                            </MDBCardBody>
+                        </MDBCard>
+                    </MDBCol>
+                </MDBRow>
+            </MDBContainer>
+        )
+    }
+
+    renderAwaiting = () => {
+        return (
+            <MDBContainer className="mt-3">
+                <MDBRow style={{ paddingTop: 60 }} align="center">
+                    <MDBCol md="12">
+                        <div className="spinner-border text-primary" role="status">
+                            <span className="sr-only">Loading...</span>
+                        </div>
+                    </MDBCol>
+                </MDBRow>
+            </MDBContainer>
+        )
+    }
+
+    render() {
+        const data = () => ({ columns: this.state.columns, rows: this.state.rows })
+        // clickEvent: () => goToProfilePage(1)
+
+        const widerData = {
+            columns: [...data().columns.map(col => {
+                col.width = 200;
+                return col;
+            })], rows: [...data().rows]
+        }
+
+        if (this.state.status === "retrieving")
+            return this.renderAwaiting();
+        else if (this.state.status === "error")
+            return this.renderTableWithMessage("Error in Retrieving Data. Please try again later.");
+        else if (this.state.status === "done")
+            return this.renderUserTable(widerData);
+        else
+            return this.renderTableWithMessage("No data found.");
     }
 }
 
