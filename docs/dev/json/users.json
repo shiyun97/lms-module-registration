@@ -1,57 +1,12 @@
 {
     "users": {
-        "columns": [
-            {
-                "label": "First Name",
-                "field": "firstName",
-                "width": 150,
-                "attributes": {
-                    "aria-controls": "DataTable",
-                    "aria-label": "Name"
-                }
-            },
-            {
-                "label": "Last Name",
-                "field": "lastName",
-                "width": 150,
-                "attributes": {
-                    "aria-controls": "DataTable",
-                    "aria-label": "Name"
-                }
-            },
-            {
-                "label": "Gender",
-                "field": "gender",
-                "width": 100
-            },
-            {
-                "label": "Email",
-                "field": "email",
-                "width": 270
-            },
-            {
-                "label": "Password",
-                "field": "password",
-                "width": 200
-            },
-            {
-                "label": "User Role",
-                "field": "userRole",
-                "width": 100
-            },
-            {
-                "label": "Faculty",
-                "field": "faculty",
-                "width": 100
-            }
-        ],
-        "rows": [
+        "users": [
             {
                 "firstName": "Tiger",
                 "lastName": "Nixon",
                 "gender": "Male",
-                "email": "e190001@school.com",
-                "password": "********",
+                "email": "e190001@u.school.edu",
+                "password": "password",
                 "userRole": "Student",
                 "faculty": "SOC"
             },
@@ -59,8 +14,8 @@
                 "firstName": "Garrett",
                 "lastName": "Winters",
                 "gender": "Male",
-                "email": "e190002@school.com",
-                "password": "********",
+                "email": "a190002@u.school.edu",
+                "password": "password",
                 "userRole": "Admin",
                 "faculty": "SOC"
             },
@@ -68,8 +23,8 @@
                 "firstName": "Ashton",
                 "lastName": "Cox",
                 "gender": "Male",
-                "email": "e190003@school.com",
-                "password": "********",
+                "email": "a190003@u.school.edu",
+                "password": "password",
                 "userRole": "Admin",
                 "faculty": "SOC"
             },
@@ -77,8 +32,8 @@
                 "firstName": "Cedric",
                 "lastName": "Kelly",
                 "gender": "Female",
-                "email": "e190004@school.com",
-                "password": "********",
+                "email": "t190004@u.school.edu",
+                "password": "password",
                 "userRole": "Teacher",
                 "faculty": "SOC"
             },
@@ -86,8 +41,8 @@
                 "firstName": "Airi",
                 "lastName": "Satou",
                 "gender": "Female",
-                "email": "e190005@school.com",
-                "password": "********",
+                "email": "t190005@u.school.edu",
+                "password": "password",
                 "userRole": "Teacher",
                 "faculty": "SOC"
             },
@@ -95,8 +50,8 @@
                 "firstName": "Brielle",
                 "lastName": "Williamson",
                 "gender": "Female",
-                "email": "e190006@school.com",
-                "password": "********",
+                "email": "a190006@u.school.edu",
+                "password": "password",
                 "userRole": "Student",
                 "faculty": "SOC"
             },
@@ -104,8 +59,8 @@
                 "firstName": "Herrod",
                 "lastName": "Chandler",
                 "gender": "Male",
-                "email": "e190007@school.com",
-                "password": "********",
+                "email": "e190007@u.school.edu",
+                "password": "password",
                 "userRole": "Student",
                 "faculty": "SOC"
             },
@@ -113,8 +68,8 @@
                 "firstName": "Rhona",
                 "lastName": "Davidson",
                 "gender": "Female",
-                "email": "e190008@school.com",
-                "password": "********",
+                "email": "e190008@u.school.edu",
+                "password": "password",
                 "userRole": "Student",
                 "faculty": "SOC"
             },
@@ -122,8 +77,8 @@
                 "firstName": "Colleen",
                 "lastName": "Hurst",
                 "gender": "Female",
-                "email": "e190009@school.com",
-                "password": "********",
+                "email": "e190009@u.school.edu",
+                "password": "password",
                 "userRole": "Student",
                 "faculty": "SOC"
             },
@@ -131,8 +86,8 @@
                 "firstName": "Sonya",
                 "lastName": "Frost",
                 "gender": "Female",
-                "email": "e190010@school.com",
-                "password": "********",
+                "email": "e190010@u.school.edu",
+                "password": "password",
                 "userRole": "Student",
                 "faculty": "SOC"
             },
@@ -140,8 +95,8 @@
                 "firstName": "Jena",
                 "lastName": "Gaines",
                 "gender": "Female",
-                "email": "e190011@school.com",
-                "password": "********",
+                "email": "t190011@u.school.edu",
+                "password": "password",
                 "userRole": "Teacher",
                 "faculty": "SOC"
             },
@@ -149,8 +104,8 @@
                 "firstName": "Quinn",
                 "lastName": "Flynn",
                 "gender": "Female",
-                "email": "e190012@school.com",
-                "password": "********",
+                "email": "t190012@u.school.edu",
+                "password": "password",
                 "userRole": "Teacher",
                 "faculty": "SOC"
             },
@@ -158,8 +113,8 @@
                 "firstName": "Charde",
                 "lastName": "Marshall",
                 "gender": "Male",
-                "email": "e190013@school.com",
-                "password": "********",
+                "email": "t190013@u.school.edu",
+                "password": "password",
                 "userRole": "Teacher",
                 "faculty": "SOC"
             },
@@ -167,8 +122,8 @@
                 "firstName": "Haley",
                 "lastName": "Kennedy",
                 "gender": "Male",
-                "email": "e190014@school.com",
-                "password": "********",
+                "email": "e190014@u.school.edu",
+                "password": "password",
                 "userRole": "Student",
                 "faculty": "SOC"
             },
@@ -176,8 +131,8 @@
                 "firstName": "Tatyana",
                 "lastName": "Fitzpatrick",
                 "gender": "Female",
-                "email": "e190015@school.com",
-                "password": "********",
+                "email": "t190015@u.school.edu",
+                "password": "password",
                 "userRole": "Teacher",
                 "faculty": "SOC"
             },
@@ -185,9 +140,159 @@
                 "firstName": "Michael",
                 "lastName": "Silva",
                 "gender": "Male",
-                "email": "e190016@school.com",
-                "password": "********",
+                "email": "t190016@u.school.edu",
+                "password": "password",
                 "userRole": "Teacher",
+                "faculty": "SOC"
+            }
+        ],
+        "teachers": [
+            {
+                "firstName": "Cedric",
+                "lastName": "Kelly",
+                "gender": "Female",
+                "email": "t190004@u.school.edu",
+                "password": "password",
+                "userRole": "Teacher",
+                "faculty": "SOC"
+            },
+            {
+                "firstName": "Airi",
+                "lastName": "Satou",
+                "gender": "Female",
+                "email": "t190005@u.school.edu",
+                "password": "password",
+                "userRole": "Teacher",
+                "faculty": "SOC"
+            },
+            {
+                "firstName": "Jena",
+                "lastName": "Gaines",
+                "gender": "Female",
+                "email": "t190011@u.school.edu",
+                "password": "password",
+                "userRole": "Teacher",
+                "faculty": "SOC"
+            },
+            {
+                "firstName": "Quinn",
+                "lastName": "Flynn",
+                "gender": "Female",
+                "email": "t190012@u.school.edu",
+                "password": "password",
+                "userRole": "Teacher",
+                "faculty": "SOC"
+            },
+            {
+                "firstName": "Charde",
+                "lastName": "Marshall",
+                "gender": "Male",
+                "email": "t190013@u.school.edu",
+                "password": "password",
+                "userRole": "Teacher",
+                "faculty": "SOC"
+            },
+            {
+                "firstName": "Tatyana",
+                "lastName": "Fitzpatrick",
+                "gender": "Female",
+                "email": "t190015@u.school.edu",
+                "password": "password",
+                "userRole": "Teacher",
+                "faculty": "SOC"
+            },
+            {
+                "firstName": "Michael",
+                "lastName": "Silva",
+                "gender": "Male",
+                "email": "t190016@u.school.edu",
+                "password": "password",
+                "userRole": "Teacher",
+                "faculty": "SOC"
+            }
+        ],
+        "students": [
+            {
+                "firstName": "Tiger",
+                "lastName": "Nixon",
+                "gender": "Male",
+                "email": "e190001@u.school.edu",
+                "password": "password",
+                "userRole": "Student",
+                "faculty": "SOC"
+            },
+            {
+                "firstName": "Brielle",
+                "lastName": "Williamson",
+                "gender": "Female",
+                "email": "a190006@u.school.edu",
+                "password": "password",
+                "userRole": "Student",
+                "faculty": "SOC"
+            },
+            {
+                "firstName": "Herrod",
+                "lastName": "Chandler",
+                "gender": "Male",
+                "email": "e190007@u.school.edu",
+                "password": "password",
+                "userRole": "Student",
+                "faculty": "SOC"
+            },
+            {
+                "firstName": "Rhona",
+                "lastName": "Davidson",
+                "gender": "Female",
+                "email": "e190008@u.school.edu",
+                "password": "password",
+                "userRole": "Student",
+                "faculty": "SOC"
+            },
+            {
+                "firstName": "Colleen",
+                "lastName": "Hurst",
+                "gender": "Female",
+                "email": "e190009@u.school.edu",
+                "password": "password",
+                "userRole": "Student",
+                "faculty": "SOC"
+            },
+            {
+                "firstName": "Sonya",
+                "lastName": "Frost",
+                "gender": "Female",
+                "email": "e190010@u.school.edu",
+                "password": "password",
+                "userRole": "Student",
+                "faculty": "SOC"
+            },
+            {
+                "firstName": "Haley",
+                "lastName": "Kennedy",
+                "gender": "Male",
+                "email": "e190014@u.school.edu",
+                "password": "password",
+                "userRole": "Student",
+                "faculty": "SOC"
+            }
+        ],
+        "admins": [
+            {
+                "firstName": "Garrett",
+                "lastName": "Winters",
+                "gender": "Male",
+                "email": "a190002@u.school.edu",
+                "password": "password",
+                "userRole": "Admin",
+                "faculty": "SOC"
+            },
+            {
+                "firstName": "Ashton",
+                "lastName": "Cox",
+                "gender": "Male",
+                "email": "a190003@u.school.edu",
+                "password": "password",
+                "userRole": "Admin",
                 "faculty": "SOC"
             }
         ]

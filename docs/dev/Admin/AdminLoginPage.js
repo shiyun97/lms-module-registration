@@ -1,7 +1,7 @@
 import React from "react";
 import { MDBEdgeHeader, MDBContainer, MDBRow, MDBCol, MDBJumbotron, MDBAnimation } from "mdbreact";
 
-const LoginPage = () => {
+const AdminLoginPage = () => {
   return (
     <>
       <MDBEdgeHeader color="indigo darken-3" className="loginPage" />
@@ -11,7 +11,7 @@ const LoginPage = () => {
             <MDBCol md="8" className="mt-3 mx-auto">
               <MDBJumbotron>
                 <h1 className="text-center" style={{ fontWeight: "bold" }}>
-                  MODREG
+                  Administrator Login
                 </h1>
                 <h3 className="text-center">
                   Module Registration System
@@ -46,4 +46,4 @@ const LoginPage = () => {
   );
 }
 
-export default LoginPage;
+export default AdminLoginPage;

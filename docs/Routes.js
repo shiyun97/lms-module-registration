@@ -63,15 +63,16 @@ import TreeviewPage from './pages/TreeviewPage'
 import AnalyticsPage from './pages/AnalyticsPage';
 
 // LMS IMPORTS
-import LoginPage from './dev/LoginPage';
+import StudentLoginPage from './dev/StudentLoginPage';
 import UnderMaintenancePage from "./dev/UnderMaintenancePage";
 import Home from "./dev/Home";
-import UsersManagementPage from "./dev/UsersManagementPage";
+import UsersManagementPage from "./dev/Admin/UsersManagementPage";
 import MyClassesPage from './dev/Student/MyClassesPage';
 import SelectModulesPage from './dev/Student/SelectModulesPage';
 import SelectTutorialsPage from './dev/Student/SelectTutorialsPage';
 import SubmitAppeal from './dev/Student/SubmitAppeal';
 import AllocateModulesPage from './dev/Admin/AllocateModulesPage';
+import AdminLoginPage from "./dev/Admin/AdminLoginPage";
 
 class Routes extends React.Component {
   render() {
@@ -80,7 +81,8 @@ class Routes extends React.Component {
 
         {/*  MODULE REGISTRATION (ADMIN) */}
         <Route exact path="/home" component={Home} />
-        <Route exact path="/login" component={LoginPage} />
+        <Route exact path="/login" component={StudentLoginPage} />
+        <Route exact path="/admin" component={AdminLoginPage} />
         <Route exact path="/users" component={UsersManagementPage} />
         <Route exact path="/undermaintenance" component={UnderMaintenancePage} />
         <Route exact path="/allocate-modules" component={AllocateModulesPage} />

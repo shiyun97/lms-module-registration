@@ -10,7 +10,51 @@ class UsersManagementPage extends Component {
 
     state = {
         modal1: false,
-        columns: [],
+        columns: [
+            {
+                "label": "First Name",
+                "field": "firstName",
+                "width": 150,
+                "attributes": {
+                    "aria-controls": "DataTable",
+                    "aria-label": "Name"
+                }
+            },
+            {
+                "label": "Last Name",
+                "field": "lastName",
+                "width": 150,
+                "attributes": {
+                    "aria-controls": "DataTable",
+                    "aria-label": "Name"
+                }
+            },
+            {
+                "label": "Gender",
+                "field": "gender",
+                "width": 100
+            },
+            {
+                "label": "Email",
+                "field": "email",
+                "width": 270
+            },
+            {
+                "label": "Password",
+                "field": "password",
+                "width": 200
+            },
+            {
+                "label": "User Role",
+                "field": "userRole",
+                "width": 100
+            },
+            {
+                "label": "Faculty",
+                "field": "faculty",
+                "width": 100
+            }
+        ],
         rows: [{ text: "Retrieving data..." }],
         status: "retrieving"
     };
@@ -21,8 +65,7 @@ class UsersManagementPage extends Component {
             .get("http://localhost:3001/users")
             .then(result => {
                 this.setState({
-                    columns: result.data.columns,
-                    rows: result.data.rows,
+                    rows: result.data.users,
                     status: "done"
                 });
             })
@@ -150,13 +193,13 @@ class UsersManagementPage extends Component {
     }
 
     renderTableWithMessage = (message) => {
-        const data = () => ({ columns: [], rows: [{ label: message }] })
+        const data = () => ({ columns: this.state.columns, rows: [{ label: message }] })
 
         const tableData = {
             columns: [...data().columns.map(col => {
                 col.width = 200;
                 return col;
-            })], rows: [...data().rows]
+            })], rows: [...data().users]
         }
         return (
             <MDBContainer className="mt-3">
