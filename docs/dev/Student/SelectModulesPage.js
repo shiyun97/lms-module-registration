@@ -12,8 +12,8 @@ import {
     MDBModal,
     MDBModalBody
 } from "mdbreact";
-import SectionContainer from '../../components/sectionContainer';
 import axios from "axios";
+import SectionContainer from '../../components/sectionContainer';
 
 class SelectModulesPage extends Component {
 
@@ -213,7 +213,6 @@ class SelectModulesPage extends Component {
                                         value={this.state.moduleCodeEntered} 
                                         onChange={this.inputChangeHandler} 
                                         required />
-                                    <div style={{ top: "auto" }} className="invalid-tooltip">Required</div>
                                 </div>
                                 <div className="col-auto">
                                     <button type="submit" className="btn btn-primary btn-md mt-md-0 ml-0 mt-4" style={{"marginBottom":"0px"}}>

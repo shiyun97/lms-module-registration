@@ -70,5 +70,57 @@
                 }
             ]
         }
+    ],
+    "studentRetrieved": {
+        "student":
+        {
+            "studentNumber": "A1111111B",
+            "studentName": "Student A"
+        },
+        "studentModules": [
+            {
+                "moduleCode": "IS1103",
+                "moduleName": "Module 4",
+                "lectureCode": "2020-1-IS1103L1"
+            },
+            {
+                "moduleCode": "IS2102",
+                "moduleName": "Module 5",
+                "lectureCode": "2020-1-IS2102L2"
+            },
+            {
+                "moduleCode": "IS2103",
+                "moduleName": "Module 6",
+                "lectureCode": "2020-1-IS2103L3"
+            }
+        ]
+    },
+    "selectedTutorials": [
+        {
+            "moduleCode": "IS1103",
+            "moduleName": "Module 1",
+            "moduleActivity": "Tutorial",
+            "rank1": "2020-1-IS1103T2",
+            "rank2": "2020-1-IS1103T8"
+        },
+        {
+            "moduleCode": "IS2103",
+            "moduleName": "Module 2",
+            "moduleActivity": "Tutorial",
+            "rank1": "2020-1-IS2103T2",
+            "rank2": "-"
+        }
+    ],
+    "availableTutorials": [
+        {
+            "moduleCode": "IS3103",
+            "moduleActivity": "Tutorial",
+            "tutorialSlots": [ "2020-1-IS3103T1", "2020-1-IS3103T2", "2020-1-IS3103T3", "2020-1-IS3103T4", "2020-1-IS3103T5" ]
+        },
+        {
+            "moduleCode": "IS2103",
+            "moduleActivity": "Tutorial",
+            "tutorialSlots": [ "2020-1-IS2103T1", "2020-1-IS2103T2", "2020-1-IS2103T3", "2020-1-IS2103T4", "2020-1-IS2103T5" ]
+        }
     ]
 }
