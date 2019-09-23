@@ -73,6 +73,7 @@ import SelectTutorialsPage from './dev/Student/SelectTutorialsPage';
 import SubmitAppeal from './dev/Student/SubmitAppeal';
 import AllocateModulesPage from './dev/Admin/AllocateModulesPage';
 import AdminLoginPage from "./dev/Admin/AdminLoginPage";
+import ModuleCreation from "./dev/Admin/ModuleCreation";
 
 class Routes extends React.Component {
   render() {
@@ -86,13 +87,13 @@ class Routes extends React.Component {
         <Route exact path="/users" component={UsersManagementPage} />
         <Route exact path="/undermaintenance" component={UnderMaintenancePage} />
         <Route exact path="/allocate-modules" component={AllocateModulesPage} />
+        <Route exact path="/admin/moduleCreation" component={ModuleCreation}/>
 
         {/* MODULE REGISTRATION (STUDENT) */}
         <Route exact path="/student/:studentId/classes" component={MyClassesPage} />
         <Route exact path="/student/:studentId/select-modules" component={SelectModulesPage} />
         <Route exact path="/student/:studentId/select-tutorials" component={SelectTutorialsPage} />
         <Route exact path="/student/appeals" component={SubmitAppeal}/>
-
 
         {/* FREE Templates */}
         <Route exact path="/" component={HomePage} />

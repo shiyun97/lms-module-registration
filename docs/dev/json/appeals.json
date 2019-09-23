@@ -37,7 +37,7 @@
       "appealModule": "IS4100",
       "appealReason": "No slot",
       "date": "2019-09-20T13:23:49.516Z",
-      "appealStatus": "Pending",
+      "appealStatus": "Rejected",
       "rejectReason": "Class full",
       "id": 1
     },
@@ -46,7 +46,7 @@
       "appealModule": "IS4242",
       "appealReason": "Graduating",
       "date": "2019-09-20T13:23:49.516Z",
-      "appealStatus": "Pending",
+      "appealStatus": "Approved",
       "rejectReason": "",
       "id": 2
     },
@@ -55,8 +55,8 @@
       "appealModule": "IS4103",
       "appealReason": "Late",
       "date": "2019-09-20T13:23:49.516Z",
-      "appealStatus": "Closed",
-      "rejectReason": "No excuse",
+      "appealStatus": "Pending",
+      "rejectReason": "",
       "id": 3
     }
   ]

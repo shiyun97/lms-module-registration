@@ -1,10 +1,10 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import SectionContainer from "../../components/sectionContainer";
-import { MDBContainer, MDBCol, MDBRow, MDBTableBody, MDBTableHead, MDBTable, MDBBtn, MDBModal, MDBModalHeader } from "mdbreact";
+import { MDBContainer, MDBCol, MDBRow, MDBTableBody, MDBTableHead, MDBTable, MDBBtn } from "mdbreact";
 import axios from "axios";
-import Button from '@material-ui/core/Button';
+import { Button, Dialog, DialogTitle, DialogContent, DialogActions } from '@material-ui/core';
 
-var url = "http://localhost:3001/";
+var url = "http://localhost:3002/";
 
 class SubmitAppeal extends Component {
   state = {
@@ -15,13 +15,14 @@ class SubmitAppeal extends Component {
     appealStatus: "Pending",
     availableModules: "",
     allAppeals: "",
-    modal: false
+    open: false,
+    viewDetailsIndex: 0,
   };
 
   componentDidMount() {
     axios.get(url + "schedule")
       .then(result => {
-        this.setState({schedule: result.data});
+        this.setState({ schedule: result.data });
       })
       .catch(error => {
         console.error("error in axios " + error);
@@ -79,9 +80,9 @@ class SubmitAppeal extends Component {
     //if current date exceeds schedule, display all appeals and unable to submit appeal
     // else display the submit appeal options and all appeals
     var date = new Date();
-    
+
     if (date.getFullYear() < this.state.schedule.year || date.getMonth() < this.state.schedule.month || date.getDate() < this.state.schedule.date ||
-    date.getHours() < this.state.schedule.hour || date.getMinutes() < this.state.schedule.minute || date.getSeconds() < this.state.schedule.second || date.getMilliseconds() < this.state.schedule.millisecond) {
+      date.getHours() < this.state.schedule.hour || date.getMinutes() < this.state.schedule.minute || date.getSeconds() < this.state.schedule.second || date.getMilliseconds() < this.state.schedule.millisecond) {
       return this.appealOpen();
     } else {
       return this.appealClosed();
@@ -114,9 +115,13 @@ class SubmitAppeal extends Component {
   };
 
   appealClosed = () => {
-    return <div>closed</div> /* this.showAllAppeals() */;
+    return (
+      <div>
+        <h2>Appeal Period Closed</h2>
+        {this.showAllAppeals()}
+      </div>
+    )
   };
-
 
   appealModForm = () => {
     if (this.state.value === "Unable to secure module") {
@@ -211,9 +216,65 @@ class SubmitAppeal extends Component {
     }
   };
 
-  viewAppealDetails = event => {
-    event.preventDefault()
-    this.setState({ modal: !this.state.modal })
+  viewAppealDetails = () => {
+    return (
+      <MDBContainer>
+        <MDBRow>
+          <MDBCol sm="4">Appeal Date: </MDBCol>
+          <MDBCol sm="8">{(this.state.allAppeals[this.state.viewDetailsIndex]).date.slice(0, 10)}</MDBCol>
+        </MDBRow>
+        <MDBRow>
+          <MDBCol sm="4">Appeal Module: </MDBCol>
+          <MDBCol sm="8">{(this.state.allAppeals[this.state.viewDetailsIndex]).appealModule}</MDBCol>
+        </MDBRow>
+        <MDBRow>
+          <MDBCol sm="4">Appeal Reason: </MDBCol>
+          <MDBCol sm="8">{(this.state.allAppeals[this.state.viewDetailsIndex]).appealReason}</MDBCol>
+        </MDBRow>
+        <MDBRow>
+          <MDBCol sm="4">Appeal Status: </MDBCol>
+          <MDBCol sm="8">{(this.state.allAppeals[this.state.viewDetailsIndex]).appealStatus}</MDBCol>
+          {this.showReject()}
+        </MDBRow>
+      </MDBContainer>
+    )
+  }
+
+  showReject = () => {
+    return ((this.state.allAppeals[this.state.viewDetailsIndex]).appealStatus === "Rejected") ?
+      <MDBContainer>
+        <MDBRow>
+          <MDBCol sm="4">Reject Reason: </MDBCol>
+          <MDBCol sm="8">{(this.state.allAppeals[this.state.viewDetailsIndex]).rejectReason}</MDBCol>
+        </MDBRow>
+      </MDBContainer>
+      : null
+  }
+
+  handleClickOpen = index => {
+    this.setState({ open: true, viewDetailsIndex: index })
+  }
+
+  handleClickClose = event => {
+    this.setState({ open: false })
+  }
+
+  enableViewDetails = (status, index) => {
+    return (status === "Pending") ? //disable view details button
+      <Button fullWidth={true} color="primary" disabled>View Details</Button>
+      :
+      <div>
+        <Button color="primary" onClick={() => this.handleClickOpen(index)} fullWidth={true}>View Details</Button>
+        <Dialog open={this.state.open} maxWidth="sm">
+          <DialogTitle>Appeal Result</DialogTitle>
+          <DialogContent>
+            {this.viewAppealDetails()}
+            <DialogActions>
+              <Button variant="contained" color="primary" onClick={this.handleClickClose}>Cancel</Button>
+            </DialogActions>
+          </DialogContent>
+        </Dialog>
+      </div>
   }
 
   showAllAppeals = () => {
@@ -230,21 +291,16 @@ class SubmitAppeal extends Component {
             </tr>
           </MDBTableHead>
           <MDBTableBody>
-            {this.state.allAppeals && this.state.allAppeals.map((appeals, index) => {
-              return (
-                  <tr key={index}>
-                    <td>{appeals.id}</td>
-                    <td>{appeals.appealModule}</td>
-                    <td>{appeals.value}</td>
-                    <td>{appeals.appealStatus}</td>
-                    <td><Button color="primary" onClick={this.viewAppealDetails}>View Details</Button>
-                      <MDBModal isOpen={this.state.modal} toggle={this.viewAppealDetails}>
-                        <MDBModalHeader toggle={this.viewAppealDetails}>Appeal Result</MDBModalHeader>
-                      </MDBModal>
-                    </td>
-                  </tr>
-              )
-            })
+            {this.state.allAppeals ? (this.state.allAppeals.map((appeals, index) =>
+              <tr key={index}>
+                <td>{appeals.id}</td>
+                <td>{appeals.appealModule}</td>
+                <td>{appeals.value}</td>
+                <td>{appeals.appealStatus}</td>
+                <td>{this.enableViewDetails(appeals.appealStatus, index)}</td>
+              </tr>
+            )
+            ) : null
             }
           </MDBTableBody>
         </MDBTable>
@@ -262,5 +318,5 @@ class SubmitAppeal extends Component {
     );
   }
 }
-
+ 
 export default SubmitAppeal;

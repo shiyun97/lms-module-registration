@@ -1,0 +1,37 @@
+{
+  "modules": [
+    {
+      "id": "1",
+      "moduleCode": "IS4103",
+      "moduleName": "Information Systems Capstone Project",
+      "semester": "1",
+      "year": "2020/ 2021",
+      "faculty": "School of Computing",
+      "department": "Department of Information Systems and Analytics",
+      "maxCapacity": "80",
+      "professor": "Dr Tan Wee Kek"
+    },
+    {
+      "id": "2",
+      "moduleCode": "IS4100",
+      "moduleName": "IT Project Management",
+      "semester": "2",
+      "year": "2020/ 2021",
+      "faculty": "School of Computing",
+      "department": "Department of Information Systems and Analytics",
+      "maxCapacity": "120",
+      "professor": "Dr Tan Swee Lin, Sharon"
+    },
+    {
+      "id": "3",
+      "moduleCode": "IS4242",
+      "moduleName": "Intelligent Systems and Techniques",
+      "semester": "1",
+      "year": "2020/ 2021",
+      "faculty": "School of Computing",
+      "department": "Department of Information Systems and Analytics",
+      "maxCapacity": "90",
+      "professor": "Dr Vaibhav Rajan"
+    }
+  ]
+}
