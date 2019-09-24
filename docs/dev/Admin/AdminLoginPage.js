@@ -19,7 +19,7 @@ class AdminLoginPage extends Component {
 
   render() {
     if (this.state.loggedInStatus === true) {
-      return <Redirect to="/"/>
+      return <Redirect to={this.props.dataStore.getPath}/>
     }
     return (
       <>

@@ -86,12 +86,18 @@ class Routes extends React.Component {
     // print login status
     // console.log(this.props.dataStore.getSignInStatus)
 
-    const PrivateRoute = ({ component: Component, ...rest }) => (
+    const PrivateRoute = ({ path: Path, component: Component, ...rest }) => (
       <Route {...rest} render={(props) => (
         this.props.dataStore.getSignInStatus === true
           ? <Component {...props} />
-          : <Redirect to='/login' />
-      )} />
+          : 
+          <>
+    {this.props.dataStore.setPath(Path)}
+          <Redirect to='/login' />
+          </>
+      )
+      } 
+      />
     )
     return (
       <Switch>
