@@ -7,7 +7,7 @@ import { Button, Dialog, DialogTitle, DialogContent, DialogActions } from "@mate
 
 var url = "http://localhost:3001/";
 
-class ModuleCreation extends Component {
+class ModuleCreationPage extends Component {
     state = {
         allModules: "",
         moduleCode: "",
@@ -312,5 +312,5 @@ class ModuleCreation extends Component {
     }
 }
 
-export default ModuleCreation;
+export default ModuleCreationPage;
 

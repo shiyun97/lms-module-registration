@@ -11,10 +11,10 @@ import UsersManagementPage from "./dev/Admin/UsersManagementPage";
 import MyClassesPage from './dev/Student/MyClassesPage';
 import SelectModulesPage from './dev/Student/SelectModulesPage';
 import SelectTutorialsPage from './dev/Student/SelectTutorialsPage';
-import SubmitAppeal from './dev/Student/SubmitAppeal';
+import SubmitAppealPage from './dev/Student/SubmitAppealPage';
 import AllocateModulesPage from './dev/Admin/AllocateModulesPage';
 import AdminLoginPage from "./dev/Admin/AdminLoginPage";
-import ModuleCreation from "./dev/Admin/ModuleCreation";
+import ModuleCreationPage from "./dev/Admin/ModuleCreationPage";
 
 // COMPONENT TEMPLATES
 import NavigationNavPage from "./pages/NavigationNavPage";
@@ -104,13 +104,13 @@ class Routes extends React.Component {
         <PrivateRoute exact path="/student/:studentId/classes" component={MyClassesPage} />
         <PrivateRoute exact path="/student/:studentId/select-modules" component={SelectModulesPage} />
         <PrivateRoute exact path="/student/:studentId/select-tutorials" component={SelectTutorialsPage} />
-        <PrivateRoute exact path="/student/appeals" component={SubmitAppeal} />
+        <PrivateRoute exact path="/student/appeals" component={SubmitAppealPage} />
 
         {/*  MODULE REGISTRATION (ADMIN) */}
         <Route exact path="/admin" component={AdminLoginPage} />
         <PrivateRoute exact path="/users" component={UsersManagementPage} />
         <PrivateRoute exact path="/allocate-modules" component={AllocateModulesPage} />
-        <PrivateRoute exact path="/admin/moduleCreation" component={ModuleCreation} />
+        <PrivateRoute exact path="/admin/moduleCreation" component={ModuleCreationPage} />
 
         {/* FREE Templates */}
         <Route exact path="/analytics" component={AnalyticsPage} />
