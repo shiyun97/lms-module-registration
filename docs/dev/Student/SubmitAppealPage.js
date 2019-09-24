@@ -6,7 +6,7 @@ import { Button, Dialog, DialogTitle, DialogContent, DialogActions } from '@mate
 
 var url = "http://localhost:3002/";
 
-class SubmitAppeal extends Component {
+class SubmitAppealPage extends Component {
   state = {
     value: "",
     schedule: "",
@@ -319,4 +319,4 @@ class SubmitAppeal extends Component {
   }
 }
  
-export default SubmitAppeal;
+export default SubmitAppealPage;
