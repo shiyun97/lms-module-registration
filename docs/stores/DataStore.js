@@ -15,6 +15,9 @@ class DataStore {
 
   @action setSignOutStatus ()  {
     this.signInStatus = false;
+    this.email = "";
+    this.password = "";
+    this.userType = "";
   }
 
   @computed get getSignInStatus() {

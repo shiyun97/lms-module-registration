@@ -75,6 +75,7 @@ import NotificationPage from './pages/NotificationPage';
 import InputGroupPage from './pages/InputGroupPage'
 import TreeviewPage from './pages/TreeviewPage'
 import AnalyticsPage from './pages/AnalyticsPage';
+import ScheduleSettingsPage from "./dev/Admin/ScheduleSettingsPage";
 
 @inject('dataStore')
 @observer
@@ -108,6 +109,7 @@ class Routes extends React.Component {
 
         {/*  MODULE REGISTRATION (ADMIN) */}
         <Route exact path="/admin" component={AdminLoginPage} />
+        <PrivateRoute exact path="/scheduleSettings" component={ScheduleSettingsPage} />
         <PrivateRoute exact path="/users" component={UsersManagementPage} />
         <PrivateRoute exact path="/allocate-modules" component={AllocateModulesPage} />
         <PrivateRoute exact path="/admin/moduleCreation" component={ModuleCreation} />
