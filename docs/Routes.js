@@ -3,7 +3,20 @@ import { Route, Switch, Redirect } from "react-router-dom";
 import { MDBContainer, MDBCol, MDBRow, MDBJumbotron } from "mdbreact";
 import { observer, inject } from 'mobx-react';
 
-// FREE
+// MRS IMPORTS
+import StudentLoginPage from './dev/Student/StudentLoginPage';
+import UnderMaintenancePage from "./dev/UnderMaintenancePage";
+import Home from "./dev/Home";
+import UsersManagementPage from "./dev/Admin/UsersManagementPage";
+import MyClassesPage from './dev/Student/MyClassesPage';
+import SelectModulesPage from './dev/Student/SelectModulesPage';
+import SelectTutorialsPage from './dev/Student/SelectTutorialsPage';
+import SubmitAppeal from './dev/Student/SubmitAppeal';
+import AllocateModulesPage from './dev/Admin/AllocateModulesPage';
+import AdminLoginPage from "./dev/Admin/AdminLoginPage";
+import ModuleCreation from "./dev/Admin/ModuleCreation";
+
+// COMPONENT TEMPLATES
 import NavigationNavPage from "./pages/NavigationNavPage";
 import FormsNavPage from "./pages/FormsNavPage";
 import TablesNavPage from "./pages/TablesNavPage";
@@ -63,19 +76,6 @@ import InputGroupPage from './pages/InputGroupPage'
 import TreeviewPage from './pages/TreeviewPage'
 import AnalyticsPage from './pages/AnalyticsPage';
 
-// LMS IMPORTS
-import StudentLoginPage from './dev/Student/StudentLoginPage';
-import UnderMaintenancePage from "./dev/UnderMaintenancePage";
-import Home from "./dev/Home";
-import UsersManagementPage from "./dev/Admin/UsersManagementPage";
-import MyClassesPage from './dev/Student/MyClassesPage';
-import SelectModulesPage from './dev/Student/SelectModulesPage';
-import SelectTutorialsPage from './dev/Student/SelectTutorialsPage';
-import SubmitAppeal from './dev/Student/SubmitAppeal';
-import AllocateModulesPage from './dev/Admin/AllocateModulesPage';
-import AdminLoginPage from "./dev/Admin/AdminLoginPage";
-import ModuleCreation from "./dev/Admin/ModuleCreation";
-
 @inject('dataStore')
 @observer
 class Routes extends React.Component {
@@ -95,8 +95,8 @@ class Routes extends React.Component {
     return (
       <Switch>
 
-        <Route exact path="/" component={HomePage} />
-        <Route exact path="/home" component={Home} />
+        <Route exact path="/home" component={HomePage} />
+        <Route exact path="/" component={Home} />
         <Route exact path="/undermaintenance" component={UnderMaintenancePage} />
 
         {/* MODULE REGISTRATION (STUDENT) */}

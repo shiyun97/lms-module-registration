@@ -66,7 +66,7 @@ class App extends Component {
                 <MDBNavItem style={{ paddingRight: 10 }}>
                   <MDBNavLink
                     exact
-                    to="/home"
+                    to="/"
                     onClick={this.closeCollapse("mainNavbarCollapse")}
                   >
                     <strong>Home</strong>
@@ -128,7 +128,7 @@ class App extends Component {
                   <MDBNavItem style={{ paddingRight: 10 }}>
                     <MDBNavLink
                       onClick={() => this.logOutUser()}
-                      to="/home"
+                      to="/"
                     >
                       <strong>Logout</strong>
                     </MDBNavLink>

@@ -18,7 +18,7 @@ class StudentLoginPage extends Component {
 
   render() {
     if (this.state.loggedInStatus === true) {
-      return <Redirect to="/home" />
+      return <Redirect to="/" />
     }
     return (
       <>
