@@ -11,7 +11,10 @@ import {
 } from "mdbreact";
 import { BrowserRouter as Router } from "react-router-dom";
 import Routes from "./Routes";
+import { observer, inject } from 'mobx-react'
 
+@inject('dataStore')
+@observer
 class App extends Component {
   state = {
     collapseID: ""
@@ -27,6 +30,11 @@ class App extends Component {
     this.state.collapseID === collapseID && this.setState({ collapseID: "" });
   };
 
+  logOutUser = () => {
+    this.closeCollapse("mainNavbarCollapse");
+    this.props.dataStore.setSignOutStatus();
+  }
+
   render() {
     const overlay = (
       <div
@@ -37,11 +45,11 @@ class App extends Component {
     );
 
     const { collapseID } = this.state;
-
+    const dataStore = this.props.dataStore;
     return (
       <Router>
         <div className="flyout">
-          <MDBNavbar color="indigo" dark expand="md" scrolling fixed="top">
+          <MDBNavbar color="indigo" dark expand="md" scrolling fixed="top" isLoggedIn={this.props.dataStore.getSignInStatus}>
             <MDBNavbarBrand href="/" className="py-0 font-weight-bold">
               <i className="fas fa-school" style={{ height: "1.5rem", width: "2rem", paddingRight: "10px" }}></i>
               <strong className="align-middle">MODREG</strong>
@@ -113,14 +121,25 @@ class App extends Component {
                     <strong>Allocate Modules</strong>
                   </MDBNavLink>
                 </MDBNavItem>
-                <MDBNavItem style={{ paddingRight: 10 }}>
-                  <MDBNavLink
-                    onClick={this.closeCollapse("mainNavbarCollapse")}
-                    to="/login"
-                  >
-                    <strong>Login</strong>
-                  </MDBNavLink>
-                </MDBNavItem>
+                {dataStore.getSignInStatus ?
+                  <MDBNavItem style={{ paddingRight: 10 }}>
+                    <MDBNavLink
+                      onClick={() => this.logOutUser()}
+                      to="/home"
+                    >
+                      <strong>Logout</strong>
+                    </MDBNavLink>
+                  </MDBNavItem>
+                  :
+                  <MDBNavItem style={{ paddingRight: 10 }}>
+                    <MDBNavLink
+                      onClick={this.closeCollapse("mainNavbarCollapse")}
+                      to="/login"
+                    >
+                      <strong>Login</strong>
+                    </MDBNavLink>
+                  </MDBNavItem>
+                }
               </MDBNavbarNav>
             </MDBCollapse>
           </MDBNavbar>

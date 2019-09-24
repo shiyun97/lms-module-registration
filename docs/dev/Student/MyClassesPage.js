@@ -8,6 +8,7 @@ import {
     MDBTableBody 
 } from "mdbreact";
 import axios from "axios";
+import { observer, inject } from 'mobx-react'
 
 const classColumns = [
     {
@@ -32,6 +33,8 @@ const classColumns = [
     },
 ]
 
+@inject('dataStore')
+@observer
 class MyClassesPage extends Component {
 
     state = {

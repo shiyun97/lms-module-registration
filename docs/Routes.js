@@ -1,6 +1,7 @@
 import React from "react";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
 import { MDBContainer, MDBCol, MDBRow, MDBJumbotron } from "mdbreact";
+import { observer, inject } from 'mobx-react';
 
 // FREE
 import NavigationNavPage from "./pages/NavigationNavPage";
@@ -63,7 +64,7 @@ import TreeviewPage from './pages/TreeviewPage'
 import AnalyticsPage from './pages/AnalyticsPage';
 
 // LMS IMPORTS
-import StudentLoginPage from './dev/StudentLoginPage';
+import StudentLoginPage from './dev/Student/StudentLoginPage';
 import UnderMaintenancePage from "./dev/UnderMaintenancePage";
 import Home from "./dev/Home";
 import UsersManagementPage from "./dev/Admin/UsersManagementPage";
@@ -75,28 +76,43 @@ import AllocateModulesPage from './dev/Admin/AllocateModulesPage';
 import AdminLoginPage from "./dev/Admin/AdminLoginPage";
 import ModuleCreation from "./dev/Admin/ModuleCreation";
 
+@inject('dataStore')
+@observer
 class Routes extends React.Component {
+
   render() {
+
+    // print login status
+    // console.log(this.props.dataStore.getSignInStatus)
+
+    const PrivateRoute = ({ component: Component, ...rest }) => (
+      <Route {...rest} render={(props) => (
+        this.props.dataStore.getSignInStatus === true
+          ? <Component {...props} />
+          : <Redirect to='/login' />
+      )} />
+    )
     return (
       <Switch>
 
-        {/*  MODULE REGISTRATION (ADMIN) */}
+        <Route exact path="/" component={HomePage} />
         <Route exact path="/home" component={Home} />
-        <Route exact path="/login" component={StudentLoginPage} />
-        <Route exact path="/admin" component={AdminLoginPage} />
-        <Route exact path="/users" component={UsersManagementPage} />
         <Route exact path="/undermaintenance" component={UnderMaintenancePage} />
-        <Route exact path="/allocate-modules" component={AllocateModulesPage} />
-        <Route exact path="/admin/moduleCreation" component={ModuleCreation}/>
 
         {/* MODULE REGISTRATION (STUDENT) */}
-        <Route exact path="/student/:studentId/classes" component={MyClassesPage} />
-        <Route exact path="/student/:studentId/select-modules" component={SelectModulesPage} />
-        <Route exact path="/student/:studentId/select-tutorials" component={SelectTutorialsPage} />
-        <Route exact path="/student/appeals" component={SubmitAppeal}/>
+        <Route exact path="/login" component={StudentLoginPage} />
+        <PrivateRoute exact path="/student/:studentId/classes" component={MyClassesPage} />
+        <PrivateRoute exact path="/student/:studentId/select-modules" component={SelectModulesPage} />
+        <PrivateRoute exact path="/student/:studentId/select-tutorials" component={SelectTutorialsPage} />
+        <PrivateRoute exact path="/student/appeals" component={SubmitAppeal} />
+
+        {/*  MODULE REGISTRATION (ADMIN) */}
+        <Route exact path="/admin" component={AdminLoginPage} />
+        <PrivateRoute exact path="/users" component={UsersManagementPage} />
+        <PrivateRoute exact path="/allocate-modules" component={AllocateModulesPage} />
+        <PrivateRoute exact path="/admin/moduleCreation" component={ModuleCreation} />
 
         {/* FREE Templates */}
-        <Route exact path="/" component={HomePage} />
         <Route exact path="/analytics" component={AnalyticsPage} />
         <Route exact path="/addons" component={AddonsNavPage} />
         <Route exact path="/advanced" component={AdvancedNavPage} />
@@ -171,7 +187,7 @@ class Routes extends React.Component {
             )
           }}
         />
-      </Switch>
+      </Switch >
     );
   }
 }

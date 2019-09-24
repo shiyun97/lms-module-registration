@@ -5,21 +5,20 @@ import { Redirect } from "react-router-dom";
 
 @inject('dataStore')
 @observer
-class AdminLoginPage extends Component {
+class StudentLoginPage extends Component {
 
-  state={
+  state = {
     loggedInStatus: false
   }
 
-  checkLogIn = (e) => {
-    event.preventDefault();
+  checkLogIn = () => {
     this.props.dataStore.setSignInStatus(true, "email")
     this.setState({ loggedInStatus: true })
   }
 
   render() {
     if (this.state.loggedInStatus === true) {
-      return <Redirect to="/home"/>
+      return <Redirect to="/home" />
     }
     return (
       <>
@@ -33,7 +32,7 @@ class AdminLoginPage extends Component {
                     MODREG
                 </h1>
                   <h3 className="text-center">
-                  Administration Login
+                    Module Registration System
                 </h3>
                   <ul className="list-unstyled example-components-list">
                     <form onSubmit={this.checkLogIn}>
@@ -66,4 +65,4 @@ class AdminLoginPage extends Component {
   }
 }
 
-export default AdminLoginPage;
+export default StudentLoginPage;

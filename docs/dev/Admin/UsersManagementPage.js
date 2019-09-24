@@ -55,7 +55,7 @@ class UsersManagementPage extends Component {
                 "width": 100
             }
         ],
-        rows: [{ text: "Retrieving data..." }],
+        rows: [{ label: "Retrieving data..." }],
         status: "retrieving"
     };
 
@@ -199,7 +199,7 @@ class UsersManagementPage extends Component {
             columns: [...data().columns.map(col => {
                 col.width = 200;
                 return col;
-            })], rows: [...data().users]
+            })], rows: [...data().rows]
         }
         return (
             <MDBContainer className="mt-3">
