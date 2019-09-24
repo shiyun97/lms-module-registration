@@ -11,8 +11,8 @@ class StudentLoginPage extends Component {
     loggedInStatus: false
   }
 
-  checkLogIn = () => {
-    this.props.dataStore.setSignInStatus(true, "email")
+  checkLogIn = (email, password) => {
+    this.props.dataStore.setSignInStatus(true, "email", "password", "student")
     this.setState({ loggedInStatus: true })
   }
 

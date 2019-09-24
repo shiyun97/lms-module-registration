@@ -72,6 +72,7 @@ class App extends Component {
                     <strong>Home</strong>
                   </MDBNavLink>
                 </MDBNavItem>
+                {/* { (this.props.dataStore.getUserType === "student" || "admin") && <> */}
                 <MDBNavItem style={{ paddingRight: 10 }}>
                   <MDBNavLink
                     onClick={this.closeCollapse("mainNavbarCollapse")}
@@ -104,7 +105,8 @@ class App extends Component {
                     <strong>Submit Appeals</strong>
                   </MDBNavLink>
                 </MDBNavItem>
-                {/* for admin */}
+                {/* </> } */}
+                {/* {this.props.dataStore.getUserType === "admin" && <> */}
                 <MDBNavItem style={{ paddingRight: 10 }}>
                   <MDBNavLink
                     onClick={this.closeCollapse("mainNavbarCollapse")}
@@ -121,6 +123,7 @@ class App extends Component {
                     <strong>Allocate Modules</strong>
                   </MDBNavLink>
                 </MDBNavItem>
+                {/* </> } */}
                 {dataStore.getSignInStatus ?
                   <MDBNavItem style={{ paddingRight: 10 }}>
                     <MDBNavLink

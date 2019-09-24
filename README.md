@@ -13,6 +13,9 @@ This is a simple system to conduct administration and enrollment purposes to sup
                   |
                   |__ Home
                   |__ AdminLoginPage
+                  |__ UsersManagementPage
+                  |__ AllocateModulesPage
+                  |__ ModuleCreation
 
 ## Student
 ### Component Layout
@@ -25,6 +28,10 @@ This is a simple system to conduct administration and enrollment purposes to sup
                   |
                   |__ Home
                   |__ StudentLoginPage
+                  |__ MyClassesPage
+                  |__ SelectModulesPage
+                  |__ SelectTutorialsPage
+                  |__ SubmitAppeal
 
 ## Available Scripts
 

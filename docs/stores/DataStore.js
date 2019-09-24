@@ -6,10 +6,11 @@ class DataStore {
   @observable password = ""
   @observable userType = ""
 
-  @action setSignInStatus (status, email, password) {
+  @action setSignInStatus (status, email, password, userType) {
     this.signInStatus = status;
     this.email = email;
     this.password = password;
+    this.userType = userType;
   }
 
   @action setSignOutStatus ()  {
@@ -18,6 +19,10 @@ class DataStore {
 
   @computed get getSignInStatus() {
     return this.signInStatus;
+  }
+
+  @computed get getUserType() {
+    return this.userType;
   }
 }
 

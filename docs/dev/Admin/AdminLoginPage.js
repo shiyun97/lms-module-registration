@@ -11,9 +11,9 @@ class AdminLoginPage extends Component {
     loggedInStatus: false
   }
 
-  checkLogIn = (e) => {
+  checkLogIn = () => {
     event.preventDefault();
-    this.props.dataStore.setSignInStatus(true, "email")
+    this.props.dataStore.setSignInStatus(true, "email", "password", "admin")
     this.setState({ loggedInStatus: true })
   }
 
