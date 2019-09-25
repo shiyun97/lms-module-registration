@@ -7,7 +7,7 @@ import { Button, Dialog, DialogTitle, DialogContent, DialogActions } from "@mate
 
 var url = "http://localhost:3001/";
 
-class ModuleCreationPage extends Component {
+class MountModulePage extends Component {
     state = {
         allModules: "",
         moduleCode: "",
@@ -85,7 +85,7 @@ class ModuleCreationPage extends Component {
                 {
                     label: 'Details',
                     field: 'button',
-                }
+                },
             ],
             rows:
                 this.rowsData()
@@ -124,55 +124,39 @@ class ModuleCreationPage extends Component {
                 department: eachModule.department,
                 /* maxCapacity: eachModule.maxCapacity,*/
                 professor: eachModule.professor,
-                button: this.renderButton(index)
-            }
-            )
+                button: this.showButton(),
+                clickEvent: () => this.handleRowClick(index)
+            })
         )
-        console.log("here" + modules)
         return modules
     }
 
-    renderButton = (index) => {
+    handleRowClick = index => { //open up dialog page to show the details
+    //crete a nwe page. go to form edit page. 
+    }
+
+    showButton = () => {
         return (
             <div>
-                <Button size="small" color="primary" onClick={() => this.handleClickOpen(index)}>View</Button>
-                <Dialog open={this.state.open} maxWidth="sm">
-                    <DialogTitle>Appeal Result</DialogTitle>
-                    <DialogContent>
-                        <h1>{index}</h1>
-                        <DialogActions>
-                            <Button variant="contained" color="primary" onClick={this.handleClickClose}>Cancel</Button>
-                        </DialogActions>
-                    </DialogContent>
-                </Dialog>
-            </div>
-        )
-    }
-
-    handleClickOpen = index => {
-        //console.log(index)
-        this.setState({ open: true, viewModDetailsIndex: index })
-    }
-
-    handleClickClose = event => {
-        this.setState({ open: false })
+                <Button size="small" color="primary">View</Button>
+            </div>)
     }
 
     handleMountModule = event => {
         this.setState({
             modal: !this.state.modal
         });
-
     }
 
     submitHandler = event => {
+        console.log("submit form")
         event.preventDefault();
         event.target.className += " was-validated";
     };
 
     changeHandler = event => {
         console.log(event.target.value)
-        this.setState({ [event.target.name]: event.target.value });
+        this.setState({ moduleCode: event.target.value });
     };
 
     mountModuleForm = () => {
@@ -183,8 +167,9 @@ class ModuleCreationPage extends Component {
                     onSubmit={this.submitHandler}
                 >
                     <MDBRow>
+                        {/*FIXME: unable to validate form */}
                         <MDBCol md="12">
-                            <label className="grey-text">Module Code</label>
+                            <label htmlFor="formModuleCode" className="grey-text">Module Code</label>
                             <input
                                 value={this.state.moduleCode}
                                 name="moduleCode"
@@ -193,13 +178,14 @@ class ModuleCreationPage extends Component {
                                 className="form-control"
                                 placeholder="Enter Module Code"
                                 required
+                                id="formModuleCode"
                             />
                             <div className="invalid-feedback">
-                Please provide a valid city.
+                                Next step
               </div>
-              <div className="valid-feedback">Looks good!</div>
+                            <div className="valid-feedback">Looks good!</div>
 
-                        </MDBCol>
+                        </MDBCol>{/* 
                         <MDBCol md="12">
                             <label className="grey-text">Module Title</label>
                             <input
@@ -285,7 +271,7 @@ class ModuleCreationPage extends Component {
                             />
                         </MDBCol>
 
-
+ */}
                     </MDBRow>
                 </form>
             </div>
@@ -295,9 +281,9 @@ class ModuleCreationPage extends Component {
     render() {
         return (
             <MDBContainer center="true" style={{ paddingTop: "40px" }}>
-                <MDBBtn color="primary" onClick={this.handleMountModule}>Mount Module</MDBBtn>
+                {/* <MDBBtn color="primary" onClick={this.handleMountModule}>Mount Module</MDBBtn>
                 <MDBModal isOpen={this.state.modal} toggle={this.handleMountModule}>
-                    <MDBModalHeader toggle={this.handleMountModule}>Mount Modal</MDBModalHeader>
+                    <MDBModalHeader toggle={this.handleMountModule}>Mount Module</MDBModalHeader>
                     <MDBModalBody>
                         {this.mountModuleForm()}
                     </MDBModalBody>
@@ -305,12 +291,12 @@ class ModuleCreationPage extends Component {
                         <MDBBtn color="secondary" onClick={this.handleMountModule}>Cancel</MDBBtn>
                         <MDBBtn color="primary">Create</MDBBtn>
                     </MDBModalFooter>
-                </MDBModal>
+                </MDBModal> */}
                 <MDBRow>{this.displayAllModules()}</MDBRow>
             </MDBContainer>
         );
     }
 }
 
-export default ModuleCreationPage;
+export default MountModulePage;
 

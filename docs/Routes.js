@@ -14,7 +14,7 @@ import SelectTutorialsPage from './dev/Student/SelectTutorialsPage';
 import SubmitAppealPage from './dev/Student/SubmitAppealPage';
 import AllocateModulesPage from './dev/Admin/AllocateModulesPage';
 import AdminLoginPage from "./dev/Admin/AdminLoginPage";
-import ModuleCreationPage from "./dev/Admin/ModuleCreationPage";
+import MountModulePage from "./dev/Admin/MountModulePage";
 
 // COMPONENT TEMPLATES
 import NavigationNavPage from "./pages/NavigationNavPage";
@@ -118,7 +118,7 @@ class Routes extends React.Component {
         <PrivateRoute exact path="/scheduleSettings" component={ScheduleSettingsPage} />
         <PrivateRoute exact path="/users" component={UsersManagementPage} />
         <PrivateRoute exact path="/allocate-modules" component={AllocateModulesPage} />
-        <PrivateRoute exact path="/admin/moduleCreation" component={ModuleCreationPage} />
+        <Route exact path="/admin/mountModulePage" component={MountModulePage} />
 
         {/* FREE Templates */}
         <Route exact path="/analytics" component={AnalyticsPage} />
