@@ -86,17 +86,30 @@ class Routes extends React.Component {
     // print login status
     // console.log(this.props.dataStore.getSignInStatus)
 
-    const PrivateRoute = ({ path: Path, component: Component, ...rest }) => (
+    const StudentPrivateRoute = ({ path: Path, component: Component, ...rest }) => (
       <Route {...rest} render={(props) => (
         this.props.dataStore.getSignInStatus === true
           ? <Component {...props} />
-          : 
+          :
           <>
-    {this.props.dataStore.setPath(Path)}
-          <Redirect to='/login' />
+            {this.props.dataStore.setPath(Path)}
+            <Redirect to='/login' />
           </>
       )
-      } 
+      }
+      />
+    )
+    const AdminPrivateRoute = ({ path: Path, component: Component, ...rest }) => (
+      <Route {...rest} render={(props) => (
+        this.props.dataStore.getSignInStatus === true
+          ? <Component {...props} />
+          :
+          <>
+            {this.props.dataStore.setPath(Path)}
+            <Redirect to='/admin' />
+          </>
+      )
+      }
       />
     )
     return (
@@ -108,17 +121,17 @@ class Routes extends React.Component {
 
         {/* MODULE REGISTRATION (STUDENT) */}
         <Route exact path="/login" component={StudentLoginPage} />
-        <PrivateRoute exact path="/student/:studentId/classes" component={MyClassesPage} />
-        <PrivateRoute exact path="/student/:studentId/select-modules" component={SelectModulesPage} />
-        <PrivateRoute exact path="/student/:studentId/select-tutorials" component={SelectTutorialsPage} />
-        <PrivateRoute exact path="/student/appeals" component={SubmitAppealPage} />
+        <StudentPrivateRoute exact path="/student/:studentId/classes" component={MyClassesPage} />
+        <StudentPrivateRoute exact path="/student/:studentId/select-modules" component={SelectModulesPage} />
+        <StudentPrivateRoute exact path="/student/:studentId/select-tutorials" component={SelectTutorialsPage} />
+        <StudentPrivateRoute exact path="/student/appeals" component={SubmitAppealPage} />
 
         {/*  MODULE REGISTRATION (ADMIN) */}
         <Route exact path="/admin" component={AdminLoginPage} />
-        <PrivateRoute exact path="/admin/scheduleSettings" component={ScheduleSettingsPage} />
-        <PrivateRoute exact path="/admin/users" component={UsersManagementPage} />
-        <PrivateRoute exact path="/admin/allocate-modules" component={AllocateModulesPage} />
-        <PrivateRoute exact path="/admin/mountModulePage" component={MountModulePage} />
+        <AdminPrivateRoute exact path="/admin/scheduleSettings" component={ScheduleSettingsPage} />
+        <AdminPrivateRoute exact path="/admin/users" component={UsersManagementPage} />
+        <AdminPrivateRoute exact path="/admin/allocate-modules" component={AllocateModulesPage} />
+        <AdminPrivateRoute exact path="/admin/mountModulePage" component={MountModulePage} />
 
         {/* FREE Templates */}
         <Route exact path="/analytics" component={AnalyticsPage} />

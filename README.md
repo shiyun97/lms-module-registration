@@ -3,7 +3,7 @@ This is a simple system to conduct administration and enrollment purposes to sup
 
 ## User Roles and Its Components
 ### Admin
-### Component Layout
+#### Component Layout
 
       Index
       |     
@@ -15,10 +15,11 @@ This is a simple system to conduct administration and enrollment purposes to sup
                   |__ AdminLoginPage
                   |__ UsersManagementPage
                   |__ AllocateModulesPage
-                  |__ ModuleCreation
+                  |__ ScheduleSettingsPage
+                  |__ MountModulePage
 
-## Student
-### Component Layout
+### Student
+#### Component Layout
 
         Index
         |     
@@ -75,5 +76,8 @@ npm install -g json-server
 
 ```
 npx json-server -p 3001 ./docs/dev/json/appeals.json
+npx json-server -p 3001 ./docs/dev/json/allModules.json
+npx json-server -p 3001 ./docs/dev/json/modules.json
+npx json-server -p 3001 ./docs/dev/json/users.json
 ```
 
