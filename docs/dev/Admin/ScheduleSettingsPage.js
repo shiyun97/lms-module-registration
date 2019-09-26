@@ -6,8 +6,8 @@ import axios from "axios";
 class ScheduleSettingsPage extends Component {
 
     state = {
-        year: 0,
-        semester: "",
+        year: 2018,
+        semester: "Sem 1",
         semStartDate: "",
         semEndDate: "",
         moduleRound1StartDate: "",
@@ -199,7 +199,6 @@ class ScheduleSettingsPage extends Component {
                                                             name="moduleRound2EndDate"
                                                             value={this.state.moduleRound2EndDate}
                                                             onChange={this.handleDateChange}
-                                                            defaultValue="2019-05-24T10:30"
                                                             fullWidth
                                                             InputLabelProps={{
                                                                 shrink: true,
@@ -235,7 +234,6 @@ class ScheduleSettingsPage extends Component {
                                                             name="moduleRound3EndDate"
                                                             value={this.state.moduleRound3EndDate}
                                                             onChange={this.handleDateChange}
-                                                            defaultValue="2019-05-24T10:30"
                                                             fullWidth
                                                             InputLabelProps={{
                                                                 shrink: true,

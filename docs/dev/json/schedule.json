@@ -4,15 +4,15 @@
         "semester": "Sem 1",
         "semStartDate": "2019-08-05T10:30",
         "semEndDate": "2019-12-07T10:30",
-        "moduleRound1StartDate": "2019-08-05T10:30",
-        "moduleRound1EndDate": "2019-12-07T10:30",
+        "moduleRound1StartDate": "2019-07-25T10:30",
+        "moduleRound1EndDate": "2019-07-29T10:30",
         "moduleRound2StartDate": "2019-08-05T10:30",
-        "moduleRound2EndDate": "2019-12-07T10:30",
-        "moduleRound3StartDate": "2019-08-05T10:30",
-        "moduleRound3EndDate": "2019-12-07T10:30",
-        "tutorialRound1StartDate": "2019-08-05T10:30",
-        "tutorialRound1EndDate": "2019-12-07T10:30",
-        "tutorialRound2StartDate": "2019-08-05T10:30",
-        "tutorialRound2EndDate": "2019-12-07T10:30"
+        "moduleRound2EndDate": "2019-08-07T10:30",
+        "moduleRound3StartDate": "2019-08-13T10:30",
+        "moduleRound3EndDate": "2019-08-15T10:30",
+        "tutorialRound1StartDate": "2019-08-13T10:30",
+        "tutorialRound1EndDate": "2019-08-15T10:30",
+        "tutorialRound2StartDate": "2019-08-19T10:30",
+        "tutorialRound2EndDate": "2019-08-21T10:30"
     }
 }
