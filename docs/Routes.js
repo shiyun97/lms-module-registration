@@ -115,10 +115,10 @@ class Routes extends React.Component {
 
         {/*  MODULE REGISTRATION (ADMIN) */}
         <Route exact path="/admin" component={AdminLoginPage} />
-        <PrivateRoute exact path="/scheduleSettings" component={ScheduleSettingsPage} />
-        <PrivateRoute exact path="/users" component={UsersManagementPage} />
-        <PrivateRoute exact path="/allocate-modules" component={AllocateModulesPage} />
-        <Route exact path="/admin/mountModulePage" component={MountModulePage} />
+        <PrivateRoute exact path="/admin/scheduleSettings" component={ScheduleSettingsPage} />
+        <PrivateRoute exact path="/admin/users" component={UsersManagementPage} />
+        <PrivateRoute exact path="/admin/allocate-modules" component={AllocateModulesPage} />
+        <PrivateRoute exact path="/admin/mountModulePage" component={MountModulePage} />
 
         {/* FREE Templates */}
         <Route exact path="/analytics" component={AnalyticsPage} />

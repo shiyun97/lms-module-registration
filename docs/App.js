@@ -110,7 +110,7 @@ class App extends Component {
                 <MDBNavItem style={{ paddingRight: 10 }}>
                   <MDBNavLink
                     onClick={this.closeCollapse("mainNavbarCollapse")}
-                    to="/users"
+                    to="/admin/users"
                   >
                     <strong>Users Management</strong>
                   </MDBNavLink>
@@ -118,7 +118,7 @@ class App extends Component {
                 <MDBNavItem style={{ paddingRight: 10 }}>
                   <MDBNavLink
                     onClick={this.closeCollapse("mainNavbarCollapse")}
-                    to="/allocate-modules"
+                    to="/admin/allocate-modules"
                   >
                     <strong>Allocate Modules</strong>
                   </MDBNavLink>
@@ -126,7 +126,7 @@ class App extends Component {
                 <MDBNavItem style={{ paddingRight: 10 }}>
                   <MDBNavLink
                     onClick={this.closeCollapse("mainNavbarCollapse")}
-                    to="/scheduleSettings"
+                    to="/admin/scheduleSettings"
                   >
                     <strong>Schedule Settings</strong>
                   </MDBNavLink>
