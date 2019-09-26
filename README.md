@@ -17,6 +17,7 @@ This is a simple system to conduct administration and enrollment purposes to sup
                   |__ AllocateModulesPage
                   |__ ScheduleSettingsPage
                   |__ MountModulePage
+                  |__ ApproveAppeals
 
 ### Student
 #### Component Layout
@@ -81,5 +82,6 @@ npx json-server -p 3001 ./docs/dev/json/modules.json
 npx json-server -p 3001 ./docs/dev/json/users.json
 npx json-server -p 3001 ./docs/dev/json/successLogin.json
 npx json-server -p 3001 ./docs/dev/json/newUser.json
+npx json-server -p 3001 ./docs/dev/json/schedule.json
 ```
 

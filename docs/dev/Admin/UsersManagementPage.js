@@ -70,7 +70,7 @@ class UsersManagementPage extends Component {
 
     componentDidMount() {
         axios
-            .get("http://localhost:3002/users")
+            .get("http://localhost:3001/users")
             .then(result => {
                 this.setState({
                     rows: result.data.users,

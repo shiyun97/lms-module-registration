@@ -1,11 +1,61 @@
 import React, { Component } from "react";
 import { MDBContainer, MDBRow, MDBCol, MDBBtn, MDBInputGroup, MDBCard, MDBCardBody } from "mdbreact";
 import TextField from '@material-ui/core/TextField';
+import axios from "axios";
 
 class ScheduleSettingsPage extends Component {
+
+    state = {
+        year: 0,
+        semester: "",
+        semStartDate: "",
+        semEndDate: "",
+        moduleRound1StartDate: "",
+        moduleRound1EndDate: "",
+        moduleRound2StartDate: "",
+        moduleRound2EndDate: "",
+        moduleRound3StartDate: "",
+        moduleRound3EndDate: "",
+        tutorialRound1StartDate: "",
+        tutorialRound1EndDate: "",
+        tutorialRound2StartDate: "",
+        tutorialRound2EndDate: "",
+        status: "retrieving"
+    }
+
     getPickerValue = (value) => {
         console.log(value);
     }
+
+    componentDidMount() {
+        axios
+            .get("http://localhost:3001/schedule")
+            .then(result => {
+                console.log(result.data)
+                this.setState({
+                    year: result.data.year,
+                    semester: result.data.semester,
+                    semStartDate: result.data.semStartDate,
+                    semEndDate: result.data.semEndDate,
+                    moduleRound1StartDate: result.data.moduleRound1StartDate,
+                    moduleRound1EndDate: result.data.moduleRound1EndDate,
+                    moduleRound2StartDate: result.data.moduleRound2StartDate,
+                    moduleRound2EndDate: result.data.moduleRound2EndDate,
+                    moduleRound3StartDate: result.data.moduleRound3StartDate,
+                    moduleRound3EndDate: result.data.moduleRound3EndDate,
+                    tutorialRound1StartDate: result.data.tutorialRound1StartDate,
+                    tutorialRound1EndDate: result.data.tutorialRound1EndDate,
+                    tutorialRound2StartDate: result.data.tutorialRound2StartDate,
+                    tutorialRound2EndDate: result.data.tutorialRound2EndDate,
+                    status: "done"
+                });
+            })
+            .catch(error => {
+                console.error("error in axios " + error);
+            });
+    }
+
+    handleDateChange = (event) => this.setState({ [event.target.name]: event.target.value });
 
     render() {
         return (
@@ -33,7 +83,7 @@ class ScheduleSettingsPage extends Component {
                                                     prepend="Year"
                                                     inputs={
                                                         <select className="browser-default custom-select">
-                                                            <option value="0">Choose...</option>
+                                                            <option value={this.state.year}>{this.state.year}</option>
                                                             <option value="1">2019</option>
                                                             <option value="2">2020</option>
                                                             <option value="3">2021</option>
@@ -48,7 +98,7 @@ class ScheduleSettingsPage extends Component {
                                                     prepend="Semester"
                                                     inputs={
                                                         <select className="browser-default custom-select">
-                                                            <option value="0">Choose...</option>
+                                                            <option value={this.state.semester}>{this.state.semester}</option>
                                                             <option value="1">Sem 1</option>
                                                             <option value="2">Sem 2</option>
                                                         </select>
@@ -60,7 +110,9 @@ class ScheduleSettingsPage extends Component {
                                                     id="datetime-local"
                                                     label="Start Date"
                                                     type="datetime-local"
-                                                    defaultValue="2019-05-24T10:30"
+                                                    name="semStartDate"
+                                                    value={this.state.semStartDate}
+                                                    onChange={this.handleDateChange}
                                                     fullWidth
                                                     InputLabelProps={{
                                                         shrink: true,
@@ -72,7 +124,9 @@ class ScheduleSettingsPage extends Component {
                                                     id="datetime-local"
                                                     label="End Date"
                                                     type="datetime-local"
-                                                    defaultValue="2019-05-24T10:30"
+                                                    name="semEndDate"
+                                                    value={this.state.semEndDate}
+                                                    onChange={this.handleDateChange}
                                                     fullWidth
                                                     InputLabelProps={{
                                                         shrink: true,
@@ -93,7 +147,9 @@ class ScheduleSettingsPage extends Component {
                                                             id="datetime-local"
                                                             label="Start Date"
                                                             type="datetime-local"
-                                                            defaultValue="2019-05-24T10:30"
+                                                            name="moduleRound1StartDate"
+                                                            value={this.state.moduleRound1StartDate}
+                                                            onChange={this.handleDateChange}
                                                             fullWidth
                                                             InputLabelProps={{
                                                                 shrink: true,
@@ -105,7 +161,9 @@ class ScheduleSettingsPage extends Component {
                                                             id="datetime-local"
                                                             label="End Date"
                                                             type="datetime-local"
-                                                            defaultValue="2019-05-24T10:30"
+                                                            name="moduleRound1EndDate"
+                                                            value={this.state.moduleRound1EndDate}
+                                                            onChange={this.handleDateChange}
                                                             fullWidth
                                                             InputLabelProps={{
                                                                 shrink: true,
@@ -124,7 +182,9 @@ class ScheduleSettingsPage extends Component {
                                                             id="datetime-local"
                                                             label="Start Date"
                                                             type="datetime-local"
-                                                            defaultValue="2019-05-24T10:30"
+                                                            name="moduleRound2StartDate"
+                                                            value={this.state.moduleRound2StartDate}
+                                                            onChange={this.handleDateChange}
                                                             fullWidth
                                                             InputLabelProps={{
                                                                 shrink: true,
@@ -136,6 +196,9 @@ class ScheduleSettingsPage extends Component {
                                                             id="datetime-local"
                                                             label="End Date"
                                                             type="datetime-local"
+                                                            name="moduleRound2EndDate"
+                                                            value={this.state.moduleRound2EndDate}
+                                                            onChange={this.handleDateChange}
                                                             defaultValue="2019-05-24T10:30"
                                                             fullWidth
                                                             InputLabelProps={{
@@ -155,7 +218,9 @@ class ScheduleSettingsPage extends Component {
                                                             id="datetime-local"
                                                             label="Start Date"
                                                             type="datetime-local"
-                                                            defaultValue="2019-05-24T10:30"
+                                                            name="moduleRound3StartDate"
+                                                            value={this.state.moduleRound3StartDate}
+                                                            onChange={this.handleDateChange}
                                                             fullWidth
                                                             InputLabelProps={{
                                                                 shrink: true,
@@ -167,6 +232,9 @@ class ScheduleSettingsPage extends Component {
                                                             id="datetime-local"
                                                             label="End Date"
                                                             type="datetime-local"
+                                                            name="moduleRound3EndDate"
+                                                            value={this.state.moduleRound3EndDate}
+                                                            onChange={this.handleDateChange}
                                                             defaultValue="2019-05-24T10:30"
                                                             fullWidth
                                                             InputLabelProps={{
@@ -190,7 +258,9 @@ class ScheduleSettingsPage extends Component {
                                                             id="datetime-local"
                                                             label="Start Date"
                                                             type="datetime-local"
-                                                            defaultValue="2019-05-24T10:30"
+                                                            name="tutorialRound1StartDate"
+                                                            value={this.state.tutorialRound1StartDate}
+                                                            onChange={this.handleDateChange}
                                                             fullWidth
                                                             InputLabelProps={{
                                                                 shrink: true,
@@ -202,7 +272,9 @@ class ScheduleSettingsPage extends Component {
                                                             id="datetime-local"
                                                             label="End Date"
                                                             type="datetime-local"
-                                                            defaultValue="2019-05-24T10:30"
+                                                            name="tutorialRound1EndDate"
+                                                            value={this.state.tutorialRound1EndDate}
+                                                            onChange={this.handleDateChange}
                                                             fullWidth
                                                             InputLabelProps={{
                                                                 shrink: true,
@@ -221,7 +293,9 @@ class ScheduleSettingsPage extends Component {
                                                             id="datetime-local"
                                                             label="Start Date"
                                                             type="datetime-local"
-                                                            defaultValue="2019-05-24T10:30"
+                                                            name="tutorialRound2StartDate"
+                                                            value={this.state.tutorialRound2StartDate}
+                                                            onChange={this.handleDateChange}
                                                             fullWidth
                                                             InputLabelProps={{
                                                                 shrink: true,
@@ -233,7 +307,9 @@ class ScheduleSettingsPage extends Component {
                                                             id="datetime-local"
                                                             label="End Date"
                                                             type="datetime-local"
-                                                            defaultValue="2019-05-24T10:30"
+                                                            name="tutorialRound2EndDate"
+                                                            value={this.state.tutorialRound2EndDate}
+                                                            onChange={this.handleDateChange}
                                                             fullWidth
                                                             InputLabelProps={{
                                                                 shrink: true,
