@@ -1,11 +1,10 @@
 import React, { Component } from "react";
-import SectionContainer from "../../components/sectionContainer";
-import { MDBContainer, MDBRow, MDBCol, MDBBtn, MDBModal, MDBModalHeader, MDBModalBody, MDBModalFooter } from 'mdbreact';
+import { MDBContainer, MDBRow, MDBCol } from 'mdbreact';
 import axios from "axios";
 import { MDBDataTable } from 'mdbreact';
-import { Button, Dialog, DialogTitle, DialogContent, DialogActions } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 
-var url = "http://localhost:3001/";
+let url = "http://localhost:3001/";
 
 class MountModulePage extends Component {
     state = {
@@ -133,7 +132,10 @@ class MountModulePage extends Component {
 
     handleRowClick = index => { //open up dialog page to show the details
     //crete a nwe page. go to form edit page. 
-    }
+    console.log(index)
+    let path = `form/` + index;
+    this.props.history.push(path);
+}
 
     showButton = () => {
         return (
