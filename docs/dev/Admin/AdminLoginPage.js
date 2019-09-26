@@ -2,24 +2,52 @@ import React, { Component } from "react";
 import { MDBEdgeHeader, MDBContainer, MDBRow, MDBCol, MDBJumbotron, MDBAnimation } from "mdbreact";
 import { observer, inject } from 'mobx-react'
 import { Redirect } from "react-router-dom";
+import axios from "axios";
 
 @inject('dataStore')
 @observer
 class AdminLoginPage extends Component {
 
-  state={
-    loggedInStatus: false
+  state = {
+    loggedInStatus: false,
+    email: "",
+    password: "",
+    message: ""
   }
+
+  handleChangeEmail = event => this.setState({ email: event.target.value });
+  handleChangePassword = event => this.setState({ password: event.target.value });
 
   checkLogIn = () => {
     event.preventDefault();
-    this.props.dataStore.setSignInStatus(true, "email", "password", "admin")
-    this.setState({ loggedInStatus: true })
+
+    axios
+      .post("http://localhost:3001/login", {
+        user: {
+          email: this.state.email,
+          password: this.state.password
+        }
+      })
+      .then(result => {
+        this.setState({
+          message: result.statusText
+        });
+        if (this.state.message === "Created") {
+          this.props.dataStore.setSignInStatus(true, this.state.email, this.state.password, "admin")
+          this.setState({ loggedInStatus: true })
+        }
+        else {
+          console.log("Invalid email/password.")
+        }
+      })
+      .catch(error => {
+        console.error("error in axios " + error);
+      });
   }
 
   render() {
     if (this.state.loggedInStatus === true) {
-      return <Redirect to={this.props.dataStore.getPath}/>
+      return <Redirect to={this.props.dataStore.getPath} />
     }
     return (
       <>
@@ -33,7 +61,7 @@ class AdminLoginPage extends Component {
                     MODREG
                 </h1>
                   <h3 className="text-center">
-                  Administration Login
+                    Administration Login
                 </h3>
                   <ul className="list-unstyled example-components-list">
                     <form onSubmit={this.checkLogIn}>
@@ -41,12 +69,12 @@ class AdminLoginPage extends Component {
                       <label htmlFor="defaultFormRegisterEmailEx" className="grey-text">
                         Email
                 </label>
-                      <input type="email" id="defaultFormRegisterEmailEx" className="form-control" />
+                      <input type="email" onChange={this.handleChangeEmail} id="defaultFormRegisterEmailEx" className="form-control" />
                       <br />
                       <label htmlFor="defaultFormRegisterPasswordEx" className="grey-text">
                         Password
                 </label>
-                      <input type="password" id="defaultFormRegisterPasswordEx" className="form-control" />
+                      <input type="password" onChange={this.handleChangePassword} id="defaultFormRegisterPasswordEx" className="form-control" />
                       <div className="text-center mt-4">
                         <button className="btn btn-indigo">
                           Login

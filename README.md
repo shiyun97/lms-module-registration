@@ -79,5 +79,7 @@ npx json-server -p 3001 ./docs/dev/json/appeals.json
 npx json-server -p 3001 ./docs/dev/json/allModules.json
 npx json-server -p 3001 ./docs/dev/json/modules.json
 npx json-server -p 3001 ./docs/dev/json/users.json
+npx json-server -p 3001 ./docs/dev/json/successLogin.json
+npx json-server -p 3001 ./docs/dev/json/newUser.json
 ```
 
