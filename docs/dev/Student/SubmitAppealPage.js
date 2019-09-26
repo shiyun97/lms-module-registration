@@ -4,7 +4,7 @@ import { MDBContainer, MDBCol, MDBRow, MDBTableBody, MDBTableHead, MDBTable, MDB
 import axios from "axios";
 import { Button, Dialog, DialogTitle, DialogContent, DialogActions } from '@material-ui/core';
 
-var url = "http://localhost:3002/";
+var url = "http://localhost:3001/";
 
 class SubmitAppealPage extends Component {
   state = {

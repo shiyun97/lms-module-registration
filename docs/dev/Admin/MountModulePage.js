@@ -106,8 +106,8 @@ class MountModulePage extends Component {
                 responsiveXl
                 small
                 theadColor="rgba-blue-slight"
-            />)
-    }
+            />
+            )}
 
     rowsData = () => {
         let modules = [];

@@ -78,6 +78,7 @@ import InputGroupPage from './pages/InputGroupPage'
 import TreeviewPage from './pages/TreeviewPage'
 import AnalyticsPage from './pages/AnalyticsPage';
 import ScheduleSettingsPage from "./dev/Admin/ScheduleSettingsPage";
+import ApproveAppeals from "./dev/Admin/ApproveAppeals";
 
 @inject('dataStore')
 @observer
@@ -136,6 +137,7 @@ class Routes extends React.Component {
         <AdminPrivateRoute exact path="/admin/mountModule" component={MountModulePage} />
         <AdminPrivateRoute exact path="/admin/mountModule/form/:index" component={MountModulePageForm} />
         <AdminPrivateRoute exact path="/admin/mountModule/form-create" component={MountModulePageFormCreate} />
+        <AdminPrivateRoute exact path='/admin/approveAppeals' component={ApproveAppeals}/>
 
         {/* FREE Templates */}
         <Route exact path="/analytics" component={AnalyticsPage} />
