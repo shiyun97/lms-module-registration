@@ -16,6 +16,7 @@ import AllocateModulesPage from './dev/Admin/AllocateModulesPage';
 import AdminLoginPage from "./dev/Admin/AdminLoginPage";
 import MountModulePage from "./dev/Admin/MountModulePage";
 import MountModulePageForm from "./dev/Admin/MountModulePageForm";
+import MountModulePageFormCreate from "./dev/Admin/MountModulePageFormCreate";
 
 // COMPONENT TEMPLATES
 import NavigationNavPage from "./pages/NavigationNavPage";
@@ -134,6 +135,7 @@ class Routes extends React.Component {
         <AdminPrivateRoute exact path="/admin/allocate-modules" component={AllocateModulesPage} />
         <AdminPrivateRoute exact path="/admin/mountModule" component={MountModulePage} />
         <AdminPrivateRoute exact path="/admin/mountModule/form/:index" component={MountModulePageForm} />
+        <AdminPrivateRoute exact path="/admin/mountModule/form-create" component={MountModulePageFormCreate} />
 
         {/* FREE Templates */}
         <Route exact path="/analytics" component={AnalyticsPage} />

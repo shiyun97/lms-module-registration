@@ -133,7 +133,7 @@ class MountModulePage extends Component {
     handleRowClick = index => {
         //create a new page. go to form edit page. 
         console.log(index)
-        let path = `mountModule/form/` + index;
+        let path = `form/` + index;
         this.props.history.push(path);
     }
 
@@ -142,23 +142,22 @@ class MountModulePage extends Component {
             <div>
                 <Button size="small" color="primary">View</Button>
             </div>
-            )
+        )
     }
 
     handleMountModule = event => {
-        console.group("click")
+        let path = `form-create/`;
+        this.props.history.push(path);
     }
 
     render() {
         return (
             <MDBContainer center="true" style={{ paddingTop: "40px" }}>
                 <MDBBtn color="primary" onClick={this.handleMountModule}>Mount Module</MDBBtn>
-
-                    <MDBRow>{this.displayAllModules()}</MDBRow>
+                <MDBRow>{this.displayAllModules()}</MDBRow>
             </MDBContainer>
         );
     }
 }
 
 export default MountModulePage;
-
