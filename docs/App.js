@@ -72,7 +72,7 @@ class App extends Component {
                     <strong>Home</strong>
                   </MDBNavLink>
                 </MDBNavItem>
-                {/* { (this.props.dataStore.getUserType === "student" || "admin") && <> */}
+                {/* { (this.props.dataStore.getUserType === "student" || this.props.dataStore.getUserType === "admin") && <> */}
                 <MDBNavItem style={{ paddingRight: 10 }}>
                   <MDBNavLink
                     onClick={this.closeCollapse("mainNavbarCollapse")}
