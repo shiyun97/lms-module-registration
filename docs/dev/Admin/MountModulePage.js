@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { MDBContainer, MDBRow, MDBCol } from 'mdbreact';
+import { MDBContainer, MDBRow, MDBBtn } from 'mdbreact';
 import axios from "axios";
 import { MDBDataTable } from 'mdbreact';
 import { Button } from "@material-ui/core";
@@ -130,171 +130,31 @@ class MountModulePage extends Component {
         return modules
     }
 
-    handleRowClick = index => { //open up dialog page to show the details
-    //crete a nwe page. go to form edit page. 
-    console.log(index)
-    let path = `form/` + index;
-    this.props.history.push(path);
-}
+    handleRowClick = index => {
+        //create a new page. go to form edit page. 
+        console.log(index)
+        let path = `mountModule/form/` + index;
+        this.props.history.push(path);
+    }
 
     showButton = () => {
         return (
             <div>
                 <Button size="small" color="primary">View</Button>
-            </div>)
+            </div>
+            )
     }
 
     handleMountModule = event => {
-        this.setState({
-            modal: !this.state.modal
-        });
-    }
-
-    submitHandler = event => {
-        console.log("submit form")
-        event.preventDefault();
-        event.target.className += " was-validated";
-    };
-
-    changeHandler = event => {
-        console.log(event.target.value)
-        this.setState({ moduleCode: event.target.value });
-    };
-
-    mountModuleForm = () => {
-        return (
-            <div>
-                <form
-                    className="needs-validation"
-                    onSubmit={this.submitHandler}
-                >
-                    <MDBRow>
-                        {/*FIXME: unable to validate form */}
-                        <MDBCol md="12">
-                            <label htmlFor="formModuleCode" className="grey-text">Module Code</label>
-                            <input
-                                value={this.state.moduleCode}
-                                name="moduleCode"
-                                onChange={this.changeHandler}
-                                type="text"
-                                className="form-control"
-                                placeholder="Enter Module Code"
-                                required
-                                id="formModuleCode"
-                            />
-                            <div className="invalid-feedback">
-                                Next step
-              </div>
-                            <div className="valid-feedback">Looks good!</div>
-
-                        </MDBCol>{/* 
-                        <MDBCol md="12">
-                            <label className="grey-text">Module Title</label>
-                            <input
-                                value={this.state.moduleTitle}
-                                name="moduleTitle"
-                                onChange={this.changeHandler}
-                                type="text"
-                                className="form-control"
-                                placeholder="Enter Module Title"
-                                required
-                            />
-                        </MDBCol>
-                        <MDBCol md="12">
-                            <label className="grey-text">Module Semester</label>
-                            <input
-                                value={this.state.moduleSemester}
-                                name="moduleSemester"
-                                onChange={this.changeHandler}
-                                type="number"
-                                className="form-control"
-                                placeholder="Enter Module Semester"
-                                required
-                            />
-                        </MDBCol>
-                        <MDBCol md="12">
-                            <label className="grey-text">Module Year</label>
-                            <input
-                                value={this.state.moduleYear}
-                                name="moduleYear"
-                                onChange={this.changeHandler}
-                                type="text"
-                                className="form-control"
-                                placeholder="Enter Module Year"
-                                required
-                            />
-                        </MDBCol>
-                        <MDBCol md="12">
-                            <label className="grey-text">Module Faculty</label>
-                            <input
-                                value={this.state.moduleFaculty}
-                                name="moduleFaculty"
-                                onChange={this.changeHandler}
-                                type="text"
-                                className="form-control"
-                                placeholder="Enter Module Faculty"
-                                required
-                            />
-                        </MDBCol>
-                        <MDBCol md="12">
-                            <label className="grey-text">Module Department</label>
-                            <input
-                                value={this.state.moduleDepartment}
-                                name="moduleDepartment"
-                                onChange={this.changeHandler}
-                                type="text"
-                                className="form-control"
-                                placeholder="Enter Module Department"
-                                required
-                            />
-                        </MDBCol>
-                        <MDBCol md="12">
-                            <label className="grey-text">Module Capacity</label>
-                            <input
-                                value={this.state.moduleMaxCapacity}
-                                name="moduleCapacity"
-                                onChange={this.changeHandler}
-                                type="number"
-                                className="form-control"
-                                placeholder="Enter Module Capacity"
-                                required
-                            />
-                        </MDBCol>
-                        <MDBCol md="12">
-                            <label className="grey-text">Module Professor</label>
-                            <input
-                                value={this.state.moduleProfessor}
-                                name="moduleProfessor"
-                                onChange={this.changeHandler}
-                                type="text"
-                                className="form-control"
-                                placeholder="Enter Module Professor"
-                                required
-                            />
-                        </MDBCol>
-
- */}
-                    </MDBRow>
-                </form>
-            </div>
-        )
+        console.group("click")
     }
 
     render() {
         return (
             <MDBContainer center="true" style={{ paddingTop: "40px" }}>
-                {/* <MDBBtn color="primary" onClick={this.handleMountModule}>Mount Module</MDBBtn>
-                <MDBModal isOpen={this.state.modal} toggle={this.handleMountModule}>
-                    <MDBModalHeader toggle={this.handleMountModule}>Mount Module</MDBModalHeader>
-                    <MDBModalBody>
-                        {this.mountModuleForm()}
-                    </MDBModalBody>
-                    <MDBModalFooter>
-                        <MDBBtn color="secondary" onClick={this.handleMountModule}>Cancel</MDBBtn>
-                        <MDBBtn color="primary">Create</MDBBtn>
-                    </MDBModalFooter>
-                </MDBModal> */}
-                <MDBRow>{this.displayAllModules()}</MDBRow>
+                <MDBBtn color="primary" onClick={this.handleMountModule}>Mount Module</MDBBtn>
+
+                    <MDBRow>{this.displayAllModules()}</MDBRow>
             </MDBContainer>
         );
     }
