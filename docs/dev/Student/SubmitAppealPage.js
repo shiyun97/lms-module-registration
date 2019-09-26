@@ -17,6 +17,8 @@ class SubmitAppealPage extends Component {
     allAppeals: "",
     open: false,
     viewDetailsIndex: 0,
+    currentGroup: "",
+    appealGroup: "",
   };
 
   componentDidMount() {
@@ -49,7 +51,6 @@ class SubmitAppealPage extends Component {
   };
 
   handleChangeCode = event => {
-    console.log(event.target.value)
     this.setState({ appealModule: event.target.value });
   };
 
@@ -62,7 +63,7 @@ class SubmitAppealPage extends Component {
     const { value, appealModule, appealReason, appealStatus } = this.state;
     const date = new Date();
 
-    axios.post(url + "currentAppeal", { value, appealModule, appealReason, date, appealStatus })
+    axios.post(url + "allAppeals", { value, appealModule, appealReason, date, appealStatus })
       .then(res => {
         console.log(res.data);
         alert("Successful");
@@ -73,7 +74,17 @@ class SubmitAppealPage extends Component {
   };
 
   handleSubmitChangeGroup = event => {
-    console.log("post to axios")
+    event.preventDefault();
+    const { value, appealModule, currentGroup, appealGroup, appealReason, appealStatus } = this.state;
+
+    axios.post(url + "allAppeals", { value, appealModule, currentGroup, appealGroup, appealReason, appealStatus })
+      .then(res => {
+        console.log(res.data);
+        alert("Successful");
+      })
+      .catch(error => {
+        console.error("error in axios " + error);
+      });
   }
 
   checkSchedule = () => {
@@ -161,11 +172,10 @@ class SubmitAppealPage extends Component {
     else if (this.state.value === "Change lecture/ tutorial group<") {
       return (
         <div>
-          {console.log(this.state.availableModules[0].moduleCode)}
           <MDBRow style={{ paddingTop: "20px" }}>
             <MDBCol sm="4">Module Code: </MDBCol>
             <MDBCol sm="8">
-              <select onChange={this.handleChangeCode}>
+              <select value={this.state.appealModule} onChange={this.handleChangeCode}>
                 <option>Choose your option</option>
                 {this.state.availableModules && this.state.availableModules.map(
                   (code) => <option key={code.id} value={code.moduleCode}>{code.moduleCode}</option>)
@@ -173,36 +183,7 @@ class SubmitAppealPage extends Component {
               </select>
             </MDBCol>
           </MDBRow>
-
-          <MDBRow style={{ paddingTop: "20px" }}>
-            <MDBCol sm="4">Current Group: </MDBCol>
-            <MDBCol sm="8">
-              <select onChange={this.handleChangeCode}>
-                <option>Choose your option</option>
-                {/*FIXME:*/}
-
-              </select>
-            </MDBCol>
-          </MDBRow>
-
-          <MDBRow style={{ paddingTop: "20px" }}>
-            <MDBCol sm="4">Appeal Group: </MDBCol>
-            <MDBCol sm="8">
-              {/*display appeal group based on whether it is lecture/ tutorial in the previous uption */}
-              appeal group
-            </MDBCol>
-          </MDBRow>
-
-          <MDBRow style={{ paddingTop: "20px" }}>
-            <MDBCol sm="4">Appeal Reason: </MDBCol>
-            <MDBCol>
-              <textarea
-                className="form-control"
-                rows="5"
-                onChange={this.handleChangeReason}
-              />
-            </MDBCol>
-          </MDBRow>
+          {this.renderGroup()}
 
           <MDBRow style={{ paddingTop: "20px" }}>
             <MDBBtn color="primary" onClick={this.handleSubmitChangeGroup}>
@@ -215,6 +196,60 @@ class SubmitAppealPage extends Component {
       return null;
     }
   };
+
+  currentGrp = event => {
+    this.setState({ currentGroup: event.target.value });
+  }
+
+  appealGrp = event => {
+    this.setState({ appealGroup: event.target.value });
+  }
+
+  renderGroup = () => {
+    var mods = this.state.availableModules
+    var i
+    var grp
+    for (i = 0; i < mods.length; i++) {
+      if (mods[i].moduleCode === this.state.appealModule) {
+        grp = mods[i].tutorial
+      }
+    }
+    return (
+      <div>
+        <MDBRow style={{ paddingTop: "20px" }}>
+          <MDBCol sm="4">Current Group: </MDBCol>
+          <MDBCol sm="8">
+            <select value={this.state.currentGroup} onChange={this.currentGrp}>
+              <option>Choose your option</option>
+              {grp && grp.map((grp, index) => <option key={index} value={grp}>{grp}</option>)}
+            </select>
+          </MDBCol>
+        </MDBRow>
+
+        <MDBRow style={{ paddingTop: "20px" }}>
+          <MDBCol sm="4">Appeal Group: </MDBCol>
+          <MDBCol sm="8">
+            <select value={this.state.appealGroup} onChange={this.appealGrp}>
+              <option>Choose your option</option>
+              {grp && grp.map((grp, index) => <option key={index} value={grp}>{grp}</option>)}
+            </select>
+          </MDBCol>
+        </MDBRow>
+
+        <MDBRow style={{ paddingTop: "20px" }}>
+          <MDBCol sm="4">Appeal Reason: </MDBCol>
+          <MDBCol>
+            <textarea
+              className="form-control"
+              rows="5"
+              onChange={this.handleChangeReason}
+            />
+          </MDBCol>
+        </MDBRow>
+
+      </div>
+    )
+  }
 
   viewAppealDetails = () => {
     return (
@@ -318,5 +353,5 @@ class SubmitAppealPage extends Component {
     );
   }
 }
- 
+
 export default SubmitAppealPage;
