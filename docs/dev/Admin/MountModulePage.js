@@ -91,23 +91,29 @@ class MountModulePage extends Component {
 /*                 this.state.allModules
  */        }
 
-
-        return (
-            <MDBDataTable
-                style={{ textAlign: "center", verticalAlign: "center" }}
-                autoWidth={true}
-                bordered
-                hover
-                data={data}
-                responsive
-                responsiveSm
-                responsiveMd
-                responsiveLg
-                responsiveXl
-                small
-                theadColor="rgba-blue-slight"
-            />
-            )}
+        if (this.state.allModules.length !== 0) {
+            return (
+                <MDBDataTable
+                    style={{ textAlign: "center", verticalAlign: "center" }}
+                    autoWidth={true}
+                    bordered
+                    hover
+                    data={data}
+                    responsive
+                    responsiveSm
+                    responsiveMd
+                    responsiveLg
+                    responsiveXl
+                    small
+                    theadColor="rgba-blue-slight"
+                />
+            )
+        } else {
+            return (
+                <h5>Select "Mount Module" to create new modules</h5>
+            )
+        }
+    }
 
     rowsData = () => {
         let modules = [];
@@ -154,7 +160,7 @@ class MountModulePage extends Component {
         return (
             <MDBContainer center="true" style={{ paddingTop: "40px" }}>
                 <MDBBtn color="primary" onClick={this.handleMountModule}>Mount Module</MDBBtn>
-                <MDBRow>{this.displayAllModules()}</MDBRow>
+                {this.displayAllModules()}
             </MDBContainer>
         );
     }

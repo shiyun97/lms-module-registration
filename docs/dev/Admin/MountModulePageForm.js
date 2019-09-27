@@ -11,7 +11,8 @@ class MountModulePageForm extends Component {
     state = {
         moduleDetails: "",
         disabled: true,
-        index: 0
+        index: 0,
+        editSave: "Edit"
     }
 
     componentDidMount() {
@@ -20,7 +21,7 @@ class MountModulePageForm extends Component {
         if (index !== -1) {
             var newStr = loc.substring(index + 1);
         }
-        this.setState({index: newStr})
+        this.setState({ index: newStr })
 
         axios.get(url + "modules")
             .then(result => {
@@ -39,58 +40,59 @@ class MountModulePageForm extends Component {
         if (event.target.name === "moduleCode") {
             this.setState(prevState => ({
                 moduleDetails: {
-                    ...prevState.moduleDetails,  
-                    moduleCode: changedValue       
+                    ...prevState.moduleDetails,
+                    moduleCode: changedValue
                 }
             }))
         } else if (event.target.name === "moduleName") {
             this.setState(prevState => ({
                 moduleDetails: {
-                    ...prevState.moduleDetails,  
-                    moduleName: changedValue      
+                    ...prevState.moduleDetails,
+                    moduleName: changedValue
                 }
             }))
         } else if (event.target.name === "semester") {
             this.setState(prevState => ({
                 moduleDetails: {
-                    ...prevState.moduleDetails,    
-                    semester: changedValue      
+                    ...prevState.moduleDetails,
+                    semester: changedValue
                 }
             }))
         } else if (event.target.name === "year") {
             this.setState(prevState => ({
                 moduleDetails: {
-                    ...prevState.moduleDetails,  
-                    year: changedValue       
+                    ...prevState.moduleDetails,
+                    year: changedValue
                 }
             }))
         } else if (event.target.name === "faculty") {
             this.setState(prevState => ({
                 moduleDetails: {
-                    ...prevState.moduleDetails,  
-                    faculty: changedValue       
+                    ...prevState.moduleDetails,
+                    faculty: changedValue
                 }
             }))
         } else if (event.target.name === "department") {
             this.setState(prevState => ({
                 moduleDetails: {
-                    ...prevState.moduleDetails,  
-                    department: changedValue       
+                    ...prevState.moduleDetails,
+                    department: changedValue
                 }
             }))
         } else if (event.target.name === "maxCapacity") {
             this.setState(prevState => ({
                 moduleDetails: {
-                    ...prevState.moduleDetails,  
-                    maxCapacity: changedValue       
+                    ...prevState.moduleDetails,
+                    maxCapacity: changedValue
                 }
             }))
         } else {
             this.setState(prevState => ({
                 moduleDetails: {
-                    ...prevState.moduleDetails,  
-                    professor: changedValue       
-            }}))
+                    ...prevState.moduleDetails,
+                    professor: changedValue
+                }
+            }))
         }
     }
 
@@ -220,20 +222,14 @@ class MountModulePageForm extends Component {
                     </MDBRow>
 
                     <MDBRow style={{ paddingTop: "20px" }}>
-                        <MDBCol sm="4" style={{ paddingTop: "10px" }}>
-                            <Button onClick={this.edit}>Edit</Button>
+                        <MDBCol>
+                            <Button onClick={this.delete} color="secondary" variant="contained">Delete</Button>
                         </MDBCol>
-                        <MDBCol sm="8">
-
+                        <MDBCol >
+                            <Button onClick={this.editSave} color="primary" variant="contained" >{this.state.editSave}</Button>
                         </MDBCol>
-                    </MDBRow>
-
-                    <MDBRow style={{ paddingTop: "20px" }}>
-                        <MDBCol sm="4" style={{ paddingTop: "10px" }}>
-                            <Button onClick={this.save}>Save</Button>
-                        </MDBCol>
-                        <MDBCol sm="8">
-
+                        <MDBCol >
+                            <Button onClick={this.cancel} variant="contained">Cancel</Button>
                         </MDBCol>
                     </MDBRow>
 
@@ -242,31 +238,48 @@ class MountModulePageForm extends Component {
         )
     }
 
-    edit = event => {
-        this.setState({ disabled: false })
+    editSave = event => {
+        this.setState({ disabled: false, editSave: "Save" })
+        if (this.state.editSave === "Save") {
+            this.setState({ disabled: true })
+            var putIndex = parseInt(this.state.index) + 1
+            console.log(putIndex)
+
+            axios.put(url + "modules/" + putIndex, this.state.moduleDetails)
+                .then(result => {
+                    console.log(result.data)
+                    alert("Updated")
+                    this.props.history.go(-1)
+                })
+                .catch(error => {
+                    console.error("error in axios " + error);
+                });
+        }
     }
 
-    save = event => {
-        this.setState({ disabled: true})
-        //FIXME: fix index
-        console.log("this.state.index"+ this.state.index)
+    cancel = event => {
+        this.props.history.go(-1)
+    }
 
-        axios.put(url + "modules/" + this.state.index , this.state.moduleDetails)
+    delete = event => {
+        console.log("delete mod")
+        var deleteIndex = parseInt(this.state.index) + 1
+        console.log(deleteIndex)
+        axios.put(url + "modules/" + deleteIndex)
             .then(result => {
-                alert("Updated")
+                console.log(result.data)
+                alert("deleted")
             })
             .catch(error => {
                 console.error("error in axios " + error);
             });
     }
 
-
     render() {
         return (
             <MDBContainer style={{ paddingTop: "80px" }}>
                 <h3>Module Details</h3>
                 <MDBRow>{this.displayModuleDetails()}</MDBRow>
-
             </MDBContainer>
         )
     }
