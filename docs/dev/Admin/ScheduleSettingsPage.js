@@ -2,14 +2,11 @@ import React, { Component } from "react";
 import { MDBContainer, MDBRow, MDBCol, MDBBtn, MDBInputGroup, MDBCard, MDBCardBody } from "mdbreact";
 import TextField from '@material-ui/core/TextField';
 import axios from "axios";
-
 class ScheduleSettingsPage extends Component {
 
     state = {
-        year: 2018,
-        semester: "Sem 1",
-        semStartDate: "",
-        semEndDate: "",
+        year: "2019/2020",
+        semester: 1,
         moduleRound1StartDate: "",
         moduleRound1EndDate: "",
         moduleRound2StartDate: "",
@@ -27,16 +24,50 @@ class ScheduleSettingsPage extends Component {
         console.log(value);
     }
 
-    componentDidMount() {
+    calculateUnixToISODateFormat = (value) => {
+        var formattedDate = new Date(value)
+        formattedDate.setTime(formattedDate.getTime() + (8 * 60 * 60 * 1000)) // added 8 hours due to time diff
+        return formattedDate.toISOString().replace(':00.000Z', '');
+    }
+
+    getScheduleDetails = () => {
         axios
-            .get("http://localhost:3001/schedule")
+            .get(`http://localhost:8080/LMS-war/webresources/studentEnrollment/getCurrentScheduleDetails`)
             .then(result => {
-                console.log(result.data)
+                console.log(result)
                 this.setState({
                     year: result.data.year,
                     semester: result.data.semester,
-                    semStartDate: result.data.semStartDate,
-                    semEndDate: result.data.semEndDate,
+                    moduleRound1StartDate: this.calculateUnixToISODateFormat(result.data.moduleRound1StartDate),
+                    moduleRound1EndDate: this.calculateUnixToISODateFormat(result.data.moduleRound1EndDate),
+                    moduleRound2StartDate: this.calculateUnixToISODateFormat(result.data.moduleRound2StartDate),
+                    moduleRound2EndDate: this.calculateUnixToISODateFormat(result.data.moduleRound2EndDate),
+                    moduleRound3StartDate: this.calculateUnixToISODateFormat(result.data.moduleRound3StartDate),
+                    moduleRound3EndDate: this.calculateUnixToISODateFormat(result.data.moduleRound3EndDate),
+                    tutorialRound1StartDate: this.calculateUnixToISODateFormat(result.data.tutorialRound1StartDate),
+                    tutorialRound1EndDate: this.calculateUnixToISODateFormat(result.data.tutorialRound1EndDate),
+                    tutorialRound2StartDate: this.calculateUnixToISODateFormat(result.data.tutorialRound2StartDate),
+                    tutorialRound2EndDate: this.calculateUnixToISODateFormat(result.data.tutorialRound2EndDate),
+                    status: "done"
+                });
+            })
+            .catch(error => {
+                this.setState({
+                    status: "error"
+                });
+                console.error("error in axios " + error);
+            });
+    }
+
+    createSchedule = () => {
+        const { userId } = 1;
+        axios
+            .get(`http://localhost:8080/LMS-war/webresources/studentEnrollment/createSchedule?userId=${userId}`)
+            .then(result => {
+                console.log(result)
+                this.setState({
+                    year: result.data.year,
+                    semester: result.data.semester,
                     moduleRound1StartDate: result.data.moduleRound1StartDate,
                     moduleRound1EndDate: result.data.moduleRound1EndDate,
                     moduleRound2StartDate: result.data.moduleRound2StartDate,
@@ -51,8 +82,15 @@ class ScheduleSettingsPage extends Component {
                 });
             })
             .catch(error => {
+                this.setState({
+                    status: "error"
+                });
                 console.error("error in axios " + error);
             });
+    }
+
+    componentDidMount() {
+        this.getScheduleDetails();
     }
 
     handleDateChange = (event) => this.setState({ [event.target.name]: event.target.value });
@@ -84,10 +122,9 @@ class ScheduleSettingsPage extends Component {
                                                     inputs={
                                                         <select className="browser-default custom-select">
                                                             <option value={this.state.year}>{this.state.year}</option>
-                                                            <option value="1">2019</option>
-                                                            <option value="2">2020</option>
-                                                            <option value="3">2021</option>
-                                                            <option value="4">2022</option>
+                                                            <option value="1">2019/2020</option>
+                                                            <option value="2">2020/2021</option>
+                                                            <option value="3">2021/2022</option>
                                                         </select>
                                                     }
                                                 />
@@ -99,38 +136,10 @@ class ScheduleSettingsPage extends Component {
                                                     inputs={
                                                         <select className="browser-default custom-select">
                                                             <option value={this.state.semester}>{this.state.semester}</option>
-                                                            <option value="1">Sem 1</option>
-                                                            <option value="2">Sem 2</option>
+                                                            <option value="1">1</option>
+                                                            <option value="2">2</option>
                                                         </select>
                                                     }
-                                                />
-                                            </MDBCol>
-                                            <MDBCol md="6" className="mt-4">
-                                                <TextField
-                                                    id="datetime-local"
-                                                    label="Start Date"
-                                                    type="datetime-local"
-                                                    name="semStartDate"
-                                                    value={this.state.semStartDate}
-                                                    onChange={this.handleDateChange}
-                                                    fullWidth
-                                                    InputLabelProps={{
-                                                        shrink: true,
-                                                    }}
-                                                />
-                                            </MDBCol>
-                                            <MDBCol md="6" className="mt-4">
-                                                <TextField
-                                                    id="datetime-local"
-                                                    label="End Date"
-                                                    type="datetime-local"
-                                                    name="semEndDate"
-                                                    value={this.state.semEndDate}
-                                                    onChange={this.handleDateChange}
-                                                    fullWidth
-                                                    InputLabelProps={{
-                                                        shrink: true,
-                                                    }}
                                                 />
                                             </MDBCol>
                                             <MDBCol md="12" className="mt-4">
@@ -320,7 +329,8 @@ class ScheduleSettingsPage extends Component {
                                     </form>
                                     <br />
                                     <MDBCol md="12" className="mt-4" align="right">
-                                        <MDBBtn color="primary">Update</MDBBtn>
+                                        {this.state.status === "error" && <MDBBtn color="primary">Create</MDBBtn>}
+                                        {this.state.status === "done" && <MDBBtn color="primary">Update</MDBBtn>}
                                     </MDBCol>
                                     <br />
                                 </MDBCardBody>
