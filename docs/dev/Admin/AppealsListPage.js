@@ -6,7 +6,7 @@ import { Button } from "@material-ui/core";
 
 let url = "http://localhost:3001/";
 
-class ApproveAppeals extends Component {
+class AppealsListPage extends Component {
     state = {
         activeItem: "1", 
         allAppeals: ""
@@ -148,6 +148,9 @@ class ApproveAppeals extends Component {
     handleRowClick = index => {
         //create a new page. go to form edit page. 
         console.log(index)
+        console.log(index)
+        let path = `appealsList/view/` + index;
+        this.props.history.push(path);
     }
 
     render() {
@@ -160,4 +163,4 @@ class ApproveAppeals extends Component {
     }
 }
 
-export default ApproveAppeals;
+export default AppealsListPage;

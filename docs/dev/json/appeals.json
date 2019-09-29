@@ -82,15 +82,6 @@
       "appealStatus": "Pending",
       "rejectReason": "",
       "id": 3
-    },
-    {
-      "value": "Change lecture/ tutorial group<",
-      "appealModule": "IS4100",
-      "currentGroup": "Tutorial 6",
-      "appealGroup": "Tutorial 4",
-      "appealReason": "clash",
-      "appealStatus": "Pending",
-      "id": 4
     }
   ]
 }
