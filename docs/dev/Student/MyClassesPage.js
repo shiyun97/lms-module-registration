@@ -8,12 +8,18 @@ import {
     MDBTableBody 
 } from "mdbreact";
 import axios from "axios";
+import 'babel-polyfill';
 import { observer, inject } from 'mobx-react'
 
 const classColumns = [
     {
         label: "Class",
-        field: "classCode",
+        field: "classId",
+        sort: "asc"
+    },
+    {
+        label: "Details",
+        field: "details",
         sort: "asc"
     },
     {
@@ -45,19 +51,36 @@ class MyClassesPage extends Component {
         this.initPage();
     }
 
-    initPage() {
+    async initPage() {
         let studentId = this.props.match.params.studentId;
         if (studentId) {
             console.log(studentId);
             // retrieve student & set state for classes
-            axios
-                .get("http://localhost:3001/myClasses")
+            let arr = [];
+            await axios
+                .get("http://localhost:8080/LMS-war/webresources/studentEnrollment/retrieveStudentTutorials/" + studentId,{ validateStatus: false })
                 .then(result => {
-                    let data = result.data;
-                    let arr = [];
+                    console.log(result)
+                    let data = result.data.tutorials;
                     Object.keys(data).forEach(function (key) {
                         let classesArr = [];
-                        let classes = data[key].classes;
+                        let lecture = {
+                            classId: 1,
+                            details: data[key].module.lectureDetails,
+                            type: "Lecture",
+                            credits: data[key].module.creditUnit,
+                            enrollStatus: "Enrolled"
+                        }
+                        classesArr.push(lecture);
+                        let tutorial = {
+                            classId: data[key].tutorialId,
+                            details: data[key].timing,
+                            type: "Tutorial",
+                            credits: "-",
+                            enrollStatus: "Enrolled"
+                        }
+                        classesArr.push(tutorial);
+                        /*let classes = data[key].classes;
                         Object.keys(classes).forEach(function (key2) {
                             let tempClass = {
                                 classCode: classes[key2].classCode,
@@ -66,16 +89,64 @@ class MyClassesPage extends Component {
                                 enrollStatus: classes[key2].enrollStatus
                             }
                             classesArr.push(tempClass);
-                        })
+                        })*/
                         let tempModule = {
-                            moduleCode: data[key].moduleCode,
-                            moduleName: data[key].moduleName,
+                            moduleCode: data[key].module.code,
+                            moduleName: data[key].module.title,
                             classes: {
                                 columns: classColumns,
                                 rows: classesArr
                             }
                         }
                         arr.push(tempModule);
+                    });
+                })
+                .catch(error => {
+                    console.error("error in axios " + error);
+                });
+
+            // get modules without tutorials
+            axios
+                .get("http://localhost:8080/LMS-war/webresources/studentEnrollment/retrieveStudentModules/" + studentId,{ validateStatus: false })
+                .then(result => {
+                    console.log(result)
+                    let data = result.data.modules;
+                    Object.keys(data).forEach(function (key) {
+                        let classesArr = [];
+                        let exist = false;
+                        for (var i=0; i<arr.length && exist == false; i++) {
+                            if (arr[i].moduleCode == data[key].code) {
+                                exist = true
+                            }
+                        }
+                        // module with no tutorial
+                        if (exist == false) {
+                            let lecture = {
+                                classId: 1,
+                                details: data[key].lectureDetails,
+                                type: "Lecture",
+                                credits: data[key].creditUnit,
+                                enrollStatus: "Enrolled"
+                            }
+                            classesArr.push(lecture);
+                            let tutorial = {
+                                classId: "-",
+                                details: "-",
+                                type: "Tutorial",
+                                credits: "-",
+                                enrollStatus: "Not Enrolled"
+                            }
+                            classesArr.push(tutorial);
+                            let tempModule = {
+                                moduleCode: data[key].code,
+                                moduleName: data[key].title,
+                                classes: {
+                                    columns: classColumns,
+                                    rows: classesArr
+                                }
+                            }
+                            arr.push(tempModule);
+                        }
                     });
                     this.setState({
                         modules: arr
@@ -84,7 +155,6 @@ class MyClassesPage extends Component {
                 .catch(error => {
                     console.error("error in axios " + error);
                 });
-
         }
     }
 
