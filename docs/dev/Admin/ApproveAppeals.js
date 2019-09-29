@@ -8,7 +8,8 @@ let url = "http://localhost:3001/";
 
 class ApproveAppeals extends Component {
     state = {
-        activeItem: "1"
+        activeItem: "1", 
+        allAppeals: ""
     };
 
     componentDidMount() {
@@ -82,11 +83,11 @@ class ApproveAppeals extends Component {
                     field: 'appealType',
                     sort: 'asc',
                 },
-                {
+/*                 {
                     label: 'Student Year',
                     field: 'studentYear',
                     sort: 'asc',
-                },
+                }, */
                 {
                     label: 'Status',
                     field: 'status',
@@ -127,7 +128,7 @@ class ApproveAppeals extends Component {
                 date: eachAppeal.date,
                 moduleCode: eachAppeal.appealModule,
                 appealType: eachAppeal.value,
-                studentYear: eachAppeal.studentYear,
+               // studentYear: eachAppeal.studentYear,
                 status: eachAppeal.appealStatus,
                 button: this.showButton(),
                 clickEvent: () => this.handleRowClick(index)

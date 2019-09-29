@@ -107,12 +107,12 @@ class SubmitAppealPage extends Component {
           <MDBRow>
             <MDBCol sm="4">Select Cateogry: </MDBCol>
             <MDBCol sm="8">
-              <select onChange={this.handleSelect}>
+              <select onChange={this.handleSelect} className="browser-default custom-select">
                 <option>Choose your option</option>
                 <option value="Unable to secure module">
                   Unable to secure module
                   </option>
-                <option value="Change lecture/ tutorial group<">
+                <option value="Change lecture/ tutorial group">
                   Change lecture/ tutorial group
                   </option>
               </select>
