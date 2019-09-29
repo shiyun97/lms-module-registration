@@ -17,7 +17,9 @@ import AdminLoginPage from "./dev/Admin/AdminLoginPage";
 import MountModulePage from "./dev/Admin/MountModulePage";
 import MountModulePageForm from "./dev/Admin/MountModulePageForm";
 import MountModulePageFormCreate from "./dev/Admin/MountModulePageFormCreate";
-
+import ScheduleSettingsPage from "./dev/Admin/ScheduleSettingsPage";
+import AppealsListPage from "./dev/Admin/AppealsListPage";
+import AppealViewPage from "./dev/Admin/AppealViewPage";
 // COMPONENT TEMPLATES
 import NavigationNavPage from "./pages/NavigationNavPage";
 import FormsNavPage from "./pages/FormsNavPage";
@@ -77,8 +79,7 @@ import NotificationPage from './pages/NotificationPage';
 import InputGroupPage from './pages/InputGroupPage'
 import TreeviewPage from './pages/TreeviewPage'
 import AnalyticsPage from './pages/AnalyticsPage';
-import ScheduleSettingsPage from "./dev/Admin/ScheduleSettingsPage";
-import ApproveAppeals from "./dev/Admin/ApproveAppeals";
+
 
 @inject('dataStore')
 @observer
@@ -137,7 +138,9 @@ class Routes extends React.Component {
         <AdminPrivateRoute exact path="/admin/mountModule" component={MountModulePage} />
         <AdminPrivateRoute exact path="/admin/mountModule/form/:index" component={MountModulePageForm} />
         <AdminPrivateRoute exact path="/admin/mountModule/form-create" component={MountModulePageFormCreate} />
-        <AdminPrivateRoute exact path='/admin/approveAppeals' component={ApproveAppeals}/>
+        <AdminPrivateRoute exact path='/admin/appealsList' component={AppealsListPage}/>
+        <AdminPrivateRoute exact path="/admin/appealsList/view/:index" component={AppealViewPage} />
+
 
         {/* FREE Templates */}
         <Route exact path="/analytics" component={AnalyticsPage} />
