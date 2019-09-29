@@ -70,12 +70,14 @@ class UsersManagementPage extends Component {
 
     componentDidMount() {
         axios
-            .get("http://localhost:3001/users")
+        .get(`http://localhost:8080/LMS-war/webresources/User/getAllUser`)
+            // .get("http://localhost:3001/users")
             .then(result => {
-                this.setState({
-                    rows: result.data.users,
-                    status: "done"
-                });
+                console.log(result)
+                // this.setState({
+                //     rows: result.data.users,
+                //     status: "done"
+                // });
             })
             .catch(error => {
                 this.setState({

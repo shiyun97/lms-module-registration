@@ -12,6 +12,9 @@ class DataStore {
     this.email = email;
     this.password = password;
     this.userType = userType;
+    localStorage.setItem("email", this.email)
+    localStorage.setItem("password", this.password)
+    localStorage.setItem("userType", this.userType)
   }
 
   @action setSignOutStatus() {
@@ -20,6 +23,7 @@ class DataStore {
     this.password = "";
     this.userType = "";
     this.path = "/"
+    localStorage.clear();
   }
 
   @action setPath(path) {

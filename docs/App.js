@@ -20,6 +20,15 @@ class App extends Component {
     collapseID: ""
   };
 
+  componentDidMount() {
+    if (localStorage.getItem("email") !== null) {
+      let email = localStorage.getItem("email")
+      let password = localStorage.getItem("password")
+      let userType = localStorage.getItem("userType")
+      this.props.dataStore.setSignInStatus(true, email, password, userType)
+    }
+  }
+
   toggleCollapse = collapseID => () =>
     this.setState(prevState => ({
       collapseID: prevState.collapseID !== collapseID ? collapseID : ""
