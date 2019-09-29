@@ -70,7 +70,7 @@ class UsersManagementPage extends Component {
 
     componentDidMount() {
         axios
-        .get(`http://localhost:8080/LMS-war/webresources/User/getAllUser`)
+            .get(`http://localhost:8080/LMS-war/webresources/User/getAllUser`)
             // .get("http://localhost:3001/users")
             .then(result => {
                 console.log(result)
