@@ -24,8 +24,8 @@ class App extends Component {
     if (localStorage.getItem("email") !== null) {
       let email = localStorage.getItem("email")
       let password = localStorage.getItem("password")
-      let userType = localStorage.getItem("userType")
-      this.props.dataStore.setSignInStatus(true, email, password, userType)
+      let accessRight = localStorage.getItem("accessRight")
+      this.props.dataStore.setSignInStatus(true, email, password, accessRight)
     }
   }
 
@@ -81,7 +81,7 @@ class App extends Component {
                     <strong>Home</strong>
                   </MDBNavLink>
                 </MDBNavItem>
-                {/* { (this.props.dataStore.getUserType === "student" || this.props.dataStore.getUserType === "admin") && <> */}
+                { (this.props.dataStore.getAccessRight === "Student" || this.props.dataStore.getAccessRight === "Admin") && <>
                 <MDBNavItem style={{ paddingRight: 10 }}>
                   <MDBNavLink
                     onClick={this.closeCollapse("mainNavbarCollapse")}
@@ -114,8 +114,8 @@ class App extends Component {
                     <strong>Submit Appeals</strong>
                   </MDBNavLink>
                 </MDBNavItem>
-                {/* </> } */}
-                {/* {this.props.dataStore.getUserType === "admin" && <> */}
+                </> }
+                {this.props.dataStore.getAccessRight === "Admin" && <>
                 <MDBNavItem style={{ paddingRight: 10 }}>
                   <MDBNavLink
                     onClick={this.closeCollapse("mainNavbarCollapse")}
@@ -140,7 +140,7 @@ class App extends Component {
                     <strong>Schedule Settings</strong>
                   </MDBNavLink>
                 </MDBNavItem>
-                {/* </> } */}
+                </> }
                 {dataStore.getSignInStatus ?
                   <MDBNavItem style={{ paddingRight: 10 }}>
                     <MDBNavLink

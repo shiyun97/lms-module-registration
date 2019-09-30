@@ -12,36 +12,26 @@ class StudentLoginPage extends Component {
     loggedInStatus: false,
     email: "",
     password: "",
-    message: ""
+    message: "",
+    accessRight: ""
   }
 
   handleChangeEmail = event => this.setState({ email: event.target.value });
   handleChangePassword = event => this.setState({ password: event.target.value });
 
   checkLogIn = () => {
+    const { email, password } = this.state;
     event.preventDefault();
 
     axios
-      .post("http://localhost:3001/login", {
-        user: {
-          email: this.state.email,
-          password: this.state.password
-        }
-      })
+      // .post("http://localhost:3001/login", {
+      .get(`http://localhost:8080/LMS-war/webresources/User/userLogin?email=${email}&password=${password}`)
       .then(result => {
-        this.setState({
-          message: result.statusText
-        });
-        console.log(result.statusText)
-        if (this.state.message === "Created") {
-          this.props.dataStore.setSignInStatus(true, this.state.email, this.state.password, "student")
-          this.setState({ loggedInStatus: true })
-        }
-        else {
-          console.log("Invalid email/password.")
-        }
+        this.props.dataStore.setSignInStatus(true, this.state.email, this.state.password, result.data.user.accessRight)
+        this.setState({ loggedInStatus: true })
       })
       .catch(error => {
+        this.setState({ message: "error" })
         console.error("error in axios " + error);
       });
   }
@@ -84,6 +74,7 @@ class StudentLoginPage extends Component {
                         <br />
                       </div>
                     </form>
+                    {this.state.message === "error" && <h6 align="center" style={{ color: "red" }}>Invalid email/ password!</h6>}
                   </ul>
                 </MDBJumbotron>
               </MDBCol>

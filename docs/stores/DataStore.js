@@ -4,24 +4,24 @@ class DataStore {
   @observable signInStatus = false
   @observable email = ""
   @observable password = ""
-  @observable userType = ""
+  @observable accessRight = ""
   @observable path = "/"
 
-  @action setSignInStatus(status, email, password, userType) {
+  @action setSignInStatus(status, email, password, accessRight) {
     this.signInStatus = status;
     this.email = email;
     this.password = password;
-    this.userType = userType;
+    this.accessRight = accessRight;
     localStorage.setItem("email", this.email)
     localStorage.setItem("password", this.password)
-    localStorage.setItem("userType", this.userType)
+    localStorage.setItem("accessRight", this.accessRight)
   }
 
   @action setSignOutStatus() {
     this.signInStatus = false;
     this.email = "";
     this.password = "";
-    this.userType = "";
+    this.accessRight = "";
     this.path = "/"
     localStorage.clear();
   }
@@ -34,8 +34,8 @@ class DataStore {
     return this.signInStatus;
   }
 
-  @computed get getUserType() {
-    return this.userType;
+  @computed get getAccessRight() {
+    return this.accessRight;
   }
 
   @computed get getPath() {
