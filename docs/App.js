@@ -31,7 +31,7 @@ class App extends Component {
       let lastName = localStorage.getItem("lastName")
       let username = localStorage.getItem("username")
       let path = localStorage.getItem("path")
-      this.props.dataStore.setPath(path)
+      this.props.dataStore.setPath("path")
       this.props.dataStore.setSignInStatus(true, email, password, accessRight)
       this.props.dataStore.setUserDetails(userId, gender, firstName, lastName, username)
     }

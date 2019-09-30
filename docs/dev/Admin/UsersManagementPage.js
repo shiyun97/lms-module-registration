@@ -54,13 +54,8 @@ class UsersManagementPage extends Component {
                 "width": 200
             },
             {
-                "label": "User Role",
-                "field": "userRole",
-                "width": 100
-            },
-            {
-                "label": "Faculty",
-                "field": "faculty",
+                "label": "Access Right",
+                "field": "accessRight",
                 "width": 100
             }
         ],
@@ -73,18 +68,18 @@ class UsersManagementPage extends Component {
             .get(`http://localhost:8080/LMS-war/webresources/User/getAllUser`)
             // .get("http://localhost:3001/users")
             .then(result => {
-                console.log(result)
-                // this.setState({
-                //     rows: result.data.users,
-                //     status: "done"
-                // });
+                // console.log(result)
+                this.setState({
+                    rows: result.data.userList,
+                    status: "done"
+                });
             })
             .catch(error => {
                 this.setState({
                     status: "error"
                 });
                 console.error("error in axios " + error);
-            });
+            })
     }
 
     addNewUser = () => {
@@ -412,7 +407,19 @@ class UsersManagementPage extends Component {
     }
 
     render() {
-        const data = () => ({ columns: this.state.columns, rows: this.state.rows })
+        var newRows = []
+        const test = this.state.rows
+        for (let i = 0; i < test.length; i++) {
+            newRows.push({
+                firstName: test[i].firstName,
+                lastName: test[i].lastName,
+                gender: test[i].gender,
+                email: test[i].email,
+                password: test[i].password,
+                accessRight: test[i].accessRight,
+            })
+        }
+        const data = () => ({ columns: this.state.columns, rows: newRows })
         // clickEvent: () => goToProfilePage(1)
 
         const widerData = {
