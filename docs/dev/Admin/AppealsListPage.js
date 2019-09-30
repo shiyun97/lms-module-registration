@@ -4,22 +4,34 @@ import axios from "axios";
 import { MDBDataTable } from 'mdbreact';
 import { Button } from "@material-ui/core";
 
-let url = "http://localhost:3001/";
+const url = "http://localhost:8080/LMS-war/webresources/studentEnrollment/"
 
 class AppealsListPage extends Component {
     state = {
-        activeItem: "1", 
-        allAppeals: ""
+        activeItem: "1",
+        pendingAppeals: "",
+        reviewedAppeals: "",
     };
 
     componentDidMount() {
-        axios.get(url + "allAppeals")
+        axios.get(url + "retrievePendingAppeals?userId=1")
             .then(result => {
-                this.setState({ allAppeals: result.data })
+                this.setState({ pendingAppeals: result.data.appeals })
+                //console.log(this.state.pendingAppeals)
             })
             .catch(error => {
                 console.error("error in axios " + error);
             });
+
+        axios.get(url + "retrieveReviewedAppeals?userId=1")
+            .then(result => {
+                this.setState({ reviewedAppeals: result.data.appeals })
+                //console.log(this.state.reviewAppeals)
+            })
+            .catch(error => {
+                console.error("error in axios " + error);
+            });
+
     }
 
     toggle = tab => e => {
@@ -41,36 +53,34 @@ class AppealsListPage extends Component {
                         <MDBNavLink to="#" active={this.state.activeItem === "2"} onClick={this.toggle("2")} role="tab" >Pending Approval</MDBNavLink>
                     </MDBNavItem>
                     <MDBNavItem>
-                        <MDBNavLink to="#" active={this.state.activeItem === "3"} onClick={this.toggle("3")} role="tab" >Closed</MDBNavLink>
+                        <MDBNavLink to="#" active={this.state.activeItem === "3"} onClick={this.toggle("3")} role="tab" >Reviewed</MDBNavLink>
                     </MDBNavItem>
                 </MDBNav>
                 <MDBTabContent activeItem={this.state.activeItem} >
                     <MDBTabPane tabId="1" role="tabpanel">
-                        {this.showAllAppeals()}
                     </MDBTabPane>
                     <MDBTabPane tabId="2" role="tabpanel">
-                        <p className="mt-2">pending approval</p>
-
+                        {this.showAllPendingAppeals()}
                     </MDBTabPane>
                     <MDBTabPane tabId="3" role="tabpanel">
-                        <p className="mt-2">closed appeals</p>
+                        {this.showAllReviewedAppeals()}
                     </MDBTabPane>
                 </MDBTabContent>
             </MDBContainer>
         )
     }
 
-    showAllAppeals = () => {
-        const data = {
-            columns: [
+    getColumns = () => {
+        return (
+            [
                 {
                     label: 'Id',
-                    field: 'id',
+                    field: 'appealId',
                     sort: 'asc',
                 },
                 {
                     label: 'Date',
-                    field: 'date',
+                    field: 'createDate',
                     sort: 'asc',
                 },
                 {
@@ -80,14 +90,9 @@ class AppealsListPage extends Component {
                 },
                 {
                     label: 'Appeal Type',
-                    field: 'appealType',
+                    field: 'type',
                     sort: 'asc',
                 },
-/*                 {
-                    label: 'Student Year',
-                    field: 'studentYear',
-                    sort: 'asc',
-                }, */
                 {
                     label: 'Status',
                     field: 'status',
@@ -97,11 +102,15 @@ class AppealsListPage extends Component {
                     label: 'Details',
                     field: 'button',
                 },
-            ],
-            rows:
-                this.rowsData()
-/*                 this.state.allModules
-*/        }
+            ]
+        )
+    }
+
+    showAllReviewedAppeals = () => {
+        const data = {
+            columns: this.getColumns(),
+            rows: this.rowsDataReviewed()
+        }
 
         return (
             <MDBDataTable
@@ -120,21 +129,60 @@ class AppealsListPage extends Component {
         )
     }
 
-    rowsData = () => {
-        let allAppeals = [];
-        this.state.allAppeals && this.state.allAppeals.map((eachAppeal, index) =>
-            allAppeals.push({
-                id: eachAppeal.id,
-                date: eachAppeal.date,
-                moduleCode: eachAppeal.appealModule,
-                appealType: eachAppeal.value,
-               // studentYear: eachAppeal.studentYear,
-                status: eachAppeal.appealStatus,
+
+    showAllPendingAppeals = () => {
+        const data = {
+            columns: this.getColumns(),
+            rows: this.rowsDataPending()
+        }
+
+        return (
+            <MDBDataTable
+                style={{ textAlign: "center", verticalAlign: "center" }}
+                autoWidth={true}
+                bordered
+                hover
+                data={data}
+                responsive
+                responsiveSm
+                responsiveMd
+                responsiveLg
+                responsiveXl
+                theadColor="rgba-blue-slight"
+            />
+        )
+    }
+
+    rowsDataPending = () => {
+        let pendingAppeals = [];
+        this.state.pendingAppeals && this.state.pendingAppeals.map((eachAppeal, index) =>
+            pendingAppeals.push({
+                appealId: eachAppeal.appealId,
+                createDate: (eachAppeal.createDate).slice(0, 10),
+                moduleCode: eachAppeal.module.code,
+                type: eachAppeal.type,
+                status: eachAppeal.status,
                 button: this.showButton(),
                 clickEvent: () => this.handleRowClick(index)
             })
         )
-        return allAppeals
+        return pendingAppeals
+    }
+
+    rowsDataReviewed = () => {
+        let reviewedAppeals = [];
+        this.state.reviewedAppeals && this.state.reviewedAppeals.map((eachAppeal, index) =>
+            reviewedAppeals.push({
+                appealId: eachAppeal.appealId,
+                createDate: (eachAppeal.createDate).slice(0, 10),
+                moduleCode: eachAppeal.module.code,
+                type: eachAppeal.type,
+                status: eachAppeal.status,
+                button: this.showButton(),
+                clickEvent: () => this.handleRowClick(index)
+            })
+        )
+        return reviewedAppeals
     }
 
     showButton = () => {
@@ -148,15 +196,14 @@ class AppealsListPage extends Component {
     handleRowClick = index => {
         //create a new page. go to form edit page. 
         console.log(index)
-        console.log(index)
-        let path = `appealsList/view/` + index;
-        this.props.history.push(path);
+        //let path = `appealsList/view/` + index;
+        //this.props.history.push(path);
     }
 
     render() {
         return (
             <MDBContainer center="true" style={{ paddingTop: "40px" }}>
-                <h3>Approve Appeals</h3>
+                <h3>All Appeals</h3>
                 <MDBRow>{this.showAppeals()}</MDBRow>
             </MDBContainer>
         );
