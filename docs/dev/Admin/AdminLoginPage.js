@@ -29,6 +29,7 @@ class AdminLoginPage extends Component {
       .then(result => {
         // console.log(result.data)
         this.props.dataStore.setSignInStatus(true, this.state.email, this.state.password, result.data.user.accessRight)
+        this.props.dataStore.setUserDetails(result.data.user.id, result.data.user.gender, result.data.user.firstName, result.data.user.lastName, result.data.user.username)
         this.setState({ loggedInStatus: true })
       })
       .catch(error => {

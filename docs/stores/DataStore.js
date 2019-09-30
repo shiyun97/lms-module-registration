@@ -1,11 +1,16 @@
 import { action, computed, observable } from "mobx"
 
 class DataStore {
+  @observable path = "/"
   @observable signInStatus = false
   @observable email = ""
   @observable password = ""
   @observable accessRight = ""
-  @observable path = "/"
+  @observable gender = ""
+  @observable firstName = ""
+  @observable lastName = ""
+  @observable username = ""
+  @observable userId = ""
 
   @action setSignInStatus(status, email, password, accessRight) {
     this.signInStatus = status;
@@ -28,6 +33,24 @@ class DataStore {
 
   @action setPath(path) {
     this.path = path;
+    localStorage.setItem("path", this.path)
+  }
+
+  @computed get getPath() {
+    return this.path;
+  }
+
+  @action setUserDetails(id, gender, firstName, lastName, username) {
+    this.userId = id;
+    this.gender = gender;
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.username = username;
+    localStorage.setItem("userId", this.userId)
+    localStorage.setItem("gender", this.gender)
+    localStorage.setItem("firstName", this.firstName)
+    localStorage.setItem("lastName", this.lastName)
+    localStorage.setItem("username", this.username)
   }
 
   @computed get getSignInStatus() {
@@ -38,8 +61,8 @@ class DataStore {
     return this.accessRight;
   }
 
-  @computed get getPath() {
-    return this.path;
+  @computed get getUserId() {
+    return this.userId;
   }
 }
 

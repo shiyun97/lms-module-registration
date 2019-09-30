@@ -25,7 +25,15 @@ class App extends Component {
       let email = localStorage.getItem("email")
       let password = localStorage.getItem("password")
       let accessRight = localStorage.getItem("accessRight")
+      let userId = localStorage.getItem("userId")
+      let gender = localStorage.getItem("gender")
+      let firstName = localStorage.getItem("firstName")
+      let lastName = localStorage.getItem("lastName")
+      let username = localStorage.getItem("username")
+      let path = localStorage.getItem("path")
+      this.props.dataStore.setPath(path)
       this.props.dataStore.setSignInStatus(true, email, password, accessRight)
+      this.props.dataStore.setUserDetails(userId, gender, firstName, lastName, username)
     }
   }
 
@@ -38,6 +46,11 @@ class App extends Component {
     window.scrollTo(0, 0);
     this.state.collapseID === collapseID && this.setState({ collapseID: "" });
   };
+
+  updatePath = (path) => {
+    this.props.dataStore.setPath(path);
+    this.closeCollapse("mainNavbarCollapse");
+  }
 
   logOutUser = () => {
     this.closeCollapse("mainNavbarCollapse");
@@ -76,71 +89,71 @@ class App extends Component {
                   <MDBNavLink
                     exact
                     to="/"
-                    onClick={this.closeCollapse("mainNavbarCollapse")}
+                    onClick={() => this.updatePath('/')}
                   >
                     <strong>Home</strong>
                   </MDBNavLink>
                 </MDBNavItem>
-                { (this.props.dataStore.getAccessRight === "Student" || this.props.dataStore.getAccessRight === "Admin") && <>
-                <MDBNavItem style={{ paddingRight: 10 }}>
-                  <MDBNavLink
-                    onClick={this.closeCollapse("mainNavbarCollapse")}
-                    to="/student/:studentId/classes"
-                  >
-                    <strong>My Classes</strong>
-                  </MDBNavLink>
-                </MDBNavItem>
-                <MDBNavItem style={{ paddingRight: 10 }}>
-                  <MDBNavLink
-                    onClick={this.closeCollapse("mainNavbarCollapse")}
-                    to="/student/:studentId/select-modules"
-                  >
-                    <strong>Select Modules</strong>
-                  </MDBNavLink>
-                </MDBNavItem>
-                <MDBNavItem style={{ paddingRight: 10 }}>
-                  <MDBNavLink
-                    onClick={this.closeCollapse("mainNavbarCollapse")}
-                    to="/student/:studentId/select-tutorials"
-                  >
-                    <strong>Select Tutorials</strong>
-                  </MDBNavLink>
-                </MDBNavItem>
-                <MDBNavItem style={{ paddingRight: 10 }}>
-                  <MDBNavLink
-                    onClick={this.closeCollapse("mainNavbarCollapse")}
-                    to="/student/appeals"
-                  >
-                    <strong>Submit Appeals</strong>
-                  </MDBNavLink>
-                </MDBNavItem>
-                </> }
+                {(this.props.dataStore.getAccessRight === "Student" || this.props.dataStore.getAccessRight === "Admin") && <>
+                  <MDBNavItem style={{ paddingRight: 10 }}>
+                    <MDBNavLink
+                      onClick={() => this.updatePath('/student/:studentId/classes')}
+                      to="/student/:studentId/classes"
+                    >
+                      <strong>My Classes</strong>
+                    </MDBNavLink>
+                  </MDBNavItem>
+                  <MDBNavItem style={{ paddingRight: 10 }}>
+                    <MDBNavLink
+                      onClick={() => this.updatePath('/student/:studentId/select-modules')}
+                      to="/student/:studentId/select-modules"
+                    >
+                      <strong>Select Modules</strong>
+                    </MDBNavLink>
+                  </MDBNavItem>
+                  <MDBNavItem style={{ paddingRight: 10 }}>
+                    <MDBNavLink
+                      onClick={() => this.updatePath('/student/:studentId/select-tutorials')}
+                      to="/student/:studentId/select-tutorials"
+                    >
+                      <strong>Select Tutorials</strong>
+                    </MDBNavLink>
+                  </MDBNavItem>
+                  <MDBNavItem style={{ paddingRight: 10 }}>
+                    <MDBNavLink
+                      onClick={() => this.updatePath('/student/appeals')}
+                      to="/student/appeals"
+                    >
+                      <strong>Submit Appeals</strong>
+                    </MDBNavLink>
+                  </MDBNavItem>
+                </>}
                 {this.props.dataStore.getAccessRight === "Admin" && <>
-                <MDBNavItem style={{ paddingRight: 10 }}>
-                  <MDBNavLink
-                    onClick={this.closeCollapse("mainNavbarCollapse")}
-                    to="/admin/users"
-                  >
-                    <strong>Users Management</strong>
-                  </MDBNavLink>
-                </MDBNavItem>
-                <MDBNavItem style={{ paddingRight: 10 }}>
-                  <MDBNavLink
-                    onClick={this.closeCollapse("mainNavbarCollapse")}
-                    to="/admin/allocate-modules"
-                  >
-                    <strong>Allocate Modules</strong>
-                  </MDBNavLink>
-                </MDBNavItem>
-                <MDBNavItem style={{ paddingRight: 10 }}>
-                  <MDBNavLink
-                    onClick={this.closeCollapse("mainNavbarCollapse")}
-                    to="/admin/scheduleSettings"
-                  >
-                    <strong>Schedule Settings</strong>
-                  </MDBNavLink>
-                </MDBNavItem>
-                </> }
+                  <MDBNavItem style={{ paddingRight: 10 }}>
+                    <MDBNavLink
+                      onClick={() => this.updatePath('/admin/users')}
+                      to="/admin/users"
+                    >
+                      <strong>Users Management</strong>
+                    </MDBNavLink>
+                  </MDBNavItem>
+                  <MDBNavItem style={{ paddingRight: 10 }}>
+                    <MDBNavLink
+                      onClick={() => this.updatePath('/admin/allocate-modules')}
+                      to="/admin/allocate-modules"
+                    >
+                      <strong>Allocate Modules</strong>
+                    </MDBNavLink>
+                  </MDBNavItem>
+                  <MDBNavItem style={{ paddingRight: 10 }}>
+                    <MDBNavLink
+                      onClick={() => this.updatePath('/admin/scheduleSettings')}
+                      to="/admin/scheduleSettings"
+                    >
+                      <strong>Schedule Settings</strong>
+                    </MDBNavLink>
+                  </MDBNavItem>
+                </>}
                 {dataStore.getSignInStatus ?
                   <MDBNavItem style={{ paddingRight: 10 }}>
                     <MDBNavLink

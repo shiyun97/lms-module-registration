@@ -15,7 +15,7 @@ import SubmitAppealPage from './dev/Student/SubmitAppealPage';
 import AllocateModulesPage from './dev/Admin/AllocateModulesPage';
 import AdminLoginPage from "./dev/Admin/AdminLoginPage";
 import MountModulePage from "./dev/Admin/MountModulePage";
-import MountModulePageForm from "./dev/Admin/MountModulePageForm";
+import MountModulePageForm from "./dev/Admin/MountModulePageForm";
 import MountModulePageFormCreate from "./dev/Admin/MountModulePageFormCreate";
 import ScheduleSettingsPage from "./dev/Admin/ScheduleSettingsPage";
 import AppealsListPage from "./dev/Admin/AppealsListPage";
@@ -136,10 +136,10 @@ class Routes extends React.Component {
         <AdminPrivateRoute exact path="/admin/users" component={UsersManagementPage} />
         <AdminPrivateRoute exact path="/admin/allocate-modules" component={AllocateModulesPage} />
         <AdminPrivateRoute exact path="/admin/mountModule" component={MountModulePage} />
-        <AdminPrivateRoute exact path="/admin/mountModule/form/:index" component={MountModulePageForm} />
-        <AdminPrivateRoute exact path="/admin/mountModule/form-create" component={MountModulePageFormCreate} />
-        <AdminPrivateRoute exact path='/admin/appealsList' component={AppealsListPage}/>
-        <AdminPrivateRoute exact path="/admin/appealsList/view/:index" component={AppealViewPage} />
+        <AdminPrivateRoute exact path="/admin/mountModule/form/:index" component={MountModulePageForm} />
+        <AdminPrivateRoute exact path="/admin/mountModule/form-create" component={MountModulePageFormCreate} />
+        <AdminPrivateRoute exact path='/admin/appealsList' component={AppealsListPage} />
+        <AdminPrivateRoute exact path="/admin/appealsList/view/:index" component={AppealViewPage} />
 
 
         {/* FREE Templates */}
