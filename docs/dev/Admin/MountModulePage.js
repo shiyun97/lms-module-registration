@@ -4,26 +4,15 @@ import axios from "axios";
 import { MDBDataTable } from 'mdbreact';
 import { Button } from "@material-ui/core";
 
-let url = "http://localhost:3001/";
+const url = "http://localhost:8080/LMS-war/webresources/";
 
 class MountModulePage extends Component {
     state = {
         allModules: "",
-        moduleCode: "",
-        moduleTitle: "",
-        moduleSemester: 0,
-        moduleYear: "",
-        moduleFaculty: "",
-        moduleDepartment: "",
-        moduleMaxCapacity: "",
-        moduleProfessor: "",
-        open: false,
-        viewModDetailsIndex: 0,
-        modal: false
     };
 
     componentDidMount() {
-        axios.get("http://localhost:8080/LMS-war/webresources/ModuleMounting/getAllModule")
+        axios.get(url + "ModuleMounting/getAllModule")
             .then(result => {
                 this.setState({ allModules: result.data.module })
             })
@@ -35,11 +24,6 @@ class MountModulePage extends Component {
     displayAllModules = () => {
         const data = {
             columns: [
-                /*              {
-                                 label: 'Id',
-                                 field: 'id',
-                                 sort: 'asc',
-                             }, */
                 {
                     label: 'Code',
                     field: 'code',
@@ -47,7 +31,7 @@ class MountModulePage extends Component {
                 },
                 {
                     label: 'Module Title',
-                    field: 'moduleTitle',
+                    field: 'title',
                     sort: 'asc',
                 },
                 {
@@ -70,11 +54,6 @@ class MountModulePage extends Component {
                     field: 'department',
                     sort: 'asc',
                 },
-                /*  {
-                     label: 'Max Capacity',
-                     field: 'max capacity',
-                     sort: 'asc',
-                 },*/
                 {
                     label: 'Assigned Teacher',
                     field: 'assignedTeacher',
@@ -118,12 +97,11 @@ class MountModulePage extends Component {
         this.state.allModules && this.state.allModules.map((eachModule, index) =>
             modules.push({
                 code: eachModule.code,
-                moduleTitle: eachModule.moduleTitle,
+                title: eachModule.title,
                 semesterOffered: eachModule.semesterOffered,
                 yearOffered: eachModule.yearOffered,
                 faculty: eachModule.faculty,
                 department: eachModule.department,
-                /* maxCapacity: eachModule.maxCapacity,*/
                 assignedTeacher: eachModule.assignedTeacher.firstName + " " + eachModule.assignedTeacher.lastName,
                 button: this.showButton(),
                 clickEvent: () => this.handleRowClick(index)
