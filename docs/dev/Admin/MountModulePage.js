@@ -23,9 +23,9 @@ class MountModulePage extends Component {
     };
 
     componentDidMount() {
-        axios.get(url + "modules")
+        axios.get("http://localhost:8080/LMS-war/webresources/ModuleMounting/getAllModule")
             .then(result => {
-                this.setState({ allModules: result.data })
+                this.setState({ allModules: result.data.module })
             })
             .catch(error => {
                 console.error("error in axios " + error);
@@ -33,7 +33,6 @@ class MountModulePage extends Component {
     }
 
     displayAllModules = () => {
-        //console.log(this.state.allModules)
         const data = {
             columns: [
                 /*              {
@@ -52,13 +51,13 @@ class MountModulePage extends Component {
                     sort: 'asc',
                 },
                 {
-                    label: 'Semester',
-                    field: 'semester',
+                    label: 'Semester Offered',
+                    field: 'semesterOffered',
                     sort: 'asc',
                 },
                 {
-                    label: 'Year',
-                    field: 'year',
+                    label: 'Year Offered',
+                    field: 'yearOffered',
                     sort: 'asc',
                 },
                 {
@@ -77,8 +76,8 @@ class MountModulePage extends Component {
                      sort: 'asc',
                  },*/
                 {
-                    label: 'Professor',
-                    field: 'professor',
+                    label: 'Assigned Teacher',
+                    field: 'assignedTeacher',
                     sort: 'asc',
                 },
                 {
@@ -88,8 +87,7 @@ class MountModulePage extends Component {
             ],
             rows:
                 this.rowsData()
-/*                 this.state.allModules
- */        }
+        }
 
         if (this.state.allModules.length !== 0) {
             return (
@@ -119,16 +117,14 @@ class MountModulePage extends Component {
         let modules = [];
         this.state.allModules && this.state.allModules.map((eachModule, index) =>
             modules.push({
-                /*                 id: eachModule.id, 
-                 */
-                code: eachModule.moduleCode,
-                moduleTitle: eachModule.moduleName,
-                semester: eachModule.semester,
-                year: eachModule.year,
+                code: eachModule.code,
+                moduleTitle: eachModule.moduleTitle,
+                semesterOffered: eachModule.semesterOffered,
+                yearOffered: eachModule.yearOffered,
                 faculty: eachModule.faculty,
                 department: eachModule.department,
                 /* maxCapacity: eachModule.maxCapacity,*/
-                professor: eachModule.professor,
+                assignedTeacher: eachModule.assignedTeacher.firstName + " " + eachModule.assignedTeacher.lastName,
                 button: this.showButton(),
                 clickEvent: () => this.handleRowClick(index)
             })
@@ -139,7 +135,7 @@ class MountModulePage extends Component {
     handleRowClick = index => {
         //create a new page. go to form edit page. 
         console.log(index)
-        let path = `form/` + index;
+        let path = `mountModule/form/` + index;
         this.props.history.push(path);
     }
 
