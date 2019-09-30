@@ -11,7 +11,7 @@ class MountModulePageFormCreate extends Component {
 
     state = {
         moduleCode: "",
-        moduleName: "",
+        moduleTitle: "",
         semester: "",
         year: "",
         credit: "",
@@ -21,7 +21,7 @@ class MountModulePageFormCreate extends Component {
         examVenue: "",
         faculty: "",
         department: "",
-        maxCapacity: "",
+        maxEnrollment: "",
         professor: "",
         lectureDay: "",
         lectureTime: "['10:00', '11:00']",
@@ -74,7 +74,7 @@ class MountModulePageFormCreate extends Component {
                         <MDBCol sm="4" >Module Title: </MDBCol>
                         <MDBCol sm="8">
                             <input
-                                value={this.state.moduleName}
+                                value={this.state.moduleTitle}
                                 name="moduleName"
                                 type="text"
                                 className="form-control"
@@ -85,7 +85,7 @@ class MountModulePageFormCreate extends Component {
                     </MDBRow>
 
                     <MDBRow style={{ paddingTop: "20px" }}>
-                        <MDBCol sm="4" style={{ paddingTop: "10px" }}>Semester: </MDBCol>
+                        <MDBCol sm="4" style={{ paddingTop: "10px" }}>Semester Offered: </MDBCol>
                         <MDBCol sm="8">
                             <select onChange={this.handleSelect} className="browser-default custom-select">
                                 <option>Select Semester</option>
@@ -100,7 +100,7 @@ class MountModulePageFormCreate extends Component {
                     </MDBRow>
 
                     <MDBRow style={{ paddingTop: "20px" }}>
-                        <MDBCol sm="4" style={{ paddingTop: "10px" }}>Year: </MDBCol>
+                        <MDBCol sm="4" style={{ paddingTop: "10px" }}>Year Offered: </MDBCol>
                         <MDBCol sm="8">
                             <input
                                 value={this.state.year}
@@ -114,7 +114,7 @@ class MountModulePageFormCreate extends Component {
                     </MDBRow>
 
                     <MDBRow style={{ paddingTop: "20px" }}>
-                        <MDBCol sm="4" style={{ paddingTop: "10px" }}>Credit: </MDBCol>
+                        <MDBCol sm="4" style={{ paddingTop: "10px" }}>Credit Unit: </MDBCol>
                         <MDBCol sm="8">
                             <input
                                 value={this.state.credit}
@@ -124,6 +124,22 @@ class MountModulePageFormCreate extends Component {
                                 inputMode="numeric"
                                 className="form-control"
                                 placeholder="Credit"
+                                onChange={this.handleOnChange}
+                            />
+                        </MDBCol>
+                    </MDBRow>
+
+                    <MDBRow style={{ paddingTop: "20px" }}>
+                        <MDBCol sm="4" style={{ paddingTop: "10px" }}>Maximum Enrollment: </MDBCol>
+                        <MDBCol sm="8">
+                            <input
+                                value={this.state.maxEnrollment}
+                                name="maxEnrollment"
+                                type="number"
+                                pattern="[0-9]*"
+                                inputMode="numeric"
+                                className="form-control"
+                                placeholder="Maximum Enrollment"
                                 onChange={this.handleOnChange}
                             />
                         </MDBCol>
@@ -168,21 +184,6 @@ class MountModulePageFormCreate extends Component {
                         </MDBCol>
                     </MDBRow>
 
-                    <MDBRow style={{ paddingTop: "20px" }}>
-                        <MDBCol sm="4" style={{ paddingTop: "10px" }}>Maximum Capacity: </MDBCol>
-                        <MDBCol sm="8">
-                            <input
-                                value={this.state.maxCapacity}
-                                name="maxCapacity"
-                                type="number"
-                                pattern="[0-9]*"
-                                inputMode="numeric"
-                                className="form-control"
-                                placeholder="Maximum Capacity"
-                                onChange={this.handleOnChange}
-                            />
-                        </MDBCol>
-                    </MDBRow>
 
                     <MDBRow style={{ paddingTop: "20px" }}>
                         <MDBCol sm="4" style={{ paddingTop: "10px" }}>Teacher: </MDBCol>
