@@ -28,14 +28,15 @@ class SubmitAppealPage extends Component {
       })
       .catch(error => {
         console.error("error in axios " + error);
-      });
-    axios.get(url + "availableModules")
+      });*/
+    axios.get("http://localhost:8080/LMS-war/webresources/studentEnrollment/retrieveAvailableModules")
       .then(result => {
-        this.setState({ availableModules: result.data })
+        console.log(result.data.modules)
+        this.setState({ availableModules: result.data.modules })
       })
       .catch(error => {
         console.error("error in axios " + error);
-      }); */
+      }); 
     axios.get("http://localhost:8080/LMS-war/webresources/studentEnrollment/retrieveStudentAppeals?userId=2")
       .then(result => {
         this.setState({ allAppeals: result.data.appeals })
@@ -45,33 +46,35 @@ class SubmitAppealPage extends Component {
       });
   }
 
-  // handleSelect = event => {
-  //   event.preventDefault();
-  //   this.setState({ value: event.target.value }, () => event);
-  // };
+  handleSelect = event => {
+    event.preventDefault();
+    this.setState({ value: event.target.value }, () => event);
+  };
 
-  // handleChangeCode = event => {
-  //   this.setState({ appealModule: event.target.value });
-  // };
+  handleChangeCode = event => {
+    console.log(event.target.value)
+   this.setState({ appealModule: event.target.value });
+  };
 
-  // handleChangeReason = event => {
-  //   this.setState({ appealReason: event.target.value });
-  // };
+  handleChangeReason = event => {
+    this.setState({ appealReason: event.target.value });
+  };
 
-  // handleSubmitAppealMod = event => {
-  //   event.preventDefault();
-  //   const { value, appealModule, appealReason, appealStatus } = this.state;
-  //   const date = new Date();
+  handleSubmitAppealMod = event => {
+    event.preventDefault();
+    console.log("submit")
+    const { value, appealModule, appealReason } = this.state;
+    const date = new Date();
 
-  //   axios.post(url + "allAppeals", { value, appealModule, appealReason, date, appealStatus })
-  //     .then(res => {
-  //       console.log(res.data);
-  //       alert("Successful");
-  //     })
-  //     .catch(error => {
-  //       console.error("error in axios " + error);
-  //     });
-  // };
+    axios.post("http://localhost:8080/LMS-war/webresources/studentEnrollment/createAppeal/", { reason: appealReason, userId: 2, type: value, moduleId: appealModule})
+      .then(res => {
+        console.log(res.data);
+        alert("Successful");
+      })
+      .catch(error => {
+        console.error("error in axios " + error);
+      }); 
+  };
 
   // handleSubmitChangeGroup = event => {
   //   event.preventDefault();
@@ -100,30 +103,30 @@ class SubmitAppealPage extends Component {
   //   }
   // };
 
-  // appealOpen = () => {
-  //   return (
-  //     <MDBContainer>
-  //       <SectionContainer>
-  //         <MDBRow>
-  //           <MDBCol sm="4">Select Cateogry: </MDBCol>
-  //           <MDBCol sm="8">
-  //             <select onChange={this.handleSelect} className="browser-default custom-select">
-  //               <option>Choose your option</option>
-  //               <option value="Unable to secure module">
-  //                 Unable to secure module
-  //                 </option>
-  //               <option value="Change lecture/ tutorial group">
-  //                 Change lecture/ tutorial group
-  //                 </option>
-  //             </select>
-  //           </MDBCol>
-  //           <MDBCol>{this.appealModForm()}</MDBCol>
-  //         </MDBRow>
-  //       </SectionContainer>
-  //       {this.showAllAppeals()}
-  //     </MDBContainer>
-  //   );
-  // };
+  appealOpen = () => {
+    return (
+      <MDBContainer>
+        <SectionContainer>
+          <MDBRow>
+            <MDBCol sm="4">Select Cateogry: </MDBCol>
+            <MDBCol sm="8">
+              <select onChange={this.handleSelect} className="browser-default custom-select">
+                <option>Choose your option</option>
+                <option value="Unable to secure module">
+                  Unable to secure module
+                  </option>
+                <option value="Change tutorial group">
+                  Change tutorial group
+                  </option>
+              </select>
+            </MDBCol>
+            <MDBCol>{this.appealModForm()}</MDBCol>
+          </MDBRow>
+        </SectionContainer>
+        {this.showAllAppeals()}
+      </MDBContainer>
+    );
+  };
 
   // appealClosed = () => {
   //   return (
@@ -134,68 +137,76 @@ class SubmitAppealPage extends Component {
   //   )
   // };
 
-  // appealModForm = () => {
-  //   if (this.state.value === "Unable to secure module") {
-  //     return (
-  //       <div>
-  //         <MDBRow style={{ paddingTop: "20px" }}>
-  //           <MDBCol sm="4">Module Code: </MDBCol>
-  //           <MDBCol sm="8">
-  //             <input
-  //               type="text"
-  //               className="form-control"
-  //               id="formGroupExampleInput"
-  //               onChange={this.handleChangeCode}
-  //             />
-  //           </MDBCol>
-  //         </MDBRow>
+  appealModForm = () => {
+    console.log(this.state.value)
+    if (this.state.value === "Unable to secure module") {
+      return (
+        <div>
+          <MDBRow style={{ paddingTop: "20px" }}>
+            <MDBCol sm="4">Module Code: </MDBCol>
+            <MDBCol sm="8">
+{/*               <input
+                type="text"
+                className="form-control"
+                id="formGroupExampleInput"
+                onChange={this.handleChangeCode}
+              /> */}
 
-  //         <MDBRow style={{ paddingTop: "20px" }}>
-  //           <MDBCol sm="4">Appeal Reason: </MDBCol>
-  //           <MDBCol>
-  //             <textarea
-  //               className="form-control"
-  //               rows="5"
-  //               onChange={this.handleChangeReason}
-  //             />
-  //           </MDBCol>
-  //         </MDBRow>
+<select value={this.state.appealModule} onChange={this.handleChangeCode}>
+                <option>Choose your option</option>
+                {this.state.availableModules && this.state.availableModules.map(
+                  (code) => <option key={code.moduleId} value={code.moduleId}>{code.code}</option>)
+                }
+              </select>
+            </MDBCol>
+          </MDBRow>
 
-  //         <MDBRow style={{ paddingTop: "20px" }}>
-  //           <MDBBtn color="primary" onClick={this.handleSubmitAppealMod}>
-  //             Submit
-  //           </MDBBtn>
-  //         </MDBRow>
-  //       </div>
-  //     );
-  //   }
-  //   else if (this.state.value === "Change lecture/ tutorial group<") {
-  //     return (
-  //       <div>
-  //         <MDBRow style={{ paddingTop: "20px" }}>
-  //           <MDBCol sm="4">Module Code: </MDBCol>
-  //           <MDBCol sm="8">
-  //             <select value={this.state.appealModule} onChange={this.handleChangeCode}>
-  //               <option>Choose your option</option>
-  //               {this.state.availableModules && this.state.availableModules.map(
-  //                 (code) => <option key={code.id} value={code.moduleCode}>{code.moduleCode}</option>)
-  //               }
-  //             </select>
-  //           </MDBCol>
-  //         </MDBRow>
-  //         {this.renderGroup()}
+          <MDBRow style={{ paddingTop: "20px" }}>
+            <MDBCol sm="4">Appeal Reason: </MDBCol>
+            <MDBCol>
+              <textarea
+                className="form-control"
+                rows="5"
+                onChange={this.handleChangeReason}
+              />
+            </MDBCol>
+          </MDBRow>
 
-  //         <MDBRow style={{ paddingTop: "20px" }}>
-  //           <MDBBtn color="primary" onClick={this.handleSubmitChangeGroup}>
-  //             Submit
-  //           </MDBBtn>
-  //         </MDBRow>
-  //       </div>
-  //     );
-  //   } else {
-  //     return null;
-  //   }
-  // };
+          <MDBRow style={{ paddingTop: "20px" }}>
+            <MDBBtn color="primary" onClick={this.handleSubmitAppealMod}>
+              Submit
+            </MDBBtn>
+          </MDBRow>
+        </div>
+      );
+    }
+     else if (this.state.value === "Change tutorial group") {
+      return (
+        <div>
+          <MDBRow style={{ paddingTop: "20px" }}>
+            <MDBCol sm="4">Module Code: </MDBCol>
+            <MDBCol sm="8">
+              <select value={this.state.appealModule} onChange={this.handleChangeCode}>
+                <option>Choose your option</option>
+                {this.state.availableModules && this.state.availableModules.map(
+                  (code) => <option key={code.moduleId} value={code.code}>{code.code}</option>)
+                }
+              </select>
+            </MDBCol>
+          </MDBRow>
+          {/* {this.renderGroup()} */}
+
+          {/* <MDBRow style={{ paddingTop: "20px" }}>
+            <MDBBtn color="primary" onClick={this.handleSubmitChangeGroup}>
+              Submit
+            </MDBBtn>
+          </MDBRow> */}
+        </div>
+      );
+    }  else {
+      return null;
+    }
+  };
 
   // currentGrp = event => {
   //   this.setState({ currentGroup: event.target.value });
@@ -313,7 +324,6 @@ class SubmitAppealPage extends Component {
   }
 
    showAllAppeals = () => {
-    console.log(this.state.allAppeals)
     if (this.state.allAppeals !== null) {
       return (
         <MDBTable responsive bordered>
@@ -349,7 +359,9 @@ class SubmitAppealPage extends Component {
   render() {
     return (
       <MDBContainer style={{ paddingTop: "40px" }}>
-        <MDBRow>{this.showAllAppeals()}</MDBRow>
+{/*                 <MDBRow>{this.checkSchedule()}</MDBRow>
+ */}
+        <MDBRow>{this.appealOpen()}</MDBRow>
       </MDBContainer>
     );
   }
