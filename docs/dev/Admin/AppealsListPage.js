@@ -4,17 +4,18 @@ import axios from "axios";
 import { MDBDataTable } from 'mdbreact';
 import { Button } from "@material-ui/core";
 
-const url = "http://localhost:8080/LMS-war/webresources/studentEnrollment/"
+const url = "http://localhost:8080/LMS-war/webresources/"
 
 class AppealsListPage extends Component {
     state = {
         activeItem: "1",
+        allAppeals: "",
         pendingAppeals: "",
         reviewedAppeals: "",
     };
 
     componentDidMount() {
-        axios.get(url + "retrievePendingAppeals?userId=1")
+        axios.get(url + "studentEnrollment/retrievePendingAppeals?userId=1")
             .then(result => {
                 this.setState({ pendingAppeals: result.data.appeals })
                 //console.log(this.state.pendingAppeals)
@@ -23,7 +24,7 @@ class AppealsListPage extends Component {
                 console.error("error in axios " + error);
             });
 
-        axios.get(url + "retrieveReviewedAppeals?userId=1")
+        axios.get(url + "studentEnrollment/retrieveReviewedAppeals?userId=1")
             .then(result => {
                 this.setState({ reviewedAppeals: result.data.appeals })
                 //console.log(this.state.reviewAppeals)
@@ -31,7 +32,6 @@ class AppealsListPage extends Component {
             .catch(error => {
                 console.error("error in axios " + error);
             });
-
     }
 
     toggle = tab => e => {
@@ -112,6 +112,7 @@ class AppealsListPage extends Component {
             rows: this.rowsDataReviewed()
         }
 
+        if (this.state.reviewedAppeals.length!==0){
         return (
             <MDBDataTable
                 style={{ textAlign: "center", verticalAlign: "center" }}
@@ -127,6 +128,9 @@ class AppealsListPage extends Component {
                 theadColor="rgba-blue-slight"
             />
         )
+        } else {
+            return null;
+        }
     }
 
 
@@ -136,7 +140,9 @@ class AppealsListPage extends Component {
             rows: this.rowsDataPending()
         }
 
+        if (this.state.pendingAppeals.length !==0) {
         return (
+            
             <MDBDataTable
                 style={{ textAlign: "center", verticalAlign: "center" }}
                 autoWidth={true}
@@ -151,6 +157,9 @@ class AppealsListPage extends Component {
                 theadColor="rgba-blue-slight"
             />
         )
+        } else {
+            return null
+        }
     }
 
     rowsDataPending = () => {
@@ -163,7 +172,7 @@ class AppealsListPage extends Component {
                 type: eachAppeal.type,
                 status: eachAppeal.status,
                 button: this.showButton(),
-                clickEvent: () => this.handleRowClick(index)
+                clickEvent: () => this.handleRowClick(eachAppeal.appealId)
             })
         )
         return pendingAppeals
@@ -196,8 +205,8 @@ class AppealsListPage extends Component {
     handleRowClick = index => {
         //create a new page. go to form edit page. 
         console.log(index)
-        //let path = `appealsList/view/` + index;
-        //this.props.history.push(path);
+        let path = `appealsList/view/` + index;
+        this.props.history.push(path);
     }
 
     render() {

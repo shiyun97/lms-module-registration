@@ -22,13 +22,6 @@ class SubmitAppealPage extends Component {
   };
 
   componentDidMount() {
-    /* axios.get(url + "schedule")
-      .then(result => {
-        this.setState({ schedule: result.data });
-      })
-      .catch(error => {
-        console.error("error in axios " + error);
-      });*/
     axios.get("http://localhost:8080/LMS-war/webresources/studentEnrollment/retrieveAvailableModules")
       .then(result => {
         console.log(result.data.modules)

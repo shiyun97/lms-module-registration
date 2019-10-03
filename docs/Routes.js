@@ -17,6 +17,7 @@ import AdminLoginPage from "./dev/Admin/AdminLoginPage";
 import MountModulePage from "./dev/Admin/MountModulePage";
 import MountModulePageForm from "./dev/Admin/MountModulePageForm";
 import MountModulePageFormCreate from "./dev/Admin/MountModulePageFormCreate";
+import MountModulePageTutorialCreate from "./dev/Admin/MountModulePageTutorialCreate";
 import ScheduleSettingsPage from "./dev/Admin/ScheduleSettingsPage";
 import AppealsListPage from "./dev/Admin/AppealsListPage";
 import AppealViewPage from "./dev/Admin/AppealViewPage";
@@ -138,6 +139,7 @@ class Routes extends React.Component {
         <Route exact path="/admin/mountModule" component={MountModulePage} />
         <Route exact path="/admin/mountModule/form/:index" component={MountModulePageForm} />
         <Route exact path="/admin/mountModule/form-create" component={MountModulePageFormCreate} />
+        <Route exact path="/admin/mountModule/form/:index/create" component={MountModulePageTutorialCreate}/>
         <Route exact path='/admin/appealsList' component={AppealsListPage} />
         <Route exact path="/admin/appealsList/view/:index" component={AppealViewPage} />
 

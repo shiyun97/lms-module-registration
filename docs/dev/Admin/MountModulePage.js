@@ -1,11 +1,15 @@
 import React, { Component } from "react";
-import { MDBContainer, MDBNavLink, MDBBtn } from 'mdbreact';
+import { MDBContainer, MDBBtn } from 'mdbreact';
 import axios from "axios";
 import { MDBDataTable } from 'mdbreact';
 import { Button } from "@material-ui/core";
+import { observer, inject } from 'mobx-react'
+
 
 const url = "http://localhost:8080/LMS-war/webresources/";
 
+@inject('dataStore')
+@observer
 class MountModulePage extends Component {
     state = {
         allModules: "",
@@ -17,6 +21,7 @@ class MountModulePage extends Component {
                 this.setState({ allModules: result.data.module })
             })
             .catch(error => {
+                alert("Error")
                 console.error("error in axios " + error);
             });
     }
@@ -111,10 +116,10 @@ class MountModulePage extends Component {
     }
 
     handleRowClick = index => {
-        //create a new page. go to form edit page. 
+        this.props.dataStore.setMountSingleModuleIndex(index)
         console.log("table is: " + index)
-        let path = `mountModule/form/` + index;
-        this.props.history.push(path);
+        let path = "mountModule/form/" + index;
+        this.state.path.push(path)
     }
 
     showButton = () => {
@@ -126,8 +131,12 @@ class MountModulePage extends Component {
     }
 
     handleMountModule = event => {
+        let path = `form-create/`;
+        this.props.history.push(path);
+    }
 
-        let path = `mountModule/form-create/`;
+    handleMountTutorial = event => {
+        let path = `mountModule/tutorial-create/`;
         this.props.history.push(path);
     }
 

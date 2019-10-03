@@ -11,6 +11,7 @@ class DataStore {
   @observable lastName = ""
   @observable username = ""
   @observable userId = ""
+  @observable mountSingleModuleIndex = ""
 
   @action setSignInStatus(status, email, password, accessRight) {
     this.signInStatus = status;
@@ -63,6 +64,15 @@ class DataStore {
 
   @computed get getUserId() {
     return this.userId;
+  }
+
+  @action setMountSingleModuleIndex(index) {
+    this.mountSingleModuleIndex = index;
+  }
+
+  @computed get getMountSingleModuleIndex() {
+    console.log("get"+ this.mountSingleModuleIndex)
+    return this.mountSingleModuleIndex;
   }
 }
 

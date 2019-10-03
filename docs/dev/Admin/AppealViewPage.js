@@ -2,36 +2,47 @@ import React, { Component } from "react";
 import axios from "axios";
 import { MDBContainer, MDBCol, MDBRow, MDBBtn, MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter } from "mdbreact";
 import SectionContainer from "../../components/sectionContainer";
-import { Button } from "@material-ui/core";
 
-
-let url = "http://localhost:3001/";
+//let url = "http://localhost:3001/";
+const url = "http://localhost:8080/LMS-war/webresources/"
 
 class AppealViewPage extends Component {
 
     state = {
         appealDetails: "",
         rejectModal: false,
+        index: 0,
+        pendingAppeals: "",
+        reviewAppeals: "",
+        allAppeals: "",
     }
+// need retrieve appeal by id
 
     componentDidMount() {
-        var loc = this.props.history.location.pathname
-        var index = loc.lastIndexOf('/');
-        if (index !== -1) {
-            var newStr = loc.substring(index + 1);
-        }
-        this.setState({ index: newStr })
+        var pathname = window.location.pathname, part = pathname.substr(pathname.lastIndexOf('/') + 1);
+        this.setState({ index: part })
 
-        axios.get(url + "allAppeals")
+        axios.get(url + "studentEnrollment/retrievePendingAppeals?userId=1")
             .then(result => {
-                this.setState({ appealDetails: result.data[newStr] })
+                this.setState({ pendingAppeals: result.data.appeals })
+                //console.log(this.state.pendingAppeals)
             })
             .catch(error => {
                 console.error("error in axios " + error);
             });
-    }
 
-    displayAppealDetails = () => {
+        axios.get(url + "studentEnrollment/retrieveReviewedAppeals?userId=1")
+            .then(result => {
+                this.setState({ reviewedAppeals: result.data.appeals, allAppeals: allAppeals.push(pendingAppeals) })
+                //console.log(this.state.reviewAppeals)
+            })
+            .catch(error => {
+                console.error("error in axios " + error);
+            });
+        
+    } 
+
+/*     displayAppealDetails = () => {
         return (
             <MDBContainer>
                 <SectionContainer>
@@ -141,13 +152,14 @@ class AppealViewPage extends Component {
 
     submitRejectReason = event => {
         console.log("submit reject reason")
-    }
+    } */
 
     render() {
+        
         return (
             <MDBContainer style={{ paddingTop: "80px" }}>
                 <h3>Appeal Details</h3>
-                <MDBRow>{this.displayAppealDetails()}</MDBRow>
+                {/* <MDBRow>{this.displayAppealDetails()}</MDBRow> */}
             </MDBContainer>
         )
     }

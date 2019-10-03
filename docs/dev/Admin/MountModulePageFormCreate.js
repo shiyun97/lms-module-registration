@@ -4,12 +4,12 @@ import SectionContainer from "../../components/sectionContainer";
 import axios from "axios";
 import { Button, TextField } from "@material-ui/core";
 
-
-var url = "http://localhost:3001/";
+const url = "http://localhost:8080/LMS-war/webresources/";
 
 class MountModulePageFormCreate extends Component {
 
     state = {
+        userList: "",
         moduleCode: "",
         moduleTitle: "",
         semester: "",
@@ -24,8 +24,21 @@ class MountModulePageFormCreate extends Component {
         maxEnrollment: "",
         professor: "",
         lectureDay: "",
-        lectureTime: "['10:00', '11:00']",
+        lectureTime: "",
         tutorial: ""
+    }
+
+    // get the list of all users and filter out teacher
+    componentDidMount() {
+        axios.get(url +"User/getAllUser")
+        .then(result => {
+            this.setState({ userList: result.data.userList })
+
+            console.log(this.state.userList)
+        })
+        .catch(error => {
+            console.error("error in axios " + error);
+        });
     }
 
     handleOnChange = event => {
@@ -75,7 +88,7 @@ class MountModulePageFormCreate extends Component {
                         <MDBCol sm="8">
                             <input
                                 value={this.state.moduleTitle}
-                                name="moduleName"
+                                name="moduleTitle"
                                 type="text"
                                 className="form-control"
                                 placeholder="Module Title"
@@ -186,7 +199,7 @@ class MountModulePageFormCreate extends Component {
 
 
                     <MDBRow style={{ paddingTop: "20px" }}>
-                        <MDBCol sm="4" style={{ paddingTop: "10px" }}>Assigned TeacjerTeacher: </MDBCol>
+                        <MDBCol sm="4" style={{ paddingTop: "10px" }}>Assigned Teacher: </MDBCol>
                         <MDBCol sm="8">
                             <input
                                 value={this.state.professor}
@@ -202,7 +215,7 @@ class MountModulePageFormCreate extends Component {
                     <MDBRow style={{ paddingTop: "20px" }}>
                         <MDBCol sm="4" style={{ paddingTop: "10px" }}>Lecture: </MDBCol>
                         <MDBCol sm="8">
-                            <MDBRow sm="6">
+                            <MDBRow sm="4">
                                 <select className="browser-default custom-select" onChange={this.handleSelect}>
                                     <option>Choose your option</option>
                                     <option value="Monday">Monday</option>
@@ -212,32 +225,19 @@ class MountModulePageFormCreate extends Component {
                                     <option value="Friday">Friday</option>
                                 </select>
                             </MDBRow>
-                            <MDBRow sm="6">
-                                <select className="browser-default custom-select">
-                                    <option>Choose your option</option>
-                                    <option value="1">Time</option>
-                                    <option value="1">Time</option>
-                                    <option value="1">Time</option>
-                                </select>
+                            <MDBRow sm="4">
+                            <input
+                                value={this.state.lectureTime}
+                                name="lectureTime"
+                                type="text"
+                                className="form-control"
+                                placeholder="Lecture Time"
+                                onChange={this.handleOnChange}
+                            />
 
                             </MDBRow>
                         </MDBCol>
                     </MDBRow>
-
-                    <MDBRow style={{ paddingTop: "20px" }}>
-                        <MDBCol sm="4" style={{ paddingTop: "10px" }}>Tutorial: </MDBCol>
-                        <MDBCol sm="8">
-                            <input
-                                value={this.state.tutorial}
-                                name="tutorial"
-                                type="text"
-                                className="form-control"
-                                placeholder="Tutorial"
-                                onChange={this.handleOnChange}
-                            />
-                        </MDBCol>
-                    </MDBRow>
-
 
                     <MDBRow style={{ paddingTop: "20px" }}>
                         <MDBCol sm="4" style={{ paddingTop: "10px" }}>
@@ -319,10 +319,9 @@ class MountModulePageFormCreate extends Component {
     }
 
     create = event => {
-        const { moduleCode, moduleName, semester, year, credit, exam, faculty, department, maxCapacity, professor, lecture, tutorial } = this.state;
-
-        //FIXME: check id created using json server
-        axios.post(url + "modules", { moduleCode, moduleName, semester, year, credit, exam, faculty, department, maxCapacity, professor, lecture, tutorial })
+        const { moduleCode, moduleTitle, semester, year, credit, maxEnrollment, exam, faculty, department } = this.state
+        //FIXME: lecture and teach id
+        axios.put("http://localhost:8080/LMS-war/webresources/ModuleMounting/mountModule?userId=2", { code: moduleCode, title: moduleTitle, semesterOffered: semester, yearOffered: year, credit, maxEnrollment: maxEnrollment, hasExam: exam, lectureDetails: "Monday 12:00 - 14:00" , faculty: faculty, department: department })
             .then(result => {
                 console.log(result.data);
                 alert("Successful mounted");

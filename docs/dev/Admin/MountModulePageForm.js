@@ -1,11 +1,14 @@
 import React, { Component } from "react";
 import axios from "axios";
 import SectionContainer from "../../components/sectionContainer";
-import { MDBContainer, MDBCol, MDBRow, MDBInput, MDBFormInline } from "mdbreact";
+import { MDBContainer, MDBCol, MDBRow, MDBInput, MDBFormInline, MDBBtn } from "mdbreact";
 import { Button, FormControlLabel, RadioGroup, Radio } from "@material-ui/core";
+import { observer, inject } from 'mobx-react'
 
 const url = "http://localhost:8080/LMS-war/webresources/";
 
+@inject('dataStore')
+@observer
 class MountModulePageForm extends Component {
 
     state = {
@@ -17,9 +20,7 @@ class MountModulePageForm extends Component {
 
     componentDidMount() {
         var pathname = window.location.pathname, part = pathname.substr(pathname.lastIndexOf('/') + 1);
-
         this.setState({ index: part })
-        console.log("part is: " + part)
 
         axios.get(url + "ModuleMounting/getModule/" + part)
             .then(result => {
@@ -31,77 +32,77 @@ class MountModulePageForm extends Component {
             });
     }
 
-    //TODO: improve on logic
-    // handleOnChange = event => {
-    //     var changedValue = event.target.value
-    //     console.log(changedValue)
+    handleOnChange = event => {
+        this.setState({[event.target.name]: event.target.value})
+       /*  var changedValue = event.target.value
+        console.log(changedValue)
 
-    //     if (event.target.name === "code") {
-    //         this.setState(prevState => ({
-    //             moduleDetails: {
-    //                 ...prevState.moduleDetails,
-    //                 code: changedValue
-    //             }
-    //         }))
-    //     } else if (event.target.name === "title") {
-    //         this.setState(prevState => ({
-    //             moduleDetails: {
-    //                 ...prevState.moduleDetails,
-    //                 title: changedValue
-    //             }
-    //         }))
-    //     } else if (event.target.name === "semesterOffered") {
-    //         this.setState(prevState => ({
-    //             moduleDetails: {
-    //                 ...prevState.moduleDetails,
-    //                 semesterOffered: changedValue
-    //             }
-    //         }))
-    //     } else if (event.target.name === "yearOffered") {
-    //         this.setState(prevState => ({
-    //             moduleDetails: {
-    //                 ...prevState.moduleDetails,
-    //                 yearOffered: changedValue
-    //             }
-    //         }))
-    //     }  else if (event.target.name === "creditUnit") {
-    //         this.setState(prevState => ({
-    //             moduleDetails: {
-    //                 ...prevState.moduleDetails,
-    //                 creditUnit: changedValue
-    //             }
-    //         }))
-    //     }
-    // else if (event.target.name === "faculty") {
-    //         this.setState(prevState => ({
-    //             moduleDetails: {
-    //                 ...prevState.moduleDetails,
-    //                 faculty: changedValue
-    //             }
-    //         }))
-    //     } else if (event.target.name === "department") {
-    //         this.setState(prevState => ({
-    //             moduleDetails: {
-    //                 ...prevState.moduleDetails,
-    //                 department: changedValue
-    //             }
-    //         }))
-    //     } else if (event.target.name === "maxEnrollment") {
-    //         this.setState(prevState => ({
-    //             moduleDetails: {
-    //                 ...prevState.moduleDetails,
-    //                 maxEnrollment: changedValue
-    //             }
-    //         }))
-    //     } else {
-    //         this.setState(prevState => ({
-    //             moduleDetails: {
-    //                 ...prevState.moduleDetails,
-    //                 assignedTeacher: changedValue
-    //             }
-    //         }))
-    //     }
-    // }
+        if (event.target.name === "code") {
+            this.setState(prevState => ({
+                moduleDetails: {
+                    ...prevState.moduleDetails,
+                    code: changedValue
+                }
+            }))
+        } else if (event.target.name === "title") {
+            this.setState(prevState => ({
+                moduleDetails: {
+                    ...prevState.moduleDetails,
+                    title: changedValue
+                }
+            }))
+        } else if (event.target.name === "semesterOffered") {
+            this.setState(prevState => ({
+                moduleDetails: {
+                    ...prevState.moduleDetails,
+                    semesterOffered: changedValue
+                }
+            }))
+        } else if (event.target.name === "yearOffered") {
+            this.setState(prevState => ({
+                moduleDetails: {
+                    ...prevState.moduleDetails,
+                    yearOffered: changedValue
+                }
+            }))
+        }  else if (event.target.name === "creditUnit") {
+            this.setState(prevState => ({
+                moduleDetails: {
+                    ...prevState.moduleDetails,
+                    creditUnit: changedValue
+                }
+            }))
+        }
+    else if (event.target.name === "faculty") {
+            this.setState(prevState => ({
+                moduleDetails: {
+                    ...prevState.moduleDetails,
+                    faculty: changedValue
+                }
+            }))
+        } else if (event.target.name === "department") {
+            this.setState(prevState => ({
+                moduleDetails: {
+                    ...prevState.moduleDetails,
+                    department: changedValue
+                }
+            }))
+        } else if (event.target.name === "maxEnrollment") {
+            this.setState(prevState => ({
+                moduleDetails: {
+                    ...prevState.moduleDetails,
+                    maxEnrollment: changedValue
+                }
+            }))
+        } else {
+            this.setState(prevState => ({
+                moduleDetails: {
+                    ...prevState.moduleDetails,
+                    assignedTeacher: changedValue
+                }
+            }))
+        } */
+    }
 
     /*     handleSelect = event => {
             console.log("handle select")
@@ -222,7 +223,7 @@ class MountModulePageForm extends Component {
                     <MDBRow style={{ paddingTop: "20px" }}>
                         <MDBCol sm="4" style={{ paddingTop: "10px" }}>Exam: </MDBCol>
                         <MDBCol sm="8">
-                            <RadioGroup aria-label="position" name="position"  onChange={this.handleSelect} row defaultValue={this.state.moduleDetails.hasExam ? "No" : "Yes"}>
+                            <RadioGroup aria-label="position" name="position" onChange={this.handleSelect} row defaultValue={this.state.moduleDetails.hasExam ? "No" : "Yes"}>
 
                                 <FormControlLabel
                                     value="Yes"
@@ -337,21 +338,6 @@ class MountModulePageForm extends Component {
                     </MDBRow>
 
                     <MDBRow style={{ paddingTop: "20px" }}>
-                        <MDBCol sm="4" style={{ paddingTop: "10px" }}>Tutorials: </MDBCol>
-                        <MDBCol sm="8">
-                            <input
-                                defaultValue={this.state.moduleDetails.tutorials}
-                                name="tutorials"
-                                type="text"
-                                className="form-control"
-                                placeholder="Tutorials"
-                                disabled={this.state.disabled}
-                                onChange={this.handleOnChange}
-                            />
-                        </MDBCol>
-                    </MDBRow>
-
-                    <MDBRow style={{ paddingTop: "20px" }}>
                         <MDBCol>
                             <Button onClick={this.delete} color="secondary" variant="contained">Delete</Button>
                         </MDBCol>
@@ -370,12 +356,11 @@ class MountModulePageForm extends Component {
 
     editSave = event => {
         this.setState({ disabled: false, editSave: "Save" })
-        /* if (this.state.editSave === "Save") {
+        const {index} = this.state
+        if (this.state.editSave === "Save") {
             this.setState({ disabled: true })
-            var putIndex = parseInt(this.state.index) + 1
-            console.log(putIndex)
- 
-            axios.put(url + "modules/" + putIndex, this.state.moduleDetails)
+            //FIXME: Post to update
+            axios.post(`http://localhost:8080/LMS-war/webresources/ModuleMounting/updateModule?moduleId=${index}&userId=2`, {})
                 .then(result => {
                     console.log(result.data)
                     alert("Updated")
@@ -384,18 +369,17 @@ class MountModulePageForm extends Component {
                 .catch(error => {
                     console.error("error in axios " + error);
                 });
-        } */
+        }
     }
 
-    /* cancel = event => {
+    cancel = event => {
         this.props.history.go(-1)
     }
- 
+
     delete = event => {
-        console.log("delete mod")
-        var deleteIndex = parseInt(this.state.index) + 1
-        console.log(deleteIndex)
-        axios.put(url + "modules/" + deleteIndex)
+        console.log(this.state.index)
+        var index = this.state.index
+        axios.delete(url + `ModuleMounting/deleteModule?moduleId=${index}`)
             .then(result => {
                 console.log(result.data)
                 alert("deleted")
@@ -403,14 +387,24 @@ class MountModulePageForm extends Component {
             .catch(error => {
                 console.error("error in axios " + error);
             });
-    }  */
+    }
+
+    mountModuleTutorialCreate = event => {
+        var modId = this.props.dataStore.getMountSingleModuleIndex
+        console.log("go to tutorial")
+        let path = modId + `/create`;
+        this.props.history.push(path);
+    }
 
     render() {
         return (
             <MDBContainer style={{ paddingTop: "80px" }}>
                 <h3>Module Details</h3>
+                {/*                 <MDBBtn color="primary" href={`/admin/mountModule/form/${this.props.dataStore.getMountSingleModuleIndex}/create`}>Mount Tutorial</MDBBtn>
+ */}
+                <MDBBtn color="primary" onClick={this.mountModuleTutorialCreate}>Mount Tutorial</MDBBtn>
                 <MDBRow>{this.displayModuleDetails()}</MDBRow>
-            </MDBContainer>
+            </MDBContainer >
         )
     }
 }
