@@ -140,12 +140,6 @@ class SubmitAppealPage extends Component {
           <MDBRow style={{ paddingTop: "20px" }}>
             <MDBCol sm="4">Module Code: </MDBCol>
             <MDBCol sm="8">
-              {/*               <input
-                type="text"
-                className="form-control"
-                id="formGroupExampleInput"
-                onChange={this.handleChangeCode}
-              /> */}
 
               <select value={this.state.appealModule} onChange={this.handleChangeCode}>
                 <option>Choose your option</option>

@@ -22,7 +22,7 @@ class MountModulePageFormCreate extends Component {
         faculty: "",
         department: "",
         maxEnrollment: "",
-        professor: "",
+        assignedTeacher: "",
         lectureDay: "",
         lectureTime: "",
         tutorial: ""
@@ -30,19 +30,21 @@ class MountModulePageFormCreate extends Component {
 
     // get the list of all users and filter out teacher
     componentDidMount() {
-        axios.get(url +"User/getAllUser")
-        .then(result => {
-            this.setState({ userList: result.data.userList })
-
-            console.log(this.state.userList)
-        })
-        .catch(error => {
-            console.error("error in axios " + error);
-        });
+        axios.get(url + "User/getAllUser")
+            .then(result => {
+                this.setState({ userList: result.data.userList })
+            })
+            .catch(error => {
+                console.error("error in axios " + error);
+            });
     }
 
     handleOnChange = event => {
         this.setState({ [event.target.name]: event.target.value })
+    }
+
+    handleChangeTeacher = event => {
+        this.setState({assignedTeacher: event.target.value})
     }
 
     handleSelect = event => {
@@ -63,9 +65,18 @@ class MountModulePageFormCreate extends Component {
     };
 
     displayMountModuleForm = () => {
-
+        var teachers = []
+        var userList = this.state.userList
+        var userListLength = userList.length
+        for (var i = 0; i < userListLength; i++) {
+            if (userList[i].accessRight === "Teacher") { //take note of the id
+                teachers.push({
+                    userId: userList[i].userId,
+                    name: userList[i].firstName + " " + userList[i].lastName
+                })
+            }
+        }
         return (
-
             <MDBContainer>
                 <SectionContainer>
 
@@ -201,44 +212,22 @@ class MountModulePageFormCreate extends Component {
                     <MDBRow style={{ paddingTop: "20px" }}>
                         <MDBCol sm="4" style={{ paddingTop: "10px" }}>Assigned Teacher: </MDBCol>
                         <MDBCol sm="8">
-                            <input
-                                value={this.state.professor}
-                                name="professor"
-                                type="text"
-                                className="form-control"
-                                placeholder="Assigned Teacher"
-                                onChange={this.handleOnChange}
-                            />
+                            <select value={this.state.assignedTeacher} onChange={this.handleChangeTeacher} className="browser-default custom-select">
+                                <option>Choose your option</option>
+                                {teachers && teachers.map(
+                                    (teachers) => <option key={teachers.userId} value={teachers.userId}>{teachers.name}</option>)
+                                }
+                            </select>
                         </MDBCol>
                     </MDBRow>
 
                     <MDBRow style={{ paddingTop: "20px" }}>
                         <MDBCol sm="4" style={{ paddingTop: "10px" }}>Lecture: </MDBCol>
                         <MDBCol sm="8">
-                            <MDBRow sm="4">
-                                <select className="browser-default custom-select" onChange={this.handleSelect}>
-                                    <option>Choose your option</option>
-                                    <option value="Monday">Monday</option>
-                                    <option value="Tuesday">Tuesday</option>
-                                    <option value="Wednesday">Wednesday</option>
-                                    <option value="Thursday">Thursday</option>
-                                    <option value="Friday">Friday</option>
-                                </select>
-                            </MDBRow>
-                            <MDBRow sm="4">
-                            <input
-                                value={this.state.lectureTime}
-                                name="lectureTime"
-                                type="text"
-                                className="form-control"
-                                placeholder="Lecture Time"
-                                onChange={this.handleOnChange}
-                            />
+                            {this.renderLecture()}
 
-                            </MDBRow>
                         </MDBCol>
                     </MDBRow>
-
                     <MDBRow style={{ paddingTop: "20px" }}>
                         <MDBCol sm="4" style={{ paddingTop: "10px" }}>
                             <Button onClick={this.cancel}>Cancel</Button>
@@ -260,6 +249,37 @@ class MountModulePageFormCreate extends Component {
                 </SectionContainer>
             </MDBContainer>
 
+        )
+    }
+
+    renderLecture = () => {
+        return (
+            <div>
+                <MDBRow>
+                    <MDBCol sm="12">
+                        <select className="browser-default custom-select" onChange={this.handleSelect}>
+                            <option>Choose your option</option>
+                            <option value="Monday">Monday</option>
+                            <option value="Tuesday">Tuesday</option>
+                            <option value="Wednesday">Wednesday</option>
+                            <option value="Thursday">Thursday</option>
+                            <option value="Friday">Friday</option>
+                        </select>
+                    </MDBCol>
+                </MDBRow>
+                <MDBRow style={{ paddingTop: "20px" }}>
+                    <MDBCol sm="12">
+                        <input
+                            value={this.state.lectureTime}
+                            name="lectureTime"
+                            type="text"
+                            className="form-control"
+                            placeholder="Lecture Time"
+                            onChange={this.handleOnChange}
+                        />
+                    </MDBCol>
+                </MDBRow>
+            </div>
         )
     }
 
@@ -309,7 +329,6 @@ class MountModulePageFormCreate extends Component {
                 </div>
             )
         } else {
-            console.log("no exam")
             return null
         }
     }
@@ -319,9 +338,9 @@ class MountModulePageFormCreate extends Component {
     }
 
     create = event => {
-        const { moduleCode, moduleTitle, semester, year, credit, maxEnrollment, exam, faculty, department } = this.state
-        //FIXME: lecture and teach id
-        axios.put("http://localhost:8080/LMS-war/webresources/ModuleMounting/mountModule?userId=2", { code: moduleCode, title: moduleTitle, semesterOffered: semester, yearOffered: year, credit, maxEnrollment: maxEnrollment, hasExam: exam, lectureDetails: "Monday 12:00 - 14:00" , faculty: faculty, department: department })
+        const { moduleCode, moduleTitle, semester, year, credit, maxEnrollment, exam, faculty, department, assignedTeacher } = this.state
+        var lectureDetails = this.state.lectureDay + this.state.lectureTime
+        axios.put(`http://localhost:8080/LMS-war/webresources/ModuleMounting/mountModule?userId=${assignedTeacher}`, { code: moduleCode, title: moduleTitle, semesterOffered: semester, yearOffered: year, credit, maxEnrollment: maxEnrollment, hasExam: exam, lectureDetails: lectureDetails, faculty: faculty, department: department })
             .then(result => {
                 console.log(result.data);
                 alert("Successful mounted");
@@ -333,6 +352,8 @@ class MountModulePageFormCreate extends Component {
     }
 
     render() {
+
+
         return (
             <MDBContainer style={{ paddingTop: "80px" }}>
                 <h3>Mount Module</h3>

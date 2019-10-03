@@ -119,7 +119,7 @@ class MountModulePage extends Component {
         this.props.dataStore.setMountSingleModuleIndex(index)
         console.log("table is: " + index)
         let path = "mountModule/form/" + index;
-        this.state.path.push(path)
+        this.props.history.push(path)
     }
 
     showButton = () => {
@@ -131,7 +131,7 @@ class MountModulePage extends Component {
     }
 
     handleMountModule = event => {
-        let path = `form-create/`;
+        let path = `mountModule/form-create/`;
         this.props.history.push(path);
     }
 
