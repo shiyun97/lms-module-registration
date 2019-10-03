@@ -88,7 +88,7 @@ class MountModulePageFormCreate extends Component {
                         <MDBCol sm="4" style={{ paddingTop: "10px" }}>Semester Offered: </MDBCol>
                         <MDBCol sm="8">
                             <select onChange={this.handleSelect} className="browser-default custom-select">
-                                <option>Select Semester</option>
+                                <option disabled>Select Semester</option>
                                 <option value="1">
                                     1
                                 </option>
@@ -123,7 +123,7 @@ class MountModulePageFormCreate extends Component {
                                 pattern="[0-9]*"
                                 inputMode="numeric"
                                 className="form-control"
-                                placeholder="Credit"
+                                placeholder="Credit Unit"
                                 onChange={this.handleOnChange}
                             />
                         </MDBCol>
@@ -186,14 +186,14 @@ class MountModulePageFormCreate extends Component {
 
 
                     <MDBRow style={{ paddingTop: "20px" }}>
-                        <MDBCol sm="4" style={{ paddingTop: "10px" }}>Teacher: </MDBCol>
+                        <MDBCol sm="4" style={{ paddingTop: "10px" }}>Assigned TeacjerTeacher: </MDBCol>
                         <MDBCol sm="8">
                             <input
                                 value={this.state.professor}
                                 name="professor"
                                 type="text"
                                 className="form-control"
-                                placeholder="Professor"
+                                placeholder="Assigned Teacher"
                                 onChange={this.handleOnChange}
                             />
                         </MDBCol>

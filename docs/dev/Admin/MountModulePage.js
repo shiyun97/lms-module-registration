@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { MDBContainer, MDBRow, MDBBtn } from 'mdbreact';
+import { MDBContainer, MDBNavLink, MDBBtn } from 'mdbreact';
 import axios from "axios";
 import { MDBDataTable } from 'mdbreact';
 import { Button } from "@material-ui/core";
@@ -104,7 +104,7 @@ class MountModulePage extends Component {
                 department: eachModule.department,
                 assignedTeacher: eachModule.assignedTeacher.firstName + " " + eachModule.assignedTeacher.lastName,
                 button: this.showButton(),
-                clickEvent: () => this.handleRowClick(index)
+                clickEvent: () => this.handleRowClick(eachModule.moduleId)
             })
         )
         return modules
@@ -112,7 +112,7 @@ class MountModulePage extends Component {
 
     handleRowClick = index => {
         //create a new page. go to form edit page. 
-        console.log(index)
+        console.log("table is: " + index)
         let path = `mountModule/form/` + index;
         this.props.history.push(path);
     }
@@ -126,7 +126,8 @@ class MountModulePage extends Component {
     }
 
     handleMountModule = event => {
-        let path = `form-create/`;
+
+        let path = `mountModule/form-create/`;
         this.props.history.push(path);
     }
 

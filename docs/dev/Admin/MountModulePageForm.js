@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import axios from "axios";
 import SectionContainer from "../../components/sectionContainer";
-import { MDBContainer, MDBCol, MDBRow } from "mdbreact";
-import { Button } from "@material-ui/core";
+import { MDBContainer, MDBCol, MDBRow, MDBInput, MDBFormInline } from "mdbreact";
+import { Button, FormControlLabel, RadioGroup, Radio } from "@material-ui/core";
 
 const url = "http://localhost:8080/LMS-war/webresources/";
 
@@ -16,16 +16,14 @@ class MountModulePageForm extends Component {
     }
 
     componentDidMount() {
-        var loc = this.props.history.location.pathname
-        var index = loc.lastIndexOf('/');
-        if (index !== -1) {
-            var newStr = loc.substring(index + 1);
-        }
-        this.setState({ index: newStr })
+        var pathname = window.location.pathname, part = pathname.substr(pathname.lastIndexOf('/') + 1);
 
-        axios.get(url + "ModuleMounting/getAllModule")
+        this.setState({ index: part })
+        console.log("part is: " + part)
+
+        axios.get(url + "ModuleMounting/getModule/" + part)
             .then(result => {
-                this.setState({ moduleDetails: result.data.module[newStr] })
+                this.setState({ moduleDetails: result.data })
                 console.log(this.state.moduleDetails)
             })
             .catch(error => {
@@ -105,6 +103,14 @@ class MountModulePageForm extends Component {
     //     }
     // }
 
+    /*     handleSelect = event => {
+            console.log("handle select")
+        } */
+
+    examClick = (nr) => () => {
+        this.setState({ exam: nr })
+    }
+
     displayModuleDetails = () => {
         return (
             <MDBContainer>
@@ -143,7 +149,7 @@ class MountModulePageForm extends Component {
                     <MDBRow style={{ paddingTop: "20px" }}>
                         <MDBCol sm="4" style={{ paddingTop: "10px" }}>Semester Offered: </MDBCol>
                         <MDBCol sm="8">
-                            <input
+                            {/*                             <input
                                 defaultValue={this.state.moduleDetails.semesterOffered}
                                 name="semesterOffered"
                                 type="text"
@@ -151,7 +157,16 @@ class MountModulePageForm extends Component {
                                 placeholder="Semester Offered"
                                 disabled={this.state.disabled}
                                 onChange={this.handleOnChange}
-                            />
+                            /> */}
+                            <select disabled={this.state.disabled} onChange={this.handleSelect} className="browser-default custom-select" value={this.state.moduleDetails.semesterOffered}>
+                                <option disabled>Select Semester</option>
+                                <option value="1">
+                                    1
+                                </option>
+                                <option value="2">
+                                    2
+                                </option>
+                            </select>
                         </MDBCol>
                     </MDBRow>
 
@@ -176,7 +191,9 @@ class MountModulePageForm extends Component {
                             <input
                                 defaultValue={this.state.moduleDetails.creditUnit}
                                 name="creditUnit"
-                                type="text"
+                                type="number"
+                                pattern="[0-9]*"
+                                inputMode="numeric"
                                 className="form-control"
                                 placeholder="Credit Unit"
                                 disabled={this.state.disabled}
@@ -184,6 +201,49 @@ class MountModulePageForm extends Component {
                             />
                         </MDBCol>
                     </MDBRow>
+
+                    <MDBRow style={{ paddingTop: "20px" }}>
+                        <MDBCol sm="4" style={{ paddingTop: "10px" }}>Maximum Enrollment: </MDBCol>
+                        <MDBCol sm="8">
+                            <input
+                                defaultValue={this.state.moduleDetails.maxEnrollment}
+                                name="maxEnrollment"
+                                type="number"
+                                pattern="[0-9]*"
+                                inputMode="numeric"
+                                className="form-control"
+                                placeholder="Maximum Enrollment"
+                                disabled={this.state.disabled}
+                                onChange={this.handleOnChange}
+                            />
+                        </MDBCol>
+                    </MDBRow>
+
+                    <MDBRow style={{ paddingTop: "20px" }}>
+                        <MDBCol sm="4" style={{ paddingTop: "10px" }}>Exam: </MDBCol>
+                        <MDBCol sm="8">
+                            <RadioGroup aria-label="position" name="position"  onChange={this.handleSelect} row defaultValue={this.state.moduleDetails.hasExam ? "No" : "Yes"}>
+
+                                <FormControlLabel
+                                    value="Yes"
+                                    disabled={this.state.disabled}
+                                    control={<Radio color="primary" />}
+                                    label="Yes"
+                                    labelPlacement="end"
+                                />
+                                <FormControlLabel
+                                    value="No"
+                                    disabled={this.state.disabled}
+                                    control={<Radio color="primary" />}
+                                    label="No"
+                                    labelPlacement="end"
+                                />
+                            </RadioGroup>
+                            {/* this.inputExamDetails() */}
+                        </MDBCol>
+                    </MDBRow>
+
+
 
                     <MDBRow style={{ paddingTop: "20px" }}>
                         <MDBCol sm="4" style={{ paddingTop: "10px" }}>Faculty: </MDBCol>
@@ -216,25 +276,10 @@ class MountModulePageForm extends Component {
                     </MDBRow>
 
                     <MDBRow style={{ paddingTop: "20px" }}>
-                        <MDBCol sm="4" style={{ paddingTop: "10px" }}>Maximum Enrollment: </MDBCol>
-                        <MDBCol sm="8">
-                            <input
-                                defaultValue={this.state.moduleDetails.maxEnrollment}
-                                name="maxEnrollment"
-                                type="text"
-                                className="form-control"
-                                placeholder="Maximum Enrollment"
-                                disabled={this.state.disabled}
-                                onChange={this.handleOnChange}
-                            />
-                        </MDBCol>
-                    </MDBRow>
-
-                    <MDBRow style={{ paddingTop: "20px" }}>
                         <MDBCol sm="4" style={{ paddingTop: "10px" }}>Assigned Teacher: </MDBCol>
                         <MDBCol sm="8">
                             <input
-                                defaultValue={this.state.moduleDetails.assignedTeacher}
+                                defaultValue={(this.state.moduleDetails.assignedTeacher)}
                                 name="assignedTeacher"
                                 type="text"
                                 className="form-control"
@@ -245,22 +290,7 @@ class MountModulePageForm extends Component {
                         </MDBCol>
                     </MDBRow>
 
-                    <MDBRow style={{ paddingTop: "20px" }}>
-                        <MDBCol sm="4" style={{ paddingTop: "10px" }}>Exam: </MDBCol>
-                        <MDBCol sm="8">
-                            <input
-                                defaultValue={this.state.moduleDetails.hasExam}
-                                name="hasExam"
-                                type="text"
-                                className="form-control"
-                                placeholder="hasExam"
-                                disabled={this.state.disabled}
-                                onChange={this.handleOnChange}
-                            />
-                        </MDBCol>
-                    </MDBRow>
-
-                    <MDBRow style={{ paddingTop: "20px" }}>
+                    {/* <MDBRow style={{ paddingTop: "20px" }}>
                         <MDBCol sm="4" style={{ paddingTop: "10px" }}>Exam Time: </MDBCol>
                         <MDBCol sm="8">
                             <input
@@ -288,10 +318,11 @@ class MountModulePageForm extends Component {
                                 onChange={this.handleOnChange}
                             />
                         </MDBCol>
-                    </MDBRow>
+                    </MDBRow> */}
 
+                    {/*FIXME: change to select*/}
                     <MDBRow style={{ paddingTop: "20px" }}>
-                        <MDBCol sm="4" style={{ paddingTop: "10px" }}>Lecture Details: </MDBCol>
+                        <MDBCol sm="4" style={{ paddingTop: "10px" }}>Lecture: </MDBCol>
                         <MDBCol sm="8">
                             <input
                                 defaultValue={this.state.moduleDetails.lectureDetails}
@@ -339,11 +370,11 @@ class MountModulePageForm extends Component {
 
     editSave = event => {
         this.setState({ disabled: false, editSave: "Save" })
-        if (this.state.editSave === "Save") {
+        /* if (this.state.editSave === "Save") {
             this.setState({ disabled: true })
             var putIndex = parseInt(this.state.index) + 1
             console.log(putIndex)
-
+ 
             axios.put(url + "modules/" + putIndex, this.state.moduleDetails)
                 .then(result => {
                     console.log(result.data)
@@ -353,13 +384,13 @@ class MountModulePageForm extends Component {
                 .catch(error => {
                     console.error("error in axios " + error);
                 });
-        }
+        } */
     }
 
-    cancel = event => {
+    /* cancel = event => {
         this.props.history.go(-1)
     }
-
+ 
     delete = event => {
         console.log("delete mod")
         var deleteIndex = parseInt(this.state.index) + 1
@@ -372,7 +403,7 @@ class MountModulePageForm extends Component {
             .catch(error => {
                 console.error("error in axios " + error);
             });
-    }
+    }  */
 
     render() {
         return (
