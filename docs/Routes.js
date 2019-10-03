@@ -138,8 +138,8 @@ class Routes extends React.Component {
         <AdminPrivateRoute exact path="/admin/mountModule" component={MountModulePage} />
         <AdminPrivateRoute exact path="/admin/mountModule/form/:index" component={MountModulePageForm} />
         <AdminPrivateRoute exact path="/admin/mountModule/form-create" component={MountModulePageFormCreate} />
-        <AdminPrivateRoute exact path='/admin/appealsList' component={AppealsListPage} />
-        <AdminPrivateRoute exact path="/admin/appealsList/view/:index" component={AppealViewPage} />
+        <Route exact path='/admin/appealsList' component={AppealsListPage} />
+        <Route exact path="/admin/appealsList/view/:index" component={AppealViewPage} />
 
 
         {/* FREE Templates */}
