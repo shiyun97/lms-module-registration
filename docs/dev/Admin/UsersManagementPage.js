@@ -128,6 +128,7 @@ class UsersManagementPage extends Component {
     }
 
     updateUserState = (user) => {
+        console.log(user.accessRight)
         this.setState({
             userId: user.userId,
             firstName: user.firstName,
@@ -164,7 +165,15 @@ class UsersManagementPage extends Component {
     }
 
     deleteUser = (userId) => {
-
+        event.preventDefault();
+        axios
+            .delete(`http://localhost:8080/LMS-war/webresources/User/deleteUser?userId=${userId}`)
+            .then(result => {
+                console.log("User Deleted")
+            })
+            .catch(error => {
+                console.error("error in axios " + error);
+            });
     }
 
     generatePwd() {
@@ -196,7 +205,7 @@ class UsersManagementPage extends Component {
             [modalNumber]: !this.state[modalNumber]
         });
 
-        if (row !== null) {
+        if (row !== undefined) {
             this.updateUserState(row);
         }
     };
@@ -257,10 +266,10 @@ class UsersManagementPage extends Component {
                                     containerClassName="mb-3"
                                     prepend="Gender"
                                     inputs={
-                                        <select name="gender" defaultValue={this.state.gender === "Female" ? 1 : 2} onChange={this.handleChange} className="browser-default custom-select">
+                                        <select name="gender" value={this.state.gender} onChange={this.handleChange} className="browser-default custom-select">
                                             <option value="0">Choose...</option>
-                                            <option value="1">Female</option>
-                                            <option value="2">Male</option>
+                                            <option value="Female">Female</option>
+                                            <option value="Male">Male</option>
                                         </select>
                                     }
                                 />
@@ -271,11 +280,11 @@ class UsersManagementPage extends Component {
                                     containerClassName="mb-3"
                                     prepend="User Role"
                                     inputs={
-                                        <select name="accessRight" value={this.state.accessRight === "Teacher" ? 1 : (this.state.accessRight === "Student" ? 2 : 3)} onChange={this.handleChange} className="browser-default custom-select">
+                                        <select name="accessRight" value={this.state.accessRight} onChange={this.handleChange} className="browser-default custom-select">
                                             <option value="0">Choose...</option>
-                                            <option value="1">Teacher</option>
-                                            <option value="2">Student</option>
-                                            <option value="3">Admin</option>
+                                            <option value="Teacher">Teacher</option>
+                                            <option value="Student">Student</option>
+                                            <option value="Admin">Admin</option>
                                         </select>
                                     }
                                 />
@@ -355,8 +364,8 @@ class UsersManagementPage extends Component {
                                     inputs={
                                         <select name="gender" onChange={this.handleChange} className="browser-default custom-select">
                                             <option value="0">Choose...</option>
-                                            <option value="1">Female</option>
-                                            <option value="2">Male</option>
+                                            <option value="Female">Female</option>
+                                            <option value="Male">Male</option>
                                         </select>
                                     }
                                 />
@@ -369,9 +378,9 @@ class UsersManagementPage extends Component {
                                     inputs={
                                         <select name="accessRight" onChange={this.handleChange} className="browser-default custom-select">
                                             <option value="0">Choose...</option>
-                                            <option value="1">Teacher</option>
-                                            <option value="2">Student</option>
-                                            <option value="3">Admin</option>
+                                            <option value="Teacher">Teacher</option>
+                                            <option value="Student">Student</option>
+                                            <option value="Admin">Admin</option>
                                         </select>
                                     }
                                 />
