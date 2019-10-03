@@ -285,6 +285,7 @@ class UsersManagementPage extends Component {
                                             <option value="Teacher">Teacher</option>
                                             <option value="Student">Student</option>
                                             <option value="Admin">Admin</option>
+                                            <option value="Public">Public</option>
                                         </select>
                                     }
                                 />
@@ -381,6 +382,7 @@ class UsersManagementPage extends Component {
                                             <option value="Teacher">Teacher</option>
                                             <option value="Student">Student</option>
                                             <option value="Admin">Admin</option>
+                                            <option value="Public">Public</option>
                                         </select>
                                     }
                                 />
