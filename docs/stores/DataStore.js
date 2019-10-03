@@ -12,6 +12,8 @@ class DataStore {
   @observable username = ""
   @observable userId = ""
   @observable mountSingleModuleIndex = ""
+  @observable allAppeals = ""
+
 
   @action setSignInStatus(status, email, password, accessRight) {
     this.signInStatus = status;
@@ -71,9 +73,18 @@ class DataStore {
   }
 
   @computed get getMountSingleModuleIndex() {
-    console.log("get"+ this.mountSingleModuleIndex)
     return this.mountSingleModuleIndex;
   }
+
+  @action setAllAppeals(appeals) {
+    this.allAppeals = appeals;
+  }
+
+  @computed get getAllAppeals() {
+    console.log(this.allAppeals)
+    return this.allAppeals;
+  }
+
 }
 
 export default DataStore;

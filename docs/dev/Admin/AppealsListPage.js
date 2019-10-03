@@ -1,11 +1,15 @@
 import React, { Component } from "react";
-import { MDBContainer, MDBRow, MDBBtn, MDBTabPane, MDBTabContent, MDBNav, MDBNavItem, MDBNavLink } from "mdbreact";
+import { MDBContainer, MDBRow, MDBTabPane, MDBTabContent, MDBNav, MDBNavItem, MDBNavLink } from "mdbreact";
 import axios from "axios";
 import { MDBDataTable } from 'mdbreact';
 import { Button } from "@material-ui/core";
+import { observer, inject } from 'mobx-react'
+
 
 const url = "http://localhost:8080/LMS-war/webresources/"
 
+@inject('dataStore')
+@observer
 class AppealsListPage extends Component {
     state = {
         activeItem: "1",
@@ -58,6 +62,7 @@ class AppealsListPage extends Component {
                 </MDBNav>
                 <MDBTabContent activeItem={this.state.activeItem} >
                     <MDBTabPane tabId="1" role="tabpanel">
+                        {this.showAllAppeals()}
                     </MDBTabPane>
                     <MDBTabPane tabId="2" role="tabpanel">
                         {this.showAllPendingAppeals()}
@@ -112,7 +117,34 @@ class AppealsListPage extends Component {
             rows: this.rowsDataReviewed()
         }
 
-        if (this.state.reviewedAppeals.length!==0){
+        if (this.state.reviewedAppeals.length !== 0) {
+            return (
+                <MDBDataTable
+                    style={{ textAlign: "center", verticalAlign: "center" }}
+                    autoWidth={true}
+                    bordered
+                    hover
+                    data={data}
+                    responsive
+                    responsiveSm
+                    responsiveMd
+                    responsiveLg
+                    responsiveXl
+                    theadColor="rgba-blue-slight"
+                />
+            )
+        } else {
+            return (
+                <h3>No appeals</h3>
+            );
+        }
+    }
+
+    showAllAppeals = () => {
+        const data = {
+            columns: this.getColumns(),
+            rows: this.rowsDataAll()
+        }
         return (
             <MDBDataTable
                 style={{ textAlign: "center", verticalAlign: "center" }}
@@ -128,11 +160,7 @@ class AppealsListPage extends Component {
                 theadColor="rgba-blue-slight"
             />
         )
-        } else {
-            return null;
-        }
     }
-
 
     showAllPendingAppeals = () => {
         const data = {
@@ -140,26 +168,54 @@ class AppealsListPage extends Component {
             rows: this.rowsDataPending()
         }
 
-        if (this.state.pendingAppeals.length !==0) {
-        return (
-            
-            <MDBDataTable
-                style={{ textAlign: "center", verticalAlign: "center" }}
-                autoWidth={true}
-                bordered
-                hover
-                data={data}
-                responsive
-                responsiveSm
-                responsiveMd
-                responsiveLg
-                responsiveXl
-                theadColor="rgba-blue-slight"
-            />
-        )
+        if (this.state.pendingAppeals.length !== 0) {
+            return (
+
+                <MDBDataTable
+                    style={{ textAlign: "center", verticalAlign: "center" }}
+                    autoWidth={true}
+                    bordered
+                    hover
+                    data={data}
+                    responsive
+                    responsiveSm
+                    responsiveMd
+                    responsiveLg
+                    responsiveXl
+                    theadColor="rgba-blue-slight"
+                />
+            )
         } else {
-            return null
+            return (
+                <h3>No appeals</h3>
+            )
         }
+    }
+
+    rowsDataAll = () => {
+        let allAppeals = []
+        let displayAll = []
+        if (this.state.pendingAppeals.length !== 0 && this.state.reviewedAppeals.length !== 0) {
+            allAppeals = this.state.pendingAppeals.concat(this.state.reviewedAppeals)
+        } else if (this.state.pendingAppeals.length !== 0) {
+            allAppeals = this.state.pendingAppeals
+        } else {
+            allAppeals = this.state.reviewedAppeals
+        }
+        this.props.dataStore.setAllAppeals(allAppeals)
+
+        allAppeals && allAppeals.map((eachAppeal, index) =>
+            displayAll.push({
+                appealId: eachAppeal.appealId,
+                createDate: (eachAppeal.createDate).slice(0, 10),
+                moduleCode: eachAppeal.module.code,
+                type: eachAppeal.type,
+                status: eachAppeal.status,
+                button: this.showButton(),
+                clickEvent: () => this.handleRowClick(eachAppeal.appealId)
+            })
+        )
+        return displayAll
     }
 
     rowsDataPending = () => {
@@ -188,7 +244,7 @@ class AppealsListPage extends Component {
                 type: eachAppeal.type,
                 status: eachAppeal.status,
                 button: this.showButton(),
-                clickEvent: () => this.handleRowClick(index)
+                clickEvent: () => this.handleRowClick(eachAppeal.appealId)
             })
         )
         return reviewedAppeals
