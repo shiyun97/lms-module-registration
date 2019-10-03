@@ -36,7 +36,7 @@ class SubmitAppealPage extends Component {
       })
       .catch(error => {
         console.error("error in axios " + error);
-      }); 
+      });
     axios.get("http://localhost:8080/LMS-war/webresources/studentEnrollment/retrieveStudentAppeals?userId=2")
       .then(result => {
         this.setState({ allAppeals: result.data.appeals })
@@ -53,7 +53,7 @@ class SubmitAppealPage extends Component {
 
   handleChangeCode = event => {
     console.log(event.target.value)
-   this.setState({ appealModule: event.target.value });
+    this.setState({ appealModule: event.target.value });
   };
 
   handleChangeReason = event => {
@@ -66,14 +66,14 @@ class SubmitAppealPage extends Component {
     const { value, appealModule, appealReason } = this.state;
     const date = new Date();
 
-    axios.post("http://localhost:8080/LMS-war/webresources/studentEnrollment/createAppeal/", { reason: appealReason, userId: 2, type: value, moduleId: appealModule})
+    axios.post("http://localhost:8080/LMS-war/webresources/studentEnrollment/createAppeal/", { reason: appealReason, userId: 2, type: value, moduleId: appealModule })
       .then(res => {
         console.log(res.data);
         alert("Successful");
       })
       .catch(error => {
         console.error("error in axios " + error);
-      }); 
+      });
   };
 
   // handleSubmitChangeGroup = event => {
@@ -128,14 +128,16 @@ class SubmitAppealPage extends Component {
     );
   };
 
-  // appealClosed = () => {
-  //   return (
-  //     <div>
-  //       <h2>Appeal Period Closed</h2>
-  //       {this.showAllAppeals()}
-  //     </div>
-  //   )
-  // };
+  appealClosed = () => {
+    return (
+      <MDBContainer>
+        <SectionContainer>
+          <h3>Appeal Period Closed</h3> 
+        </SectionContainer>
+        {this.showAllAppeals()}
+      </MDBContainer>
+    )
+  };
 
   appealModForm = () => {
     console.log(this.state.value)
@@ -145,14 +147,14 @@ class SubmitAppealPage extends Component {
           <MDBRow style={{ paddingTop: "20px" }}>
             <MDBCol sm="4">Module Code: </MDBCol>
             <MDBCol sm="8">
-{/*               <input
+              {/*               <input
                 type="text"
                 className="form-control"
                 id="formGroupExampleInput"
                 onChange={this.handleChangeCode}
               /> */}
 
-<select value={this.state.appealModule} onChange={this.handleChangeCode}>
+              <select value={this.state.appealModule} onChange={this.handleChangeCode}>
                 <option>Choose your option</option>
                 {this.state.availableModules && this.state.availableModules.map(
                   (code) => <option key={code.moduleId} value={code.moduleId}>{code.code}</option>)
@@ -180,7 +182,7 @@ class SubmitAppealPage extends Component {
         </div>
       );
     }
-     else if (this.state.value === "Change tutorial group") {
+    else if (this.state.value === "Change tutorial group") {
       return (
         <div>
           <MDBRow style={{ paddingTop: "20px" }}>
@@ -203,7 +205,7 @@ class SubmitAppealPage extends Component {
           </MDBRow> */}
         </div>
       );
-    }  else {
+    } else {
       return null;
     }
   };
@@ -323,7 +325,7 @@ class SubmitAppealPage extends Component {
       </div>
   }
 
-   showAllAppeals = () => {
+  showAllAppeals = () => {
     if (this.state.allAppeals !== null) {
       return (
         <MDBTable responsive bordered>
@@ -343,7 +345,7 @@ class SubmitAppealPage extends Component {
                 <td>{appeals.module.code}</td>
                 <td>{appeals.type}</td>
                 <td>{appeals.status}</td>
-               <td>{this.enableViewDetails(appeals.status, index)}</td>
+                <td>{this.enableViewDetails(appeals.status, index)}</td>
               </tr>
             )
             ) : null
@@ -359,9 +361,8 @@ class SubmitAppealPage extends Component {
   render() {
     return (
       <MDBContainer style={{ paddingTop: "40px" }}>
-{/*                 <MDBRow>{this.checkSchedule()}</MDBRow>
- */}
-        <MDBRow>{this.appealOpen()}</MDBRow>
+        {/* <MDBRow>{this.checkSchedule()}</MDBRow> */}
+        {this.appealClosed()}
       </MDBContainer>
     );
   }
