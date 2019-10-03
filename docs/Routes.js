@@ -125,16 +125,16 @@ class Routes extends React.Component {
 
         {/* MODULE REGISTRATION (STUDENT) */}
         <Route exact path="/login" component={StudentLoginPage} />
-        <StudentPrivateRoute exact path="/student/:studentId/classes" component={MyClassesPage} />
-        <StudentPrivateRoute exact path="/student/:studentId/select-modules" component={SelectModulesPage} />
-        <StudentPrivateRoute exact path="/student/:studentId/select-tutorials" component={SelectTutorialsPage} />
+        <Route exact path="/student/:studentId/classes" component={MyClassesPage} />
+        <Route exact path="/student/:studentId/select-modules" component={SelectModulesPage} />
+        <Route exact path="/student/:studentId/select-tutorials" component={SelectTutorialsPage} />
         <Route exact path="/student/appeals" component={SubmitAppealPage} />
 
         {/*  MODULE REGISTRATION (ADMIN) */}
         <Route exact path="/admin" component={AdminLoginPage} />
-        <AdminPrivateRoute exact path="/admin/scheduleSettings" component={ScheduleSettingsPage} />
-        <AdminPrivateRoute exact path="/admin/users" component={UsersManagementPage} />
-        <AdminPrivateRoute exact path="/admin/allocate-modules" component={AllocateModulesPage} />
+        <Route exact path="/admin/scheduleSettings" component={ScheduleSettingsPage} />
+        <Route exact path="/admin/users" component={UsersManagementPage} />
+        <Route exact path="/admin/allocate-modules" component={AllocateModulesPage} />
         <Route exact path="/admin/mountModule" component={MountModulePage} />
         <Route exact path="/admin/mountModule/form/:index" component={MountModulePageForm} />
         <Route exact path="/admin/mountModule/form-create" component={MountModulePageFormCreate} />

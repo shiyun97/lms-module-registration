@@ -31,9 +31,13 @@ class StudentLoginPage extends Component {
       // .post("http://localhost:3001/login", {
       .get(`http://localhost:8080/LMS-war/webresources/User/userLogin?email=${email}&password=${password}`)
       .then(result => {
-        this.props.dataStore.setSignInStatus(true, this.state.email, this.state.password, result.data.user.accessRight)
-        this.props.dataStore.setUserDetails(result.data.user.userId, result.data.user.gender, result.data.user.firstName, result.data.user.lastName, result.data.user.username)
-        this.setState({ loggedInStatus: true })
+        if (result.data.user.accessRight === "Student") {
+          this.props.dataStore.setSignInStatus(true, this.state.email, this.state.password, result.data.user.accessRight)
+          this.props.dataStore.setUserDetails(result.data.user.userId, result.data.user.gender, result.data.user.firstName, result.data.user.lastName, result.data.user.username)
+          this.setState({ loggedInStatus: true })
+        } else {
+          this.setState({ message: "invalid access" })
+        }
       })
       .catch(error => {
         this.setState({ message: "error" })
@@ -80,6 +84,7 @@ class StudentLoginPage extends Component {
                       </div>
                     </form>
                     {this.state.message === "error" && <h6 align="center" style={{ color: "red" }}>Invalid email/ password!</h6>}
+                    {this.state.message === "invalid access" && <h6 align="center" style={{ color: "red" }}>Access Denied</h6>}
                   </ul>
                 </MDBJumbotron>
               </MDBCol>

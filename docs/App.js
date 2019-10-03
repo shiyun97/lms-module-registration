@@ -31,7 +31,7 @@ class App extends Component {
       let lastName = localStorage.getItem("lastName")
       let username = localStorage.getItem("username")
       let path = localStorage.getItem("path")
-      this.props.dataStore.setPath("path")
+      this.props.dataStore.setPath(path)
       this.props.dataStore.setSignInStatus(true, email, password, accessRight)
       this.props.dataStore.setUserDetails(userId, gender, firstName, lastName, username)
     }
@@ -94,7 +94,7 @@ class App extends Component {
                     <strong>Home</strong>
                   </MDBNavLink>
                 </MDBNavItem>
-                {(this.props.dataStore.getAccessRight === "Student" || this.props.dataStore.getAccessRight === "Admin") && <>
+                {this.props.dataStore.getAccessRight === "Student" && <>
                   <MDBNavItem style={{ paddingRight: 10 }}>
                     <MDBNavLink
                       onClick={() => this.updatePath('/student/:studentId/classes')}
@@ -135,6 +135,14 @@ class App extends Component {
                       to="/admin/users"
                     >
                       <strong>Users Management</strong>
+                    </MDBNavLink>
+                  </MDBNavItem>
+                  <MDBNavItem style={{ paddingRight: 10 }}>
+                    <MDBNavLink
+                      onClick={() => this.updatePath('/admin/appeals')}
+                      to="/admin/appealsList"
+                    >
+                      <strong>Appeals</strong>
                     </MDBNavLink>
                   </MDBNavItem>
                   <MDBNavItem style={{ paddingRight: 10 }}>

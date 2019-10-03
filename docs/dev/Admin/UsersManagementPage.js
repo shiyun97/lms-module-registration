@@ -1,12 +1,12 @@
 import React, { Component } from "react";
-import { MDBDataTable, MDBInputGroup, MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter, MDBContainer, MDBRow, MDBCol, MDBBtn, MDBCard, MDBCardBody } from "mdbreact";
+import { MDBDataTable, MDBInputGroup, MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter, MDBContainer, MDBRow, MDBCol, MDBBtn, MDBCard, MDBCardBody, MDBIcon } from "mdbreact";
 import axios from "axios";
 import { RandomPassword } from "../utils/RandomPassword";
 import { observer, inject } from 'mobx-react';
 
-function goToProfilePage(userId) {
-    console.log(userId);
-}
+// function goToProfilePage(userId) {
+//     console.log(userId);
+// }
 
 @inject('dataStore')
 @observer
@@ -14,6 +14,7 @@ class UsersManagementPage extends Component {
 
     state = {
         modal1: false,
+        modal2: false,
         userId: 0,
         firstName: "",
         lastName: "",
@@ -74,6 +75,11 @@ class UsersManagementPage extends Component {
                 "label": "Username",
                 "field": "username",
                 "width": 100
+            },
+            {
+                "label": "",
+                "field": "",
+                "width": 100
             }
         ],
         rows: [{ label: "Retrieving data..." }],
@@ -101,6 +107,7 @@ class UsersManagementPage extends Component {
 
     addNewUser = () => {
         event.preventDefault();
+        this.toggle(1);
         axios
             // .post("http://localhost:3001/newUser", {
             .put(`http://localhost:8080/LMS-war/webresources/User/createUser`, {
@@ -118,6 +125,46 @@ class UsersManagementPage extends Component {
             .catch(error => {
                 console.error("error in axios " + error);
             });
+    }
+
+    updateUserState = (user) => {
+        this.setState({
+            userId: user.userId,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email,
+            password: user.password,
+            gender: user.gender,
+            accessRight: user.accessRight,
+            username: user.username
+        })
+    }
+
+    editUser = () => {
+        event.preventDefault();
+        this.toggle(2);
+        axios
+            // .post("http://localhost:3001/newUser", {
+            .post(`http://localhost:8080/LMS-war/webresources/User/updateUser`, {
+                userId: this.props.dataStore.getUserId,
+                firstName: this.state.firstName,
+                lastName: this.state.lastName,
+                email: this.state.email,
+                password: this.state.password,
+                gender: this.state.gender,
+                accessRight: this.state.accessRight,
+                username: this.state.username
+            })
+            .then(result => {
+                console.log("User Updated")
+            })
+            .catch(error => {
+                console.error("error in axios " + error);
+            });
+    }
+
+    deleteUser = (userId) => {
+
     }
 
     generatePwd() {
@@ -143,20 +190,120 @@ class UsersManagementPage extends Component {
         // console.log(this.state.lastName)
     }
 
-    toggle = nr => () => {
+    toggle = (nr, row) => {
         let modalNumber = "modal" + nr;
         this.setState({
             [modalNumber]: !this.state[modalNumber]
         });
+
+        if (row !== null) {
+            this.updateUserState(row);
+        }
     };
 
-    renderModalBox = () => {
+    renderEditUserModalBox = () => {
         return (
-            <MDBModal isOpen={this.state.modal1} toggle={this.toggle(1)}>
+            <MDBModal isOpen={this.state.modal2} toggle={() => this.toggle(2)}>
                 <MDBModalHeader
                     className="text-center"
                     titleClass="w-100 font-weight-bold"
-                    toggle={this.toggle(1)}
+                    toggle={() => this.toggle(2)}
+                >
+                    Update User Details
+                        </MDBModalHeader>
+                <MDBModalBody>
+                    <form className="mx-3 grey-text">
+                        <MDBRow>
+                            <MDBCol md="6" className="mt-4">
+                                <label className="grey-text">
+                                    First Name
+                                        </label>
+                                <input type="text" className="form-control" defaultValue={this.state.firstName} onChange={this.handleChange} name="firstName" />
+                            </MDBCol>
+                            <MDBCol md="6" className="mt-4">
+                                <label className="grey-text">
+                                    Last Name
+                                        </label>
+                                <input type="text" className="form-control" defaultValue={this.state.lastName} onChange={this.handleChange} name="lastName" />
+                            </MDBCol>
+                            <br />
+                            <MDBCol md="12" className="mt-4">
+                                <label className="grey-text">
+                                    Username
+                                        </label>
+                                <input type="text" className="form-control" defaultValue={this.state.username} onChange={this.handleChange} name="username" />
+                            </MDBCol>
+                            <br />
+                            <MDBCol md="12" className="mt-4">
+                                <label className="grey-text">
+                                    Email
+                                        </label>
+                                <input type="text" className="form-control" defaultValue={this.state.email} onChange={this.handleChange} name="email" />
+                            </MDBCol>
+                            <MDBCol md="12" className="mt-4">
+                                <label className="grey-text">
+                                    Password
+                                        </label>
+                            </MDBCol>
+                            <MDBCol md="6">
+                                <input type="text" className="form-control" onChange={this.handleChange} value={this.state.password} />
+                            </MDBCol>
+                            <MDBCol md="6" align="right">
+                                <MDBBtn onClick={() => this.generatePwd()} outline size="sm" color="primary">Generate Password</MDBBtn>
+                            </MDBCol>
+                            <MDBCol md="6" className="mt-4">
+                                <MDBInputGroup
+                                    style={{ paddingTop: 32 }}
+                                    containerClassName="mb-3"
+                                    prepend="Gender"
+                                    inputs={
+                                        <select name="gender" defaultValue={this.state.gender === "Female" ? 1 : 2} onChange={this.handleChange} className="browser-default custom-select">
+                                            <option value="0">Choose...</option>
+                                            <option value="1">Female</option>
+                                            <option value="2">Male</option>
+                                        </select>
+                                    }
+                                />
+                            </MDBCol>
+                            <MDBCol md="6" className="mt-4">
+                                <MDBInputGroup
+                                    style={{ paddingTop: 32 }}
+                                    containerClassName="mb-3"
+                                    prepend="User Role"
+                                    inputs={
+                                        <select name="accessRight" value={this.state.accessRight === "Teacher" ? 1 : (this.state.accessRight === "Student" ? 2 : 3)} onChange={this.handleChange} className="browser-default custom-select">
+                                            <option value="0">Choose...</option>
+                                            <option value="1">Teacher</option>
+                                            <option value="2">Student</option>
+                                            <option value="3">Admin</option>
+                                        </select>
+                                    }
+                                />
+                            </MDBCol>
+                        </MDBRow>
+                    </form>
+                </MDBModalBody>
+                <MDBModalFooter className="justify-content-center">
+                    <MDBRow>
+                        <MDBCol md="6">
+                            <MDBBtn onClick={() => this.toggle(2)} color="grey">Cancel</MDBBtn>
+                        </MDBCol>
+                        <MDBCol md="6">
+                            <MDBBtn onClick={() => this.editUser()} color="primary">Update</MDBBtn>
+                        </MDBCol>
+                    </MDBRow>
+                </MDBModalFooter>
+            </MDBModal>
+        )
+    }
+
+    renderCreateUserModalBox = () => {
+        return (
+            <MDBModal isOpen={this.state.modal1} toggle={() => this.toggle(1)}>
+                <MDBModalHeader
+                    className="text-center"
+                    titleClass="w-100 font-weight-bold"
+                    toggle={() => this.toggle(1)}
                 >
                     Create User
                         </MDBModalHeader>
@@ -235,7 +382,7 @@ class UsersManagementPage extends Component {
                 <MDBModalFooter className="justify-content-center">
                     <MDBRow>
                         <MDBCol md="6">
-                            <MDBBtn onClick={this.toggle(1)} color="grey">Cancel</MDBBtn>
+                            <MDBBtn onClick={() => this.toggle(1)} color="grey">Cancel</MDBBtn>
                         </MDBCol>
                         <MDBCol md="6">
                             <MDBBtn onClick={() => this.addNewUser()} color="primary">Create</MDBBtn>
@@ -256,9 +403,10 @@ class UsersManagementPage extends Component {
                 </h2>
                     </MDBCol>
                     <MDBCol md="4" align="right">
-                        <MDBBtn onClick={this.toggle(1)} color="primary">Create User</MDBBtn>
+                        <MDBBtn onClick={() => this.toggle(1)} color="primary">Create User</MDBBtn>
                     </MDBCol>
-                    {this.renderModalBox()}
+                    {this.renderCreateUserModalBox()}
+                    {this.renderEditUserModalBox()}
                 </MDBRow>
                 <MDBRow className="py-3">
                     <MDBCol md="12">
@@ -291,9 +439,10 @@ class UsersManagementPage extends Component {
                 </h2>
                     </MDBCol>
                     <MDBCol md="4" align="right">
-                        <MDBBtn onClick={this.toggle(1)} color="primary">Create User</MDBBtn>
+                        <MDBBtn onClick={() => this.toggle(1)} color="primary">Create User</MDBBtn>
                     </MDBCol>
-                    {this.renderModalBox()}
+                    {this.renderCreateUserModalBox()}
+                    {this.renderEditUserModalBox()}
                 </MDBRow>
                 <MDBRow className="py-3">
                     <MDBCol md="12">
@@ -324,17 +473,21 @@ class UsersManagementPage extends Component {
 
     render() {
         var newRows = []
-        const test = this.state.rows
-        for (let i = 0; i < test.length; i++) {
+        const row = this.state.rows
+        for (let i = 0; i < row.length; i++) {
             newRows.push({
-                userId: test[i].userId,
-                firstName: test[i].firstName,
-                lastName: test[i].lastName,
-                gender: test[i].gender,
-                email: test[i].email,
-                password: test[i].password,
-                accessRight: test[i].accessRight,
-                username: test[i].username
+                userId: row[i].userId,
+                firstName: row[i].firstName,
+                lastName: row[i].lastName,
+                gender: row[i].gender,
+                email: row[i].email,
+                password: row[i].password,
+                accessRight: row[i].accessRight,
+                username: row[i].username,
+                editButton: <MDBRow align="center">
+                    <MDBCol md={6}><MDBIcon onClick={() => this.toggle(2, row[i])} style={{ cursor: "pointer", textShadow: "1px 0px 1px #000000" }} icon="edit" /></MDBCol>
+                    <MDBCol md={6}><MDBIcon onClick={() => this.deleteUser(row[i].userId)} style={{ cursor: "pointer", textShadow: "1px 0px 1px #000000" }} icon="trash" /></MDBCol>
+                </MDBRow>
             })
         }
         const data = () => ({ columns: this.state.columns, rows: newRows })
@@ -342,10 +495,10 @@ class UsersManagementPage extends Component {
 
         const widerData = {
             columns: [...data().columns.map(col => {
-                col.width = 200;
+                col.width = 150;
                 return col;
             })], rows: [...data().rows.map(row => {
-                row.clickEvent = () => goToProfilePage(1)
+                // row.clickEvent = () => goToProfilePage(1)
                 return row;
             })]
         }
