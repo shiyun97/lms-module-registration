@@ -173,8 +173,8 @@ class ScheduleSettingsPage extends Component {
     handleYearChange = (event) => this.setState({ [event.target.name]: event.target.value });
     handleSemChange = (event) => this.setState({ [event.target.name]: event.target.value });
     handleDateChange = (event) => {
-        console.log(this.state.tutorialRound2StartDate)
-        console.log(this.state.tutorialRound2EndDate)
+        // console.log(this.state.tutorialRound2StartDate)
+        // console.log(this.state.tutorialRound2EndDate)
         this.setState({ [event.target.name]: event.target.value });
     }
 

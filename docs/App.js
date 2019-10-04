@@ -68,6 +68,7 @@ class App extends Component {
 
     const { collapseID } = this.state;
     const dataStore = this.props.dataStore;
+    const userId = this.props.dataStore.getUserId;
     return (
       <Router>
         <div className="flyout">
@@ -97,32 +98,32 @@ class App extends Component {
                 {this.props.dataStore.getAccessRight === "Student" && <>
                   <MDBNavItem style={{ paddingRight: 10 }}>
                     <MDBNavLink
-                      onClick={() => this.updatePath('/student/:studentId/classes')}
-                      to="/student/:studentId/classes"
+                      onClick={() => this.updatePath(`/student/${userId}/classes`)}
+                      to={`/student/${userId}/classes`}
                     >
                       <strong>My Classes</strong>
                     </MDBNavLink>
                   </MDBNavItem>
                   <MDBNavItem style={{ paddingRight: 10 }}>
                     <MDBNavLink
-                      onClick={() => this.updatePath('/student/:studentId/select-modules')}
-                      to="/student/:studentId/select-modules"
+                      onClick={() => this.updatePath(`/student/${userId}/select-modules`)}
+                      to={`/student/${userId}/select-modules`}
                     >
                       <strong>Select Modules</strong>
                     </MDBNavLink>
                   </MDBNavItem>
                   <MDBNavItem style={{ paddingRight: 10 }}>
                     <MDBNavLink
-                      onClick={() => this.updatePath('/student/:studentId/select-tutorials')}
-                      to="/student/:studentId/select-tutorials"
+                      onClick={() => this.updatePath(`/student/${userId}/select-tutorials`)}
+                      to={`/student/${userId}/select-tutorials`}
                     >
                       <strong>Select Tutorials</strong>
                     </MDBNavLink>
                   </MDBNavItem>
                   <MDBNavItem style={{ paddingRight: 10 }}>
                     <MDBNavLink
-                      onClick={() => this.updatePath('/student/appeals')}
-                      to="/student/appeals"
+                      onClick={() => this.updatePath(`/student/${userId}/appeals`)}
+                      to={`/student/${userId}/appeals`}
                     >
                       <strong>Submit Appeals</strong>
                     </MDBNavLink>
@@ -135,6 +136,14 @@ class App extends Component {
                       to="/admin/users"
                     >
                       <strong>Users Management</strong>
+                    </MDBNavLink>
+                  </MDBNavItem>
+                  <MDBNavItem style={{ paddingRight: 10 }}>
+                    <MDBNavLink
+                      onClick={() => this.updatePath('/admin/mountModule')}
+                      to="/admin/mountModule"
+                    >
+                      <strong>Module Mounting</strong>
                     </MDBNavLink>
                   </MDBNavItem>
                   <MDBNavItem style={{ paddingRight: 10 }}>

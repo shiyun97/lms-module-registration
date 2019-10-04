@@ -3,6 +3,7 @@ import { MDBDataTable, MDBInputGroup, MDBModal, MDBModalBody, MDBModalHeader, MD
 import axios from "axios";
 import { RandomPassword } from "../utils/RandomPassword";
 import { observer, inject } from 'mobx-react';
+import { Snackbar, Fab } from '@material-ui/core';
 
 // function goToProfilePage(userId) {
 //     console.log(userId);
@@ -83,10 +84,12 @@ class UsersManagementPage extends Component {
             }
         ],
         rows: [{ label: "Retrieving data..." }],
-        status: "retrieving"
+        status: "retrieving",
+        openSnackbar: false,
+        message: ""
     };
 
-    componentDidMount() {
+    getAllUserDetails = () => {
         axios
             .get(`http://localhost:8080/LMS-war/webresources/User/getAllUser`)
             // .get("http://localhost:3001/users")
@@ -94,16 +97,36 @@ class UsersManagementPage extends Component {
                 console.log(result)
                 this.setState({
                     rows: result.data.userList,
-                    status: "done"
+                    status: "done",
+                    message: "Retrieved user data successfully!",
+                    openSnackbar: true
                 });
             })
             .catch(error => {
                 this.setState({
-                    status: "error"
+                    status: "error",
+                    message: "An error has occured in retrieving data.",
+                    openSnackbar: true
                 });
                 console.error("error in axios " + error);
             })
     }
+
+    componentDidMount() {
+        this.getAllUserDetails();
+    }
+
+    handleOpenSnackbar = () => {
+        this.setState({ openSnackbar: true });
+    };
+
+    handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        this.setState({ openSnackbar: false });
+    };
 
     addNewUser = () => {
         event.preventDefault();
@@ -120,9 +143,18 @@ class UsersManagementPage extends Component {
                 username: this.state.username
             })
             .then(result => {
-                console.log("New User Created")
+                this.setState({
+                    status: "done",
+                    message: "New user successfully created!",
+                    openSnackbar: true
+                });
             })
             .catch(error => {
+                this.setState({
+                    status: "error",
+                    message: error.response.data.errorMessage,
+                    openSnackbar: true
+                });
                 console.error("error in axios " + error);
             });
     }
@@ -147,7 +179,7 @@ class UsersManagementPage extends Component {
         axios
             // .post("http://localhost:3001/newUser", {
             .post(`http://localhost:8080/LMS-war/webresources/User/updateUser`, {
-                userId: this.props.dataStore.getUserId,
+                userId: this.state.userId,
                 firstName: this.state.firstName,
                 lastName: this.state.lastName,
                 email: this.state.email,
@@ -157,9 +189,18 @@ class UsersManagementPage extends Component {
                 username: this.state.username
             })
             .then(result => {
-                console.log("User Updated")
+                this.setState({
+                    status: "done",
+                    message: "User details updated successfully!",
+                    openSnackbar: true
+                });
             })
             .catch(error => {
+                this.setState({
+                    status: "error",
+                    message: error.response.data.errorMessage,
+                    openSnackbar: true
+                });
                 console.error("error in axios " + error);
             });
     }
@@ -169,9 +210,18 @@ class UsersManagementPage extends Component {
         axios
             .delete(`http://localhost:8080/LMS-war/webresources/User/deleteUser?userId=${userId}`)
             .then(result => {
-                console.log("User Deleted")
+                this.setState({
+                    status: "done",
+                    message: "User deleted successfully!",
+                    openSnackbar: true
+                });
             })
             .catch(error => {
+                this.setState({
+                    status: "error",
+                    message: "Unable to delete user.",
+                    openSnackbar: true
+                });
                 console.error("error in axios " + error);
             });
     }
@@ -254,11 +304,8 @@ class UsersManagementPage extends Component {
                                     Password
                                         </label>
                             </MDBCol>
-                            <MDBCol md="6">
-                                <input type="text" className="form-control" onChange={this.handleChange} value={this.state.password} />
-                            </MDBCol>
-                            <MDBCol md="6" align="right">
-                                <MDBBtn onClick={() => this.generatePwd()} outline size="sm" color="primary">Generate Password</MDBBtn>
+                            <MDBCol md="12">
+                                <input type="text" className="form-control" onChange={this.handleChange} defaultValue={this.state.password} name="password" />
                             </MDBCol>
                             <MDBCol md="6" className="mt-4">
                                 <MDBInputGroup
@@ -408,7 +455,7 @@ class UsersManagementPage extends Component {
         return (
             <MDBContainer className="mt-3">
                 <MDBRow style={{ paddingTop: 60 }}>
-                    <MDBCol md="8">
+                    <MDBCol md="7">
                         <h2 className="font-weight-bold">
                             Users Management
                 </h2>
@@ -416,9 +463,12 @@ class UsersManagementPage extends Component {
                     <MDBCol md="4" align="right">
                         <MDBBtn onClick={() => this.toggle(1)} color="primary">Create User</MDBBtn>
                     </MDBCol>
-                    {this.renderCreateUserModalBox()}
-                    {this.renderEditUserModalBox()}
+                    <MDBCol md="1">
+                        <Fab onClick={() => this.getAllUserDetails()} style={{ height: 50, width: 50, backgroundColor: "#bbb", borderRadius: "50%" }}><MDBIcon icon="sync" /></Fab>
+                    </MDBCol>
                 </MDBRow>
+                {this.renderCreateUserModalBox()}
+                {this.renderEditUserModalBox()}
                 <MDBRow className="py-3">
                     <MDBCol md="12">
                         <MDBCard>
@@ -428,6 +478,22 @@ class UsersManagementPage extends Component {
                         </MDBCard>
                     </MDBCol>
                 </MDBRow>
+                <Snackbar
+                    anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'left',
+                    }}
+                    open={this.state.openSnackbar}
+                    autoHideDuration={6000}
+                    onClose={this.handleClose}
+                    ContentProps={{
+                        'aria-describedby': 'message-id',
+                    }}
+                    message={<span id="message-id">{this.state.message}</span>}
+                    action={[
+                        <MDBIcon icon="times" color="white" onClick={this.handleClose} style={{ cursor: "pointer" }} />,
+                    ]}
+                />
             </MDBContainer>
         )
     }
