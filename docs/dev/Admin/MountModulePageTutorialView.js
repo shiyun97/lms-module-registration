@@ -11,7 +11,10 @@ class MountModulePageTutorialView extends Component {
         tutorialDetails: "",
         disabled: true,
         editSave: "Edit",
-        moduleId: ""
+        moduleId: "",
+        maxEnrollment: "",
+        venue: "",
+        timing: "",
     }
 
     componentDidMount() {
@@ -23,6 +26,7 @@ class MountModulePageTutorialView extends Component {
         axios.get("http://localhost:8080/LMS-war/webresources/ModuleMounting/getAllTutorialByModule?moduleId=" + modId)
             .then(result => {
                 this.setState({ tutorialDetails: result.data.tutorials })
+                console.log(this.state.tutorialDetails[1])
             })
             .catch(error => {
                 console.error("error in axios " + error);
@@ -30,7 +34,14 @@ class MountModulePageTutorialView extends Component {
     }
 
     handleOnChange = event => {
+        if (event.target.name === "maxEnrollment") {
+            this.setState({ maxEnrollment: event.target.value })
+        } else if (event.target.name === "venue") {
+            this.setState({ venue: event.target.value })
 
+        } else {
+            this.setState({ timing: event.target.value })
+        }
     }
 
     displayTutorialDetails = () => {
@@ -105,10 +116,7 @@ class MountModulePageTutorialView extends Component {
                                     </MDBCol>
                                 </MDBRow>
                                 <Button onClick={() => this.delete(tutorials.tutorialId)} color="secondary" variant="contained">Delete</Button>
-                                <Button onClick={this.editSave} color="primary" variant="contained" >{this.state.editSave}</Button>
-
-
-
+                                <Button onClick={() => this.editSave(tutorials.tutorialId)} color="primary" variant="contained" >{this.state.editSave}</Button>
 
                             </SectionContainer>
                     )}
@@ -134,25 +142,25 @@ class MountModulePageTutorialView extends Component {
 
     }
 
-    editSave = event => {
+    editSave = id => {
         this.setState({ disabled: false, editSave: "Save" })
-        const { index } = this.state
         if (this.state.editSave === "Save") {
             this.setState({ disabled: true })
-            //FIXME: Post to update
-            /*  axios.post(`http://localhost:8080/LMS-war/webresources/ModuleMounting/updateModule?moduleId=${index}&userId=2`, {})
-                 .then(result => {
-                     console.log(result.data)
-                     alert("Updated")
-                     this.props.history.go(-1)
-                 })
-                 .catch(error => {
-                     console.error("error in axios " + error);
-                 }); */
+            axios.post(`http://localhost:8080/LMS-war/webresources/ModuleMounting/updateTutorial?tutorialId=${id}`, {
+                maxEnrollment: this.state.maxEnrollment,
+                venue: this.state.venue,
+                timing: this.state.timing
+            })
+                .then(result => {
+                    console.log(result.data)
+                    alert("Updated")
+                    this.props.history.go(-1)
+                })
+                .catch(error => {
+                    console.error("error in axios " + error);
+                });
         }
-
     }
-
 
     render() {
         return (

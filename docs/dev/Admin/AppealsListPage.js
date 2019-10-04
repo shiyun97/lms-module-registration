@@ -187,7 +187,7 @@ class AppealsListPage extends Component {
             )
         } else {
             return (
-                <h3>No appeals</h3>
+                <h6>No appeals</h6>
             )
         }
     }
@@ -260,7 +260,7 @@ class AppealsListPage extends Component {
     handleRowClick = index => {
         //create a new page. go to form edit page. 
         console.log(index)
-        let path = `appealsList/view/` + index;
+        let path = `view/` + index;
         this.props.history.push(path);
     }
 
