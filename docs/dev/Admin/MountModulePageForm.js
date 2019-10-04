@@ -413,7 +413,7 @@ class MountModulePageForm extends Component {
     mountModuleTutorialCreate = event => {
         var modId = this.props.dataStore.getMountSingleModuleIndex
         console.log("go to tutorial")
-        let path = modId + `/create`;
+        let path = modId + `mountModule/create`;
         this.props.history.push(path);
     }
 
