@@ -117,7 +117,7 @@ class MountModulePage extends Component {
 
     handleRowClick = index => {
         this.props.dataStore.setMountSingleModuleIndex(index)
-        let path = "mountModule/form/" + index;
+        let path = "form/" + index;
         this.props.history.push(path)
     }
 
@@ -130,7 +130,7 @@ class MountModulePage extends Component {
     }
 
     handleMountModule = event => {
-        let path = `mountModule/form-create/`;
+        let path = `form-create/`;
         this.props.history.push(path);
     }
 

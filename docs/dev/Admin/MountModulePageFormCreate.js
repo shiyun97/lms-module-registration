@@ -44,11 +44,13 @@ class MountModulePageFormCreate extends Component {
     }
 
     handleChangeTeacher = event => {
-        this.setState({assignedTeacher: event.target.value})
+        this.setState({ assignedTeacher: event.target.value })
     }
 
     handleSelect = event => {
+
         event.preventDefault();
+        console.log(event.target.value)
         if (event.target.value === "semester") {
             this.setState({ semester: event.target.value }, () => event);
         } else {
@@ -76,6 +78,7 @@ class MountModulePageFormCreate extends Component {
                 })
             }
         }
+
         return (
             <MDBContainer>
                 <SectionContainer>
@@ -111,8 +114,8 @@ class MountModulePageFormCreate extends Component {
                     <MDBRow style={{ paddingTop: "20px" }}>
                         <MDBCol sm="4" style={{ paddingTop: "10px" }}>Semester Offered: </MDBCol>
                         <MDBCol sm="8">
-                            <select onChange={this.handleSelect} className="browser-default custom-select">
-                                <option disabled>Select Semester</option>
+                            <select value={this.state.semester} onChange={this.handleSelect} className="browser-default custom-select">
+                                <option >Select Semester</option>
                                 <option value="1">
                                     1
                                 </option>
@@ -342,13 +345,13 @@ class MountModulePageFormCreate extends Component {
         var lectureDetails = this.state.lectureDay + this.state.lectureTime
         axios.put(`http://localhost:8080/LMS-war/webresources/ModuleMounting/mountModule?userId=${assignedTeacher}`, { code: moduleCode, title: moduleTitle, semesterOffered: semester, yearOffered: year, credit, maxEnrollment: maxEnrollment, hasExam: exam, lectureDetails: lectureDetails, faculty: faculty, department: department })
             .then(result => {
-                console.log(result.data);
+                this.props.history.go(-1)
                 alert("Successful mounted");
             })
             .catch(error => {
                 console.error("error in axios " + error);
             });
-        this.props.history.go(-1)
+
     }
 
     render() {

@@ -2,12 +2,9 @@ import React, { Component } from "react";
 import axios from "axios";
 import { MDBContainer, MDBCol, MDBRow, MDBBtn, MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter } from "mdbreact";
 import SectionContainer from "../../components/sectionContainer";
-import { observer, inject } from 'mobx-react'
 
 const url = "http://localhost:8080/LMS-war/webresources/"
 
-@inject('dataStore')
-@observer
 class AppealViewPage extends Component {
 
     state = {
@@ -17,134 +14,132 @@ class AppealViewPage extends Component {
         pendingAppeals: "",
         reviewAppeals: "",
         allAppeals: "",
+        reason: "",
     }
 
     componentDidMount() {
         var pathname = window.location.pathname, part = pathname.substr(pathname.lastIndexOf('/') + 1);
         this.setState({ index: part })
+
+        axios.get(url + "studentEnrollment/getAppealById/" + part)
+            .then(result => {
+                this.setState({ appealDetails: result.data })
+            })
+            .catch(error => {
+                console.error("error in axios " + error);
+            });
+    }
+
+    handleOnChange = event => {
+        this.setState({ reason: event.target.value })
     }
 
     displayAppealDetails = () => {
-        var allAppeals = []
-        if (this.state.index !== null) {
-            //get details of the appeal
-            allAppeals = this.props.dataStore.getAllAppeals
-            console.log(allAppeals)
+        const { appealDetails } = this.state
+        console.log(appealDetails.student)
+        return (
+            <MDBContainer>
+                <SectionContainer>
 
-        }
-    }
-
-    /*     displayAppealDetails = () => {
-            return (
-                <MDBContainer>
-                    <SectionContainer>
-    
-                        <MDBRow>
+                    <MDBRow>
+                        <MDBCol sm="4"><h6>Appeal display:</h6> </MDBCol>
+                        <MDBCol sm="8">
+                            <h6>{appealDetails.createDete}</h6>
+                        </MDBCol>
+                    </MDBRow>
+                    {/*                         <MDBRow>
                             <MDBCol sm="4">Student: </MDBCol>
                             <MDBCol sm="8">
-                                <input
-                                    // defaultValue={this.state.moduleDetails.moduleCode}
-                                    name="student"
-                                    type="text"
-                                    className="form-control"
-                                    disabled={true}
-                                />
+                                <h3>{appealDetails.student[0].firstName + appealDetails.student[0].lastName}</h3>
                             </MDBCol>
                         </MDBRow>
-    
-                        <MDBRow style={{ paddingTop: "20px" }}>
-                            <MDBCol sm="4">Appeal Date: </MDBCol>
+                        <MDBRow>
+                            <MDBCol sm="4">Module: </MDBCol>
                             <MDBCol sm="8">
-                                <input
-                                    defaultValue={this.state.appealDetails.date}
-                                    name="date"
-                                    type="text"
-                                    className="form-control"
-                                    disabled={true}
-                                />
+                                <h3>{appealDetails.module[0].code}</h3>
                             </MDBCol>
-                        </MDBRow>
-    
-                        <MDBRow style={{ paddingTop: "20px" }}>
-                            <MDBCol sm="4">Appeal Type: </MDBCol>
-                            <MDBCol sm="8">
-                                <input
-                                    defaultValue={this.state.appealDetails.value}
-                                    name="date"
-                                    type="text"
-                                    className="form-control"
-                                    disabled={true}
-                                />
-                            </MDBCol>
-                        </MDBRow>
-    
-                        <MDBRow style={{ paddingTop: "20px" }}>
-                            <MDBCol sm="4">Appeal Module: </MDBCol>
-                            <MDBCol sm="8">
-                                <input
-                                    defaultValue={this.state.appealDetails.appealModule}
-                                    name="appealModule"
-                                    type="text"
-                                    className="form-control"
-                                    disabled={true}
-                                />
-                            </MDBCol>
-                        </MDBRow>
-    
-                        <MDBRow style={{ paddingTop: "20px" }}>
-                            <MDBCol sm="4">Appeal Reason: </MDBCol>
-                            <MDBCol sm="8">
-                                <input
-                                    defaultValue={this.state.appealDetails.appealReason}
-                                    name="date"
-                                    type="text"
-                                    className="form-control"
-                                    disabled={true}
-                                />
-                            </MDBCol>
-                        </MDBRow>
-    
-                        <MDBRow style={{ paddingTop: "20px" }}>
-                            <MDBCol sm="4">
-                            </MDBCol>
-                            <MDBCol sm="8">
-                                <MDBBtn color="success" onClick={this.handleAccept}>Accept</MDBBtn>
-                                <MDBBtn color="red" onClick={this.handleReject}>Reject</MDBBtn>
-                                <MDBModal isOpen={this.state.rejectModal} toggle={this.handleReject}>
-                                    <MDBModalHeader toggle={this.rejectModal}>Reject Appeal</MDBModalHeader>
-                                    <MDBModalBody>
-                                        <textarea
-                                            className="form-control"
-                                            rows="5"
-                                            placeholder="Enter reject reason"
-                                            required
-                                        />
-                                    </MDBModalBody>
-                                    <MDBModalFooter>
-                                        <MDBBtn color="secondary" onClick={this.handleReject}>Cancel</MDBBtn>
-                                        <MDBBtn color="primary" onClick={this.submitRejectReason}>Submit</MDBBtn>
-                                    </MDBModalFooter>
-                                </MDBModal>
-                            </MDBCol>
-                        </MDBRow>
-    
-                    </SectionContainer>
-                </MDBContainer>
-    
-            )
-        }
-    
-        handleAccept = event => {
-            console.log("accept")
-        }
-    
-        handleReject = () => {
-            this.setState({ rejectModal: !this.state.rejectModal });
-        }
-    
-        submitRejectReason = event => {
-            console.log("submit reject reason")
-        } */
+                        </MDBRow> */}
+
+                    <MDBRow>
+                        <MDBCol sm="4"><h6>Status: </h6></MDBCol>
+                        <MDBCol sm="8">
+                            <h6>{appealDetails.status}</h6>
+                        </MDBCol>
+                    </MDBRow>
+
+                    <MDBRow>
+                        <MDBCol sm="4"><h6>Reason:</h6></MDBCol>
+                        <MDBCol sm="8">
+                            <h6>{appealDetails.reason}</h6>
+                        </MDBCol>
+                    </MDBRow>
+
+
+                    <MDBRow style={{ paddingTop: "20px" }}>
+                        <MDBCol sm="4">
+                        </MDBCol>
+                        <MDBCol sm="8">
+                            <MDBBtn color="success" onClick={this.handleAccept}>Accept</MDBBtn>
+                            <MDBBtn color="red" onClick={this.handleReject}>Reject</MDBBtn>
+                            <MDBModal isOpen={this.state.rejectModal} toggle={this.handleReject}>
+                                <MDBModalHeader toggle={this.rejectModal}>Reject Appeal</MDBModalHeader>
+                                <MDBModalBody>
+                                    <textarea
+                                        className="form-control"
+                                        rows="5"
+                                        placeholder="Enter reject reason"
+                                        required
+                                        onChange={this.handleOnChange}
+                                    />
+                                </MDBModalBody>
+                                <MDBModalFooter>
+                                    <MDBBtn color="secondary" onClick={this.cancel}>Cancel</MDBBtn>
+                                    <MDBBtn color="primary" onClick={this.submitRejectReason}>Submit</MDBBtn>
+                                </MDBModalFooter>
+                            </MDBModal>
+                        </MDBCol>
+                    </MDBRow>
+
+                </SectionContainer>
+            </MDBContainer>
+
+        )
+    }
+
+    handleAccept = event => {
+        const { appealDetails, reason } = this.state
+        console.log(reason)
+        console.log(appealDetails)
+
+        //FIXME:
+        axios.post(`http://localhost:8080/LMS-war/webresources/studentEnrollment/reviewAppeal?userId=1&appealId=${appealDetails.appealId}8&result=accept&detail=${reason}`)
+            .then(result => {
+                this.props.history.go(-1)
+                alert("Successful accepted");
+            })
+            .catch(error => {
+                console.error("error in axios " + error);
+            });
+    }
+
+    handleReject = () => {
+        this.setState({ rejectModal: !this.state.rejectModal });
+    }
+
+    submitRejectReason = event => {
+        //axiost post to reject
+        const { index, reason } = this.state
+
+        axios.post(`http://localhost:8080/LMS-war/webresources/studentEnrollment/reviewAppeal?userId=1&appealId=${index}8&result=reject&detail=${reason}`)
+            .then(result => {
+                this.props.history.go(-1)
+                alert("Successful rejected");
+            })
+            .catch(error => {
+                console.error("error in axios " + error);
+            });
+
+    }
 
     render() {
 

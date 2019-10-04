@@ -33,75 +33,75 @@ class MountModulePageForm extends Component {
     }
 
     handleOnChange = event => {
-        this.setState({[event.target.name]: event.target.value})
-       /*  var changedValue = event.target.value
-        console.log(changedValue)
-
-        if (event.target.name === "code") {
-            this.setState(prevState => ({
-                moduleDetails: {
-                    ...prevState.moduleDetails,
-                    code: changedValue
-                }
-            }))
-        } else if (event.target.name === "title") {
-            this.setState(prevState => ({
-                moduleDetails: {
-                    ...prevState.moduleDetails,
-                    title: changedValue
-                }
-            }))
-        } else if (event.target.name === "semesterOffered") {
-            this.setState(prevState => ({
-                moduleDetails: {
-                    ...prevState.moduleDetails,
-                    semesterOffered: changedValue
-                }
-            }))
-        } else if (event.target.name === "yearOffered") {
-            this.setState(prevState => ({
-                moduleDetails: {
-                    ...prevState.moduleDetails,
-                    yearOffered: changedValue
-                }
-            }))
-        }  else if (event.target.name === "creditUnit") {
-            this.setState(prevState => ({
-                moduleDetails: {
-                    ...prevState.moduleDetails,
-                    creditUnit: changedValue
-                }
-            }))
-        }
-    else if (event.target.name === "faculty") {
-            this.setState(prevState => ({
-                moduleDetails: {
-                    ...prevState.moduleDetails,
-                    faculty: changedValue
-                }
-            }))
-        } else if (event.target.name === "department") {
-            this.setState(prevState => ({
-                moduleDetails: {
-                    ...prevState.moduleDetails,
-                    department: changedValue
-                }
-            }))
-        } else if (event.target.name === "maxEnrollment") {
-            this.setState(prevState => ({
-                moduleDetails: {
-                    ...prevState.moduleDetails,
-                    maxEnrollment: changedValue
-                }
-            }))
-        } else {
-            this.setState(prevState => ({
-                moduleDetails: {
-                    ...prevState.moduleDetails,
-                    assignedTeacher: changedValue
-                }
-            }))
-        } */
+        this.setState({ [event.target.name]: event.target.value })
+        /*  var changedValue = event.target.value
+         console.log(changedValue)
+ 
+         if (event.target.name === "code") {
+             this.setState(prevState => ({
+                 moduleDetails: {
+                     ...prevState.moduleDetails,
+                     code: changedValue
+                 }
+             }))
+         } else if (event.target.name === "title") {
+             this.setState(prevState => ({
+                 moduleDetails: {
+                     ...prevState.moduleDetails,
+                     title: changedValue
+                 }
+             }))
+         } else if (event.target.name === "semesterOffered") {
+             this.setState(prevState => ({
+                 moduleDetails: {
+                     ...prevState.moduleDetails,
+                     semesterOffered: changedValue
+                 }
+             }))
+         } else if (event.target.name === "yearOffered") {
+             this.setState(prevState => ({
+                 moduleDetails: {
+                     ...prevState.moduleDetails,
+                     yearOffered: changedValue
+                 }
+             }))
+         }  else if (event.target.name === "creditUnit") {
+             this.setState(prevState => ({
+                 moduleDetails: {
+                     ...prevState.moduleDetails,
+                     creditUnit: changedValue
+                 }
+             }))
+         }
+     else if (event.target.name === "faculty") {
+             this.setState(prevState => ({
+                 moduleDetails: {
+                     ...prevState.moduleDetails,
+                     faculty: changedValue
+                 }
+             }))
+         } else if (event.target.name === "department") {
+             this.setState(prevState => ({
+                 moduleDetails: {
+                     ...prevState.moduleDetails,
+                     department: changedValue
+                 }
+             }))
+         } else if (event.target.name === "maxEnrollment") {
+             this.setState(prevState => ({
+                 moduleDetails: {
+                     ...prevState.moduleDetails,
+                     maxEnrollment: changedValue
+                 }
+             }))
+         } else {
+             this.setState(prevState => ({
+                 moduleDetails: {
+                     ...prevState.moduleDetails,
+                     assignedTeacher: changedValue
+                 }
+             }))
+         } */
     }
 
     /*     handleSelect = event => {
@@ -223,8 +223,8 @@ class MountModulePageForm extends Component {
                     <MDBRow style={{ paddingTop: "20px" }}>
                         <MDBCol sm="4" style={{ paddingTop: "10px" }}>Exam: </MDBCol>
                         <MDBCol sm="8">
-                            <RadioGroup aria-label="position" name="position" onChange={this.handleSelect} row defaultValue={this.state.moduleDetails.hasExam ? "No" : "Yes"}>
-
+                            <RadioGroup aria-label="position" name="position" onChange={this.handleSelect} row defaultValue={(this.state.moduleDetails.hasExam) ? "Yes" : "No"}>
+                                {console.log("exam:" + this.state.moduleDetails.hasExam)}
                                 <FormControlLabel
                                     value="Yes"
                                     disabled={this.state.disabled}
@@ -240,11 +240,9 @@ class MountModulePageForm extends Component {
                                     labelPlacement="end"
                                 />
                             </RadioGroup>
-                            {/* this.inputExamDetails() */}
+                            {this.inputExamDetails()}
                         </MDBCol>
                     </MDBRow>
-
-
 
                     <MDBRow style={{ paddingTop: "20px" }}>
                         <MDBCol sm="4" style={{ paddingTop: "10px" }}>Faculty: </MDBCol>
@@ -291,36 +289,6 @@ class MountModulePageForm extends Component {
                         </MDBCol>
                     </MDBRow>
 
-                    {/* <MDBRow style={{ paddingTop: "20px" }}>
-                        <MDBCol sm="4" style={{ paddingTop: "10px" }}>Exam Time: </MDBCol>
-                        <MDBCol sm="8">
-                            <input
-                                defaultValue={this.state.moduleDetails.examTime}
-                                name="examTime"
-                                type="text"
-                                className="form-control"
-                                placeholder="Exam Time"
-                                disabled={this.state.disabled}
-                                onChange={this.handleOnChange}
-                            />
-                        </MDBCol>
-                    </MDBRow>
-
-                    <MDBRow style={{ paddingTop: "20px" }}>
-                        <MDBCol sm="4" style={{ paddingTop: "10px" }}>Exam Venue: </MDBCol>
-                        <MDBCol sm="8">
-                            <input
-                                defaultValue={this.state.moduleDetails.examVenue}
-                                name="examVenue"
-                                type="text"
-                                className="form-control"
-                                placeholder="Exam Venue"
-                                disabled={this.state.disabled}
-                                onChange={this.handleOnChange}
-                            />
-                        </MDBCol>
-                    </MDBRow> */}
-
                     {/*FIXME: change to select*/}
                     <MDBRow style={{ paddingTop: "20px" }}>
                         <MDBCol sm="4" style={{ paddingTop: "10px" }}>Lecture: </MDBCol>
@@ -354,9 +322,62 @@ class MountModulePageForm extends Component {
         )
     }
 
+    inputExamDetails = () => {
+        if (this.state.moduleDetails.hasExam) {
+            return (
+                <div>
+                    <MDBRow style={{ paddingTop: "20px" }}>
+                        <MDBCol sm="12">
+                            <input
+                                defaultValue={this.state.moduleDetails.examDate}
+                                name="examDate"
+                                type="text"
+                                className="form-control"
+                                placeholder="Exam Date"
+                                disabled={this.state.disabled}
+                                onChange={this.handleOnChange}
+                            />
+                        </MDBCol>
+                    </MDBRow>
+
+                    <MDBRow style={{ paddingTop: "20px" }}>
+                        <MDBCol sm="12">
+                            <input
+                                value={this.state.moduleDetails.examTime}
+                                name="examTime"
+                                type="text"
+                                className="form-control"
+                                placeholder="Exam Time"
+                                disabled={this.state.disabled}
+                                onChange={this.handleOnChange}
+                            />
+                        </MDBCol>
+                    </MDBRow>
+
+                    <MDBRow style={{ paddingTop: "20px" }}>
+                        <MDBCol sm="12">
+                            <input
+                                value={this.state.moduleDetails.examVenue}
+                                name="examVenue"
+                                type="text"
+                                className="form-control"
+                                placeholder="Exam Venue"
+                                disabled={this.state.disabled}
+                                onChange={this.handleOnChange}
+                            />
+                        </MDBCol>
+                    </MDBRow>
+
+                </div>
+            )
+        } else {
+            return null
+        }
+    }
+
     editSave = event => {
         this.setState({ disabled: false, editSave: "Save" })
-        const {index} = this.state
+        const { index } = this.state
         if (this.state.editSave === "Save") {
             this.setState({ disabled: true })
             //FIXME: Post to update
@@ -381,8 +402,8 @@ class MountModulePageForm extends Component {
         var index = this.state.index
         axios.delete(url + `ModuleMounting/deleteModule?moduleId=${index}`)
             .then(result => {
-                console.log(result.data)
-                alert("deleted")
+                this.props.history.go(-1)
+                alert("Deleted");
             })
             .catch(error => {
                 console.error("error in axios " + error);
@@ -396,6 +417,13 @@ class MountModulePageForm extends Component {
         this.props.history.push(path);
     }
 
+    viewTutorials = event => {
+        var modId = this.props.dataStore.getMountSingleModuleIndex
+        let path = modId + `/tutorial`;
+        console.log(path)
+        this.props.history.push(path);
+    }
+
     render() {
         return (
             <MDBContainer style={{ paddingTop: "80px" }}>
@@ -403,6 +431,8 @@ class MountModulePageForm extends Component {
                 {/*                 <MDBBtn color="primary" href={`/admin/mountModule/form/${this.props.dataStore.getMountSingleModuleIndex}/create`}>Mount Tutorial</MDBBtn>
  */}
                 <MDBBtn color="primary" onClick={this.mountModuleTutorialCreate}>Mount Tutorial</MDBBtn>
+                <MDBBtn color="primary" onClick={this.viewTutorials}>View Tutorial</MDBBtn>
+
                 <MDBRow>{this.displayModuleDetails()}</MDBRow>
             </MDBContainer >
         )

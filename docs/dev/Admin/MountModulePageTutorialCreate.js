@@ -15,7 +15,9 @@ class MountModulePageTutorialCreate extends Component {
         moduleCode: "",
         moduleId: 0,
         maxEnrollment: 0,
-        time: "",
+        startTime: "",
+        endTime: "",
+        tutorialDay: "",
         venue: "",
     }
 
@@ -23,13 +25,11 @@ class MountModulePageTutorialCreate extends Component {
         var pathname = window.location.pathname, part = pathname.substr(pathname.lastIndexOf('/') + 1);
         var pathnameSplit = pathname.split('/');
         var modId = pathnameSplit[pathnameSplit.length - 2]
-        console.log(modId)
         this.setState({ moduleId: modId })
 
         axios.get(url + "ModuleMounting/getModule/" + modId)
             .then(result => {
                 this.setState({ moduleCode: result.data.code })
-                console.log(this.state.moduleCode)
             })
             .catch(error => {
                 console.error("error in axios " + error);
@@ -38,6 +38,10 @@ class MountModulePageTutorialCreate extends Component {
 
     handleOnChange = event => {
         this.setState({ [event.target.name]: event.target.value })
+    }
+
+    handleSelect = event => {
+        this.setState({tutorialDay: event.target.value})
     }
 
     displayMountModuleTutorialForm = () => {
@@ -62,16 +66,48 @@ class MountModulePageTutorialCreate extends Component {
                     </MDBRow>
 
                     <MDBRow style={{ paddingTop: "20px" }}>
-                        <MDBCol sm="4">Time: </MDBCol>
+                        <MDBCol sm="4">Start Time: </MDBCol>
                         <MDBCol sm="8">
                             <input
-                                value={this.state.time}
-                                name="time"
-                                type="text"
+                                value={this.state.startTime}
+                                name="startTime"
+                                type="time"
                                 className="form-control"
-                                placeholder="Time"
+                                placeholder="Start Time"
+                                min="08:00"
+                                max="20:00"
                                 onChange={this.handleOnChange}
                             />
+                        </MDBCol>
+                    </MDBRow>
+
+                    <MDBRow style={{ paddingTop: "20px" }}>
+                        <MDBCol sm="4">End Time: </MDBCol>
+                        <MDBCol sm="8">
+                            <input
+                                value={this.state.endTime}
+                                name="endTime"
+                                type="time"
+                                className="form-control"
+                                placeholder="End Time"
+                                min="10:00"
+                                max="22:00"
+                                onChange={this.handleOnChange}
+                            />
+                        </MDBCol>
+                    </MDBRow>
+
+                    <MDBRow style={{ paddingTop: "20px" }}>
+                        <MDBCol sm="4">Day: </MDBCol>
+                        <MDBCol sm="8">
+                            <select className="browser-default custom-select" onChange={this.handleSelect}>
+                                <option>Choose your option</option>
+                                <option value="Monday">Monday</option>
+                                <option value="Tuesday">Tuesday</option>
+                                <option value="Wednesday">Wednesday</option>
+                                <option value="Thursday">Thursday</option>
+                                <option value="Friday">Friday</option>
+                            </select>
                         </MDBCol>
                     </MDBRow>
 
@@ -91,20 +127,13 @@ class MountModulePageTutorialCreate extends Component {
 
                     <MDBRow style={{ paddingTop: "20px" }}>
                         <MDBCol sm="4" style={{ paddingTop: "10px" }}>
-                            <Button onClick={this.cancel}>Cancel</Button>
+                            <Button onClick={this.cancel} variant="contained" color="primary">Cancel</Button>
                         </MDBCol>
-                        <MDBCol sm="8">
 
-                        </MDBCol>
-                    </MDBRow>
-
-                    <MDBRow style={{ paddingTop: "20px" }}>
                         <MDBCol sm="4" style={{ paddingTop: "10px" }}>
-                            <Button onClick={this.create}>Create</Button>
+                            <Button onClick={this.create} variant="contained" color="primary">Create</Button>
                         </MDBCol>
-                        <MDBCol sm="8">
 
-                        </MDBCol>
                     </MDBRow>
 
                 </SectionContainer>
@@ -116,30 +145,23 @@ class MountModulePageTutorialCreate extends Component {
     }
 
     create = event => {
-        console.log(this.state.time)
-        console.log(this.state.venue)
-        console.log(this.state.maxEnrollment)
+     
 
-        const { time, venue, maxEnrollment } = this.state
+        const { startTime, endTime, tutorialDay, venue, maxEnrollment } = this.state
+        var timing = tutorialDay + " " + startTime + " - " + endTime
 
-        axios.post(url + `ModuleMounting/mountTutorial?moduleId=${this.state.moduleId}`, {maxEnrollment: maxEnrollment, venue: venue, timing: time})
+        axios.put(url + `ModuleMounting/mountTutorial?moduleId=${this.state.moduleId}`, { maxEnrollment: maxEnrollment, venue: venue, timing: timing })
             .then(result => {
-                console.log(result.data);
+                this.props.history.go(-1)
                 alert("Successful mounted tutorial");
-                //FIXME: go to previous page
             })
             .catch(error => {
                 console.error("error in axios " + error);
             });
-
-
     }
 
-
     render() {
-
         return (
-
             <MDBContainer style={{ paddingTop: "80px" }}>
 
                 <h3>Mount Tutorial for {this.state.moduleCode} </h3>

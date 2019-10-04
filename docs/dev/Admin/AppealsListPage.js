@@ -202,7 +202,6 @@ class AppealsListPage extends Component {
         } else {
             allAppeals = this.state.reviewedAppeals
         }
-        this.props.dataStore.setAllAppeals(allAppeals)
 
         allAppeals && allAppeals.map((eachAppeal, index) =>
             displayAll.push({

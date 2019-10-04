@@ -3,9 +3,12 @@ import SectionContainer from "../../components/sectionContainer";
 import { MDBContainer, MDBCol, MDBRow, MDBTableBody, MDBTableHead, MDBTable, MDBBtn } from "mdbreact";
 import axios from "axios";
 import { Button, Dialog, DialogTitle, DialogContent, DialogActions } from '@material-ui/core';
+import { observer, inject } from 'mobx-react'
 
 var url = "http://localhost:3001/";
 
+@inject('dataStore')
+@observer
 class SubmitAppealPage extends Component {
   state = {
     value: "",
@@ -31,7 +34,9 @@ class SubmitAppealPage extends Component {
       .catch(error => {
         console.error("error in axios " + error);
       });
-    axios.get("http://localhost:8080/LMS-war/webresources/studentEnrollment/retrieveStudentAppeals?userId=2")
+
+    var userId = this.props.dataStore.getUserId
+    axios.get(`http://localhost:8080/LMS-war/webresources/studentEnrollment/retrieveStudentAppeals?userId=${userId}`)
       .then(result => {
         this.setState({ allAppeals: result.data.appeals })
       })
