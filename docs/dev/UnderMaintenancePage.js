@@ -9,10 +9,10 @@ const UnderMaintenancePage = () => {
                     <MDBJumbotron>
                         <h2 className="font-weight-bold blue-text">
                             MODREG
-                </h2>
+                        </h2>
                         <p className="text-muted mb-1">
                             Module Registration System
-                </p>
+                        </p>
                         <img src="https://cdn.dribbble.com/users/2817186/screenshots/5956171/under-maintenance-design-224806.jpg" width="50%" />
                     </MDBJumbotron>
                 </MDBCol>

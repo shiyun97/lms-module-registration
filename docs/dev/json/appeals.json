@@ -1,0 +1,87 @@
+{
+  "schedule": {
+    "date": "20",
+    "month": "01",
+    "year": "2020",
+    "hour": "23",
+    "minute": "59",
+    "second": "00",
+    "millisecond": "999"
+  },
+  "availableModules": [
+    {
+      "id": "1",
+      "moduleCode": "IS4103",
+      "moduleName": "Information Systems Capstone Project",
+      "lecture": [
+        "Lecture 1",
+        "Lecture 2",
+        "Lecture 3"
+      ],
+      "tutorial": [
+        "Tutorial 1",
+        "Tutorial 2",
+        "Tutorial 3"
+      ]
+    },
+    {
+      "id": "2",
+      "moduleCode": "IS4100",
+      "moduleName": "IT Project Management",
+      "lecture": [
+        "Lecture 4",
+        "Lecture 5",
+        "Lecture 6"
+      ],
+      "tutorial": [
+        "Tutorial 4",
+        "Tutorial 5",
+        "Tutorial 6"
+      ]
+    },
+    {
+      "id": "3",
+      "moduleCode": "IS4242",
+      "moduleName": "Intelligent Systems and Techniques",
+      "lecture": [
+        "Lecture 7",
+        "Lecture 8",
+        "Lecture 9"
+      ],
+      "tutorial": [
+        "Tutorial 7",
+        "Tutorial 8",
+        "Tutorial 9"
+      ]
+    }
+  ],
+  "allAppeals": [
+    {
+      "value": "Unable to secure module",
+      "appealModule": "IS4100",
+      "appealReason": "No slot",
+      "date": "2019-09-20T13:23:49.516Z",
+      "appealStatus": "Rejected",
+      "rejectReason": "Class full",
+      "id": 1
+    },
+    {
+      "value": "Unable to secure module",
+      "appealModule": "IS4242",
+      "appealReason": "Graduating",
+      "date": "2019-09-20T13:23:49.516Z",
+      "appealStatus": "Approved",
+      "rejectReason": "",
+      "id": 2
+    },
+    {
+      "value": "Unable to secure module",
+      "appealModule": "IS4103",
+      "appealReason": "Late",
+      "date": "2019-09-20T13:23:49.516Z",
+      "appealStatus": "Pending",
+      "rejectReason": "",
+      "id": 3
+    }
+  ]
+}

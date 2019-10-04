@@ -12,10 +12,10 @@
       "forceConsistentCasingInFileNames": true,
       "strict": true,
       "noEmit": true,
-      "experimentalDecorators": true,
       "allowSyntheticDefaultImports": true,
       "noErrorTruncation": true,
-      "outDir": "./dist"
+      "outDir": "./dist",
+      "experimentalDecorators": true
     },
     "include": [
       "src/**/*.d.ts"

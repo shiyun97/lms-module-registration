@@ -1,0 +1,126 @@
+{
+    "selectedModules": [
+        {
+            "moduleCode": "IS4103",
+            "moduleName": "Module 1",
+            "lectureCode": "2020-1-IS4103L1"
+        },
+        {
+            "moduleCode": "IS4103",
+            "moduleName": "Module 1",
+            "lectureCode": "2020-1-IS4103L2"
+        },
+        {
+            "moduleCode": "IS4103",
+            "moduleName": "Module 1",
+            "lectureCode": "2020-1-IS4103L3"
+        }
+    ],
+    "searchedModules": [
+        {
+            "moduleCode": "IS3103",
+            "moduleName": "Module 2",
+            "lectureCode": "2020-1-IS3103L1"
+        },
+        {
+            "moduleCode": "IS3103",
+            "moduleName": "Module 2",
+            "lectureCode": "2020-1-IS3103L2"
+        },
+        {
+            "moduleCode": "IS3103",
+            "moduleName": "Module 2",
+            "lectureCode": "2020-1-IS3103L3"
+        }
+    ],
+    "myClasses": [
+        {
+            "moduleCode": "IS4103",
+            "moduleName": "Module 1",
+            "classes": [
+                {
+                    "classCode": "2020-1-IS4103L3",
+                    "type": "Lecture",
+                    "credits": "8.00",
+                    "enrollStatus": "Enrolled"
+                },
+                {
+                    "classCode": "2020-1-IS4103T1",
+                    "type": "Tutorial",
+                    "credits": "-",
+                    "enrollStatus": "Enrolled"
+                }
+            ]
+        },
+        {
+            "moduleCode": "IS3103",
+            "moduleName": "Module 2",
+            "classes": [
+                {
+                    "classCode": "2020-1-IS3103L1",
+                    "type": "Lecture",
+                    "credits": "4.00",
+                    "enrollStatus": "Enrolled"
+                },
+                {
+                    "classCode": "2020-1-IS3103T2",
+                    "type": "Tutorial",
+                    "credits": "-",
+                    "enrollStatus": "Enrolled"
+                }
+            ]
+        }
+    ],
+    "studentRetrieved": {
+        "student":
+        {
+            "studentNumber": "A1111111B",
+            "studentName": "Student A"
+        },
+        "studentModules": [
+            {
+                "moduleCode": "IS1103",
+                "moduleName": "Module 4",
+                "lectureCode": "2020-1-IS1103L1"
+            },
+            {
+                "moduleCode": "IS2102",
+                "moduleName": "Module 5",
+                "lectureCode": "2020-1-IS2102L2"
+            },
+            {
+                "moduleCode": "IS2103",
+                "moduleName": "Module 6",
+                "lectureCode": "2020-1-IS2103L3"
+            }
+        ]
+    },
+    "selectedTutorials": [
+        {
+            "moduleCode": "IS1103",
+            "moduleName": "Module 1",
+            "moduleActivity": "Tutorial",
+            "rank1": "2020-1-IS1103T2",
+            "rank2": "2020-1-IS1103T8"
+        },
+        {
+            "moduleCode": "IS2103",
+            "moduleName": "Module 2",
+            "moduleActivity": "Tutorial",
+            "rank1": "2020-1-IS2103T2",
+            "rank2": "-"
+        }
+    ],
+    "availableTutorials": [
+        {
+            "moduleCode": "IS3103",
+            "moduleActivity": "Tutorial",
+            "tutorialSlots": [ "2020-1-IS3103T1", "2020-1-IS3103T2", "2020-1-IS3103T3", "2020-1-IS3103T4", "2020-1-IS3103T5" ]
+        },
+        {
+            "moduleCode": "IS2103",
+            "moduleActivity": "Tutorial",
+            "tutorialSlots": [ "2020-1-IS2103T1", "2020-1-IS2103T2", "2020-1-IS2103T3", "2020-1-IS2103T4", "2020-1-IS2103T5" ]
+        }
+    ]
+}

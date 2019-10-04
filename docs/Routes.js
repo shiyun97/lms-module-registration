@@ -1,8 +1,28 @@
 import React from "react";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
 import { MDBContainer, MDBCol, MDBRow, MDBJumbotron } from "mdbreact";
+import { observer, inject } from 'mobx-react';
 
-// FREE
+// MRS IMPORTS
+import StudentLoginPage from './dev/Student/StudentLoginPage';
+import UnderMaintenancePage from "./dev/UnderMaintenancePage";
+import Home from "./dev/Home";
+import UsersManagementPage from "./dev/Admin/UsersManagementPage";
+import MyClassesPage from './dev/Student/MyClassesPage';
+import SelectModulesPage from './dev/Student/SelectModulesPage';
+import SelectTutorialsPage from './dev/Student/SelectTutorialsPage';
+import SubmitAppealPage from './dev/Student/SubmitAppealPage';
+import AllocateModulesPage from './dev/Admin/AllocateModulesPage';
+import AdminLoginPage from "./dev/Admin/AdminLoginPage";
+import MountModulePage from "./dev/Admin/MountModulePage";
+import MountModulePageForm from "./dev/Admin/MountModulePageForm";
+import MountModulePageFormCreate from "./dev/Admin/MountModulePageFormCreate";
+import MountModulePageTutorialCreate from "./dev/Admin/MountModulePageTutorialCreate";
+import MountModulePageTutorialView from "./dev/Admin/MountModulePageTutorialView"
+import ScheduleSettingsPage from "./dev/Admin/ScheduleSettingsPage";
+import AppealsListPage from "./dev/Admin/AppealsListPage";
+import AppealViewPage from "./dev/Admin/AppealViewPage";
+// COMPONENT TEMPLATES
 import NavigationNavPage from "./pages/NavigationNavPage";
 import FormsNavPage from "./pages/FormsNavPage";
 import TablesNavPage from "./pages/TablesNavPage";
@@ -62,25 +82,71 @@ import InputGroupPage from './pages/InputGroupPage'
 import TreeviewPage from './pages/TreeviewPage'
 import AnalyticsPage from './pages/AnalyticsPage';
 
-// LMS IMPORTS
-import LoginPage from './dev/LoginPage';
-import RegisterPage from './dev/RegisterPage';
-import DashboardPage from './dev/DashboardPage';
-import UnderMaintenancePage from "./dev/UnderMaintenancePage";
 
+@inject('dataStore')
+@observer
 class Routes extends React.Component {
+
   render() {
+
+    // print login status
+    // console.log(this.props.dataStore.getSignInStatus)
+
+    const StudentPrivateRoute = ({ path: Path, component: Component, ...rest }) => (
+      <Route {...rest} render={(props) => (
+        this.props.dataStore.getSignInStatus === true
+          ? <Component {...props} />
+          :
+          <>
+            {this.props.dataStore.setPath(Path)}
+            <Redirect to='/login' />
+          </>
+      )
+      }
+      />
+    )
+    const AdminPrivateRoute = ({ path: Path, component: Component, ...rest }) => (
+      <Route {...rest} render={(props) => (
+        this.props.dataStore.getSignInStatus === true
+          ? <Component {...props} />
+          :
+          <>
+            {this.props.dataStore.setPath(Path)}
+            <Redirect to='/admin' />
+          </>
+      )
+      }
+      />
+    )
     return (
       <Switch>
 
-        {/* LMS PAGES */}
-        <Route exact path="/login" component={LoginPage} />
-        <Route exact path="/register" component={RegisterPage} />
-        <Route exact path="/dashboard" component={DashboardPage} />
+        <Route exact path="/home" component={HomePage} />
+        <Route exact path="/" component={Home} />
         <Route exact path="/undermaintenance" component={UnderMaintenancePage} />
 
+        {/* MODULE REGISTRATION (STUDENT) */}
+        <Route exact path="/login" component={StudentLoginPage} />
+        <Route exact path="/student/:studentId/classes" component={MyClassesPage} />
+        <Route exact path="/student/:studentId/select-modules" component={SelectModulesPage} />
+        <Route exact path="/student/:studentId/select-tutorials" component={SelectTutorialsPage} />
+        <Route exact path="/student/:studentId/appeals" component={SubmitAppealPage} />
+
+        {/*  MODULE REGISTRATION (ADMIN) */}
+        <Route exact path="/admin" component={AdminLoginPage} />
+        <Route exact path="/admin/scheduleSettings" component={ScheduleSettingsPage} />
+        <Route exact path="/admin/users" component={UsersManagementPage} />
+        <Route exact path="/admin/allocate-modules" component={AllocateModulesPage} />
+        <Route exact path="/admin/mountModule" component={MountModulePage} />
+        <Route exact path="/admin/mountModule/form/:index" component={MountModulePageForm} />
+        <Route exact path="/admin/mountModule/form/:index/tutorial" component={MountModulePageTutorialView}/>
+        <Route exact path="/admin/mountModule/form-create" component={MountModulePageFormCreate} />
+        <Route exact path="/admin/mountModule/form/:index/create" component={MountModulePageTutorialCreate}/>
+        <Route exact path='/admin/appealsList' component={AppealsListPage} />
+        <Route exact path="/admin/appealsList/view/:index" component={AppealViewPage} />
+
+
         {/* FREE Templates */}
-        <Route exact path="/" component={HomePage} />
         <Route exact path="/analytics" component={AnalyticsPage} />
         <Route exact path="/addons" component={AddonsNavPage} />
         <Route exact path="/advanced" component={AdvancedNavPage} />
@@ -155,7 +221,7 @@ class Routes extends React.Component {
             )
           }}
         />
-      </Switch>
+      </Switch >
     );
   }
 }

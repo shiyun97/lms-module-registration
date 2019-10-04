@@ -1,0 +1,15 @@
+{
+  "modules": [
+    {
+      "moduleCode": "is4103333",
+      "moduleName": "capstone",
+      "semester": "1",
+      "year": "1920",
+      "faculty": "soc",
+      "department": "isss",
+      "maxCapacity": "80",
+      "professor": "twk",
+      "id": 1
+    }
+  ]
+}

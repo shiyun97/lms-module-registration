@@ -10,13 +10,32 @@ import {
   MDBNavLink
 } from "mdbreact";
 import { BrowserRouter as Router } from "react-router-dom";
-import SideNav from './dev/SideNav';
 import Routes from "./Routes";
+import { observer, inject } from 'mobx-react'
 
+@inject('dataStore')
+@observer
 class App extends Component {
   state = {
     collapseID: ""
   };
+
+  componentDidMount() {
+    if (localStorage.getItem("email") !== null) {
+      let email = localStorage.getItem("email")
+      let password = localStorage.getItem("password")
+      let accessRight = localStorage.getItem("accessRight")
+      let userId = localStorage.getItem("userId")
+      let gender = localStorage.getItem("gender")
+      let firstName = localStorage.getItem("firstName")
+      let lastName = localStorage.getItem("lastName")
+      let username = localStorage.getItem("username")
+      let path = localStorage.getItem("path")
+      this.props.dataStore.setPath(path)
+      this.props.dataStore.setSignInStatus(true, email, password, accessRight)
+      this.props.dataStore.setUserDetails(userId, gender, firstName, lastName, username)
+    }
+  }
 
   toggleCollapse = collapseID => () =>
     this.setState(prevState => ({
@@ -28,6 +47,16 @@ class App extends Component {
     this.state.collapseID === collapseID && this.setState({ collapseID: "" });
   };
 
+  updatePath = (path) => {
+    this.props.dataStore.setPath(path);
+    this.closeCollapse("mainNavbarCollapse");
+  }
+
+  logOutUser = () => {
+    this.closeCollapse("mainNavbarCollapse");
+    this.props.dataStore.setSignOutStatus();
+  }
+
   render() {
     const overlay = (
       <div
@@ -38,14 +67,14 @@ class App extends Component {
     );
 
     const { collapseID } = this.state;
-
+    const dataStore = this.props.dataStore;
+    const userId = this.props.dataStore.getUserId;
     return (
       <Router>
-        <SideNav />
         <div className="flyout">
-          <MDBNavbar color="indigo" dark expand="md" scrolling fixed="top">
-            <MDBNavbarBrand href="/" className="py-0 font-weight-bold" style={{ paddingLeft: "80px" }}>
-              <img src="https://www.iconsdb.com/icons/preview/white/graduation-cap-xxl.png" style={{ height: "1.5rem", width: "2rem", paddingRight: "10px" }} />
+          <MDBNavbar color="indigo" dark expand="md" scrolling fixed="top" isLoggedIn={this.props.dataStore.getSignInStatus}>
+            <MDBNavbarBrand href="/" className="py-0 font-weight-bold">
+              <i className="fas fa-school" style={{ height: "1.5rem", width: "2rem", paddingRight: "10px" }}></i>
               <strong className="align-middle">MODREG</strong>
             </MDBNavbarBrand>
             <MDBNavbarToggler
@@ -57,95 +86,110 @@ class App extends Component {
               navbar
             >
               <MDBNavbarNav right>
-                <MDBNavItem>
+                <MDBNavItem style={{ paddingRight: 10 }}>
                   <MDBNavLink
                     exact
-                    to="/home"
-                    onClick={this.closeCollapse("mainNavbarCollapse")}
+                    to="/"
+                    onClick={() => this.updatePath('/')}
                   >
                     <strong>Home</strong>
                   </MDBNavLink>
                 </MDBNavItem>
-                <MDBNavItem>
-                  <MDBNavLink
-                    onClick={this.closeCollapse("mainNavbarCollapse")}
-                    to="/analytics"
-                  >
-                    <strong>Analytics</strong>
-                  </MDBNavLink>
-                </MDBNavItem>
-                <MDBNavItem>
-                  <MDBNavLink
-                    onClick={this.closeCollapse("mainNavbarCollapse")}
-                    to="/login"
-                  >
-                    <strong>Login</strong>
-                  </MDBNavLink>
-                </MDBNavItem>
-                <MDBNavItem>
-                  <MDBNavLink
-                    onClick={this.closeCollapse("mainNavbarCollapse")}
-                    to="/css"
-                  >
-                    <strong>CSS</strong>
-                  </MDBNavLink>
-                </MDBNavItem>
-                <MDBNavItem>
-                  <MDBNavLink
-                    onClick={this.closeCollapse("mainNavbarCollapse")}
-                    to="/components"
-                  >
-                    <strong>Components</strong>
-                  </MDBNavLink>
-                </MDBNavItem>
-                <MDBNavItem>
-                  <MDBNavLink
-                    onClick={this.closeCollapse("mainNavbarCollapse")}
-                    to="/advanced"
-                  >
-                    <strong>Advanced</strong>
-                  </MDBNavLink>
-                </MDBNavItem>
-                <MDBNavItem>
-                  <MDBNavLink
-                    onClick={this.closeCollapse("mainNavbarCollapse")}
-                    to="/navigation"
-                  >
-                    <strong>Navigation</strong>
-                  </MDBNavLink>
-                </MDBNavItem>
-                <MDBNavItem>
-                  <MDBNavLink
-                    onClick={this.closeCollapse("mainNavbarCollapse")}
-                    to="/forms"
-                  >
-                    <strong>Forms</strong>
-                  </MDBNavLink>
-                </MDBNavItem>
-                <MDBNavItem>
-                  <MDBNavLink
-                    onClick={this.closeCollapse("mainNavbarCollapse")}
-                    to="/tables"
-                  >
-                    <strong>Tables</strong>
-                  </MDBNavLink>
-                </MDBNavItem>
-                <MDBNavItem>
-                  <MDBNavLink
-                    onClick={this.closeCollapse("mainNavbarCollapse")}
-                    to="/modals"
-                  >
-                    <strong>Modals</strong>
-                  </MDBNavLink>
-                </MDBNavItem>
-                <MDBNavItem>
-                  <MDBNavLink
-                    onClick={this.closeCollapse("mainNavbarCollapse")}
-                    to="/addons"
-                  >
-                    <strong>Addons</strong>
-                  </MDBNavLink>
-                </MDBNavItem>
+                {this.props.dataStore.getAccessRight === "Student" && <>
+                  <MDBNavItem style={{ paddingRight: 10 }}>
+                    <MDBNavLink
+                      onClick={() => this.updatePath(`/student/${userId}/classes`)}
+                      to={`/student/${userId}/classes`}
+                    >
+                      <strong>My Classes</strong>
+                    </MDBNavLink>
+                  </MDBNavItem>
+                  <MDBNavItem style={{ paddingRight: 10 }}>
+                    <MDBNavLink
+                      onClick={() => this.updatePath(`/student/${userId}/select-modules`)}
+                      to={`/student/${userId}/select-modules`}
+                    >
+                      <strong>Select Modules</strong>
+                    </MDBNavLink>
+                  </MDBNavItem>
+                  <MDBNavItem style={{ paddingRight: 10 }}>
+                    <MDBNavLink
+                      onClick={() => this.updatePath(`/student/${userId}/select-tutorials`)}
+                      to={`/student/${userId}/select-tutorials`}
+                    >
+                      <strong>Select Tutorials</strong>
+                    </MDBNavLink>
+                  </MDBNavItem>
+                  <MDBNavItem style={{ paddingRight: 10 }}>
+                    <MDBNavLink
+                      onClick={() => this.updatePath(`/student/${userId}/appeals`)}
+                      to={`/student/${userId}/appeals`}
+                    >
+                      <strong>Submit Appeals</strong>
+                    </MDBNavLink>
+                  </MDBNavItem>
+                </>}
+                {this.props.dataStore.getAccessRight === "Admin" && <>
+                  <MDBNavItem style={{ paddingRight: 10 }}>
+                    <MDBNavLink
+                      onClick={() => this.updatePath('/admin/users')}
+                      to="/admin/users"
+                    >
+                      <strong>Users Management</strong>
+                    </MDBNavLink>
+                  </MDBNavItem>
+                  <MDBNavItem style={{ paddingRight: 10 }}>
+                    <MDBNavLink
+                      onClick={() => this.updatePath('/admin/mountModule')}
+                      to="/admin/mountModule"
+                    >
+                      <strong>Module Mounting</strong>
+                    </MDBNavLink>
+                  </MDBNavItem>
+                  <MDBNavItem style={{ paddingRight: 10 }}>
+                    <MDBNavLink
+                      onClick={() => this.updatePath('/admin/appeals')}
+                      to="/admin/appealsList"
+                    >
+                      <strong>Appeals</strong>
+                    </MDBNavLink>
+                  </MDBNavItem>
+                  <MDBNavItem style={{ paddingRight: 10 }}>
+                    <MDBNavLink
+                      onClick={() => this.updatePath('/admin/allocate-modules')}
+                      to="/admin/allocate-modules"
+                    >
+                      <strong>Allocate Modules</strong>
+                    </MDBNavLink>
+                  </MDBNavItem>
+                  <MDBNavItem style={{ paddingRight: 10 }}>
+                    <MDBNavLink
+                      onClick={() => this.updatePath('/admin/scheduleSettings')}
+                      to="/admin/scheduleSettings"
+                    >
+                      <strong>Schedule Settings</strong>
+                    </MDBNavLink>
+                  </MDBNavItem>
+                </>}
+                {dataStore.getSignInStatus ?
+                  <MDBNavItem style={{ paddingRight: 10 }}>
+                    <MDBNavLink
+                      onClick={() => this.logOutUser()}
+                      to="/"
+                    >
+                      <strong>Logout</strong>
+                    </MDBNavLink>
+                  </MDBNavItem>
+                  :
+                  <MDBNavItem style={{ paddingRight: 10 }}>
+                    <MDBNavLink
+                      onClick={this.closeCollapse("mainNavbarCollapse")}
+                      to="/login"
+                    >
+                      <strong>Login</strong>
+                    </MDBNavLink>
+                  </MDBNavItem>
+                }
               </MDBNavbarNav>
             </MDBCollapse>
           </MDBNavbar>
@@ -155,7 +199,7 @@ class App extends Component {
           </main>
           <MDBFooter color="indigo">
             <p className="footer-copyright mb-0 py-3 text-center">
-              &copy; {new Date().getFullYear()} Copyright Learning Management System
+              &copy; {new Date().getFullYear()} Copyright Module Registration System
             </p>
           </MDBFooter>
         </div>
