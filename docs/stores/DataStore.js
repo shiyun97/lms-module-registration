@@ -26,9 +26,16 @@ class DataStore {
 
   @action setSignOutStatus() {
     this.signInStatus = false;
-    this.email = "";
-    this.password = "";
-    this.accessRight = "";
+    this.email = ""
+    this.password = ""
+    this.accessRight = ""
+    this.gender = ""
+    this.firstName = ""
+    this.lastName = ""
+    this.username = ""
+    this.userId = ""
+    this.mountSingleModuleIndex = ""
+    this.allAppeals = ""
     this.path = "/"
     localStorage.clear();
   }
