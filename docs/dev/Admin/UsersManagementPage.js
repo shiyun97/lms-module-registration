@@ -98,8 +98,8 @@ class UsersManagementPage extends Component {
                 this.setState({
                     rows: result.data.userList,
                     status: "done",
-                    message: "Retrieved user data successfully!",
-                    openSnackbar: true
+                    // message: "Retrieved user data successfully!",
+                    // openSnackbar: true
                 });
             })
             .catch(error => {
@@ -114,6 +114,11 @@ class UsersManagementPage extends Component {
 
     componentDidMount() {
         this.getAllUserDetails();
+    }
+
+    componentDidUpdate() {
+        if (this.state.status === "recallUsers")
+            this.getAllUserDetails();
     }
 
     handleOpenSnackbar = () => {
@@ -144,14 +149,13 @@ class UsersManagementPage extends Component {
             })
             .then(result => {
                 this.setState({
-                    status: "done",
+                    status: "recallUsers",
                     message: "New user successfully created!",
                     openSnackbar: true
                 });
             })
             .catch(error => {
                 this.setState({
-                    status: "error",
                     message: error.response.data.errorMessage,
                     openSnackbar: true
                 });
@@ -190,14 +194,13 @@ class UsersManagementPage extends Component {
             })
             .then(result => {
                 this.setState({
-                    status: "done",
+                    status: "recallUsers",
                     message: "User details updated successfully!",
                     openSnackbar: true
                 });
             })
             .catch(error => {
                 this.setState({
-                    status: "error",
                     message: error.response.data.errorMessage,
                     openSnackbar: true
                 });
@@ -211,14 +214,13 @@ class UsersManagementPage extends Component {
             .delete(`http://localhost:8080/LMS-war/webresources/User/deleteUser?userId=${userId}`)
             .then(result => {
                 this.setState({
-                    status: "done",
+                    status: "recallUsers",
                     message: "User deleted successfully!",
                     openSnackbar: true
                 });
             })
             .catch(error => {
                 this.setState({
-                    status: "error",
                     message: "Unable to delete user.",
                     openSnackbar: true
                 });
@@ -455,7 +457,7 @@ class UsersManagementPage extends Component {
         return (
             <MDBContainer className="mt-3">
                 <MDBRow style={{ paddingTop: 60 }}>
-                    <MDBCol md="7">
+                    <MDBCol md="8">
                         <h2 className="font-weight-bold">
                             Users Management
                 </h2>
@@ -463,9 +465,9 @@ class UsersManagementPage extends Component {
                     <MDBCol md="4" align="right">
                         <MDBBtn onClick={() => this.toggle(1)} color="primary">Create User</MDBBtn>
                     </MDBCol>
-                    <MDBCol md="1">
+                    {/* <MDBCol md="1">
                         <Fab onClick={() => this.getAllUserDetails()} style={{ height: 50, width: 50, backgroundColor: "#bbb", borderRadius: "50%" }}><MDBIcon icon="sync" /></Fab>
-                    </MDBCol>
+                    </MDBCol> */}
                 </MDBRow>
                 {this.renderCreateUserModalBox()}
                 {this.renderEditUserModalBox()}
