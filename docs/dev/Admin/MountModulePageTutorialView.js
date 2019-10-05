@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { MDBContainer, MDBCol, MDBRow, MDBInput, MDBFormInline, MDBBtn } from "mdbreact";
 import axios from "axios";
 import SectionContainer from "../../components/sectionContainer";
-import { Button } from "@material-ui/core";
+import { Button, Grid } from "@material-ui/core";
 
 
 class MountModulePageTutorialView extends Component {
@@ -115,9 +115,22 @@ class MountModulePageTutorialView extends Component {
                                         />
                                     </MDBCol>
                                 </MDBRow>
-                                <Button onClick={() => this.delete(tutorials.tutorialId)} color="secondary" variant="contained">Delete</Button>
-                                <Button onClick={() => this.editSave(tutorials.tutorialId)} color="primary" variant="contained" >{this.state.editSave}</Button>
 
+                                <MDBRow style={{ paddingTop: "20px" }}>
+                                    <Grid
+                                        container
+                                        direction="row"
+                                        justify="flex-end"
+                                        alignItems="center"
+                                    >
+                                        <Grid style={{ paddingRight: '20px' }}>
+                                            <Button onClick={() => this.editSave(tutorials.tutorialId)} color="primary" variant="contained" >{this.state.editSave}</Button>
+                                        </Grid>
+                                        <Grid style={{ paddingRight: '20px' }}>
+                                            <Button onClick={() => this.delete(tutorials.tutorialId)} color="secondary" variant="contained">Delete</Button>
+                                        </Grid>
+                                    </Grid>
+                                </MDBRow>
                             </SectionContainer>
                     )}
                 </MDBContainer>

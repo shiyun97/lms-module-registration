@@ -35,7 +35,7 @@ class SubmitAppealPage extends Component {
         alert("Please try again later")
       });
 
-    const userId = this.props.dataStore.getUserId;
+    let userId = localStorage.getItem("userId")
     axios.get(`http://localhost:8080/LMS-war/webresources/studentEnrollment/retrieveStudentAppeals?userId=${userId}`)
       .then(result => {
         this.setState({ allAppeals: result.data.appeals })
@@ -99,7 +99,7 @@ class SubmitAppealPage extends Component {
 
   handleSubmitChangeGroup = event => {
     event.preventDefault();
-    const userId = this.props.dataStore.getUserId;
+    let userId = localStorage.getItem("userId")
     const { appealReason, value, currentGroup, appealGroup } = this.state;
 
     axios.post("http://localhost:8080/LMS-war/webresources/studentEnrollment/createAppeal/", { 

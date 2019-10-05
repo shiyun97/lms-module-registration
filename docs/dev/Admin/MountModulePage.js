@@ -5,7 +5,6 @@ import { MDBDataTable } from 'mdbreact';
 import { Button } from "@material-ui/core";
 import { observer, inject } from 'mobx-react'
 
-
 const url = "http://localhost:8080/LMS-war/webresources/";
 
 @inject('dataStore')
@@ -21,7 +20,6 @@ class MountModulePage extends Component {
                 this.setState({ allModules: result.data.module })
             })
             .catch(error => {
-                alert("Error")
                 console.error("error in axios " + error);
             });
     }
@@ -33,40 +31,49 @@ class MountModulePage extends Component {
                     label: 'Code',
                     field: 'code',
                     sort: 'asc',
+                    width: 150
                 },
                 {
                     label: 'Module Title',
                     field: 'title',
                     sort: 'asc',
+                    width: 150
                 },
                 {
                     label: 'Semester Offered',
                     field: 'semesterOffered',
                     sort: 'asc',
+                    width: 150
                 },
                 {
                     label: 'Year Offered',
                     field: 'yearOffered',
                     sort: 'asc',
+                    width: 150
+
                 },
                 {
                     label: 'Faculty',
                     field: 'faculty',
                     sort: 'asc',
+                    width: 150
                 },
                 {
                     label: 'Department',
                     field: 'department',
                     sort: 'asc',
+                    width: 150
                 },
                 {
                     label: 'Assigned Teacher',
                     field: 'assignedTeacher',
                     sort: 'asc',
+                    width: 150
                 },
                 {
                     label: 'Details',
                     field: 'button',
+                    width: 150
                 },
             ],
             rows:
@@ -86,7 +93,6 @@ class MountModulePage extends Component {
                     responsiveMd
                     responsiveLg
                     responsiveXl
-                    small
                     theadColor="rgba-blue-slight"
                 />
             )
@@ -117,7 +123,7 @@ class MountModulePage extends Component {
 
     handleRowClick = index => {
         this.props.dataStore.setMountSingleModuleIndex(index)
-        let path = "form/" + index;
+        let path = "mountModule/form/" + index;
         this.props.history.push(path)
     }
 
@@ -130,12 +136,7 @@ class MountModulePage extends Component {
     }
 
     handleMountModule = event => {
-        let path = `form-create/`;
-        this.props.history.push(path);
-    }
-
-    handleMountTutorial = event => {
-        let path = `mountModule/tutorial-create/`;
+        let path = `mountModule/form-create`;
         this.props.history.push(path);
     }
 

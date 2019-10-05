@@ -147,10 +147,9 @@ class AppealViewPage extends Component {
 
     handleAccept = event => {
         const { index, reason } = this.state
-        console.log(reason)
+        let userId = localStorage.getItem("userId")
 
-        //FIXME:
-        axios.post(`http://localhost:8080/LMS-war/webresources/studentEnrollment/reviewAppeal?userId=1&appealId=${index}&result=accept&detail=${reason}`)
+        axios.post(`http://localhost:8080/LMS-war/webresources/studentEnrollment/reviewAppeal?userId=${userId}&appealId=${index}&result=accept&detail=${reason}`)
             .then(result => {
                 this.props.history.go(-1)
                 alert("Successful accepted");
@@ -165,10 +164,10 @@ class AppealViewPage extends Component {
     }
 
     submitRejectReason = event => {
-        //axiost post to reject
         const { index, reason } = this.state
+        let userId = localStorage.getItem("userId")
 
-        axios.post(`http://localhost:8080/LMS-war/webresources/studentEnrollment/reviewAppeal?userId=1&appealId=${index}&result=reject&detail=${reason}`)
+        axios.post(`http://localhost:8080/LMS-war/webresources/studentEnrollment/reviewAppeal?userId=${userId}&appealId=${index}&result=reject&detail=${reason}`)
             .then(result => {
                 this.props.history.go(-1)
                 alert("Successful rejected");
