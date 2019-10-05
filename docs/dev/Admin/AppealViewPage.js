@@ -44,12 +44,13 @@ class AppealViewPage extends Component {
 
     displayAppealDetails = () => {
         const { appealDetails, lastName, firstName, moduleCode } = this.state
+        
         return (
             <MDBContainer>
                 <SectionContainer>
 
                     <MDBRow>
-                        <MDBCol sm="4"><h6>Appeal display:</h6> </MDBCol>
+                        <MDBCol sm="4"><h6>Appeal date:</h6> </MDBCol>
                         <MDBCol sm="8">
                             <h6>{appealDetails.createDate}</h6>
                         </MDBCol>
@@ -181,7 +182,7 @@ class AppealViewPage extends Component {
 
         return (
             <MDBContainer style={{ paddingTop: "80px" }}>
-                <h3>Appeal Details</h3>
+                <h4>Appeal Details</h4>
                 <MDBRow>{this.displayAppealDetails()}</MDBRow>
             </MDBContainer>
         )

@@ -84,18 +84,13 @@ class MountModulePage extends Component {
             return (
                 <MDBDataTable
                     style={{ textAlign: "center", verticalAlign: "center" }}
-                    autoWidth={true}
-                    bordered
+                    striped 
+                    bordered 
                     hover
                     data={data}
                     responsive
-                    responsiveSm
-                    responsiveMd
-                    responsiveLg
-                    responsiveXl
-                    theadColor="rgba-blue-slight"
                 />
-            )
+                )
         } else {
             return (
                 <h5>Select "Mount Module" to create new modules</h5>

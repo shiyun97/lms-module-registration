@@ -82,30 +82,36 @@ class AppealsListPage extends Component {
                     label: 'Id',
                     field: 'appealId',
                     sort: 'asc',
+                    width: 150,
                 },
                 {
                     label: 'Date',
                     field: 'createDate',
                     sort: 'asc',
+                    width: 150,
                 },
                 {
                     label: 'Module Code',
                     field: 'moduleCode',
                     sort: 'asc',
+                    width: 150,
                 },
                 {
                     label: 'Appeal Type',
                     field: 'type',
                     sort: 'asc',
+                    width: 150,
                 },
                 {
                     label: 'Status',
                     field: 'status',
                     sort: 'asc',
+                    width: 150
                 },
                 {
                     label: 'Details',
                     field: 'button',
+                    width: 150
                 },
             ]
         )
@@ -121,16 +127,11 @@ class AppealsListPage extends Component {
             return (
                 <MDBDataTable
                     style={{ textAlign: "center", verticalAlign: "center" }}
-                    autoWidth={true}
-                    bordered
+                    striped 
+                    bordered 
                     hover
                     data={data}
                     responsive
-                    responsiveSm
-                    responsiveMd
-                    responsiveLg
-                    responsiveXl
-                    theadColor="rgba-blue-slight"
                 />
             )
         } else {
@@ -148,17 +149,12 @@ class AppealsListPage extends Component {
         if (this.state.pendingAppeals.length !== 0) {
             return (
                 <MDBDataTable
-                    style={{ textAlign: "center", verticalAlign: "center" }}
-                    autoWidth={true}
-                    bordered
-                    hover
-                    data={data}
-                    responsive
-                    responsiveSm
-                    responsiveMd
-                    responsiveLg
-                    responsiveXl
-                    theadColor="rgba-blue-slight"
+                style={{ textAlign: "center", verticalAlign: "center" }}
+                striped 
+                bordered 
+                hover
+                data={data}
+                responsive             
                 />
             )
         } else {
@@ -179,16 +175,11 @@ class AppealsListPage extends Component {
 
                     <MDBDataTable
                         style={{ textAlign: "center", verticalAlign: "center" }}
-                        autoWidth={true}
-                        bordered
+                        striped 
+                        bordered 
                         hover
                         data={data}
-                        responsive
-                        responsiveSm
-                        responsiveMd
-                        responsiveLg
-                        responsiveXl
-                        theadColor="rgba-blue-slight"
+                        responsive    
                     />
                 )
             } else {

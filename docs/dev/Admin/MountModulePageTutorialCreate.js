@@ -41,7 +41,7 @@ class MountModulePageTutorialCreate extends Component {
     }
 
     handleSelect = event => {
-        this.setState({tutorialDay: event.target.value})
+        this.setState({ tutorialDay: event.target.value })
     }
 
     displayMountModuleTutorialForm = () => {
@@ -125,15 +125,13 @@ class MountModulePageTutorialCreate extends Component {
                         </MDBCol>
                     </MDBRow>
 
-                    <MDBRow style={{ paddingTop: "20px" }}>
-                        <MDBCol sm="4" style={{ paddingTop: "10px" }}>
-                            <Button onClick={this.cancel} variant="contained" color="primary">Cancel</Button>
-                        </MDBCol>
-
-                        <MDBCol sm="4" style={{ paddingTop: "10px" }}>
+                    <MDBRow style={{ paddingTop: "20px" }} >
+                        <MDBCol align="right">
                             <Button onClick={this.create} variant="contained" color="primary">Create</Button>
                         </MDBCol>
-
+                        <MDBCol>
+                            <Button onClick={this.cancel} variant="contained" color="primary">Cancel</Button>
+                        </MDBCol>
                     </MDBRow>
 
                 </SectionContainer>
@@ -145,7 +143,7 @@ class MountModulePageTutorialCreate extends Component {
     }
 
     create = event => {
-     
+
 
         const { startTime, endTime, tutorialDay, venue, maxEnrollment } = this.state
         var timing = tutorialDay + " " + startTime + " - " + endTime

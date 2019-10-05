@@ -408,59 +408,65 @@ class MountModulePageForm extends Component {
     }
 
 
-        editSave = event => {
-            this.setState({ disabled: false, editSave: "Save" })
-            const { index } = this.state
-            if (this.state.editSave === "Save") {
-                this.setState({ disabled: true })
-                const { code, title, semesterOffered, yearOffered, creditUnit, hasExam, examFullDateTime, examVenue, faculty, department, maxEnrollment, assignedTeacher, lectureDay } = this.state
-                axios.post(`http://localhost:8080/LMS-war/webresources/ModuleMounting/updateModule?moduleId=${index}&userId=2`, {
-                    code: code,
-                    title: title,
-                    semesterOffered: semesterOffered,
-                    yearOffered: yearOffered,
-                    creditUnit: creditUnit,
-                    hasExam: hasExam,
-                    examFullDateTime: examFullDateTime,
-                    examVenue: examVenue,
-                    faculty: faculty,
-                    department: department,
-                    maxEnrollment: maxEnrollment,
-                    assignedTeacher: assignedTeacher,
-                    lectureDay: lectureDay
+    editSave = event => {
+        this.setState({ disabled: false, editSave: "Save" })
+        const { index } = this.state
+        if (this.state.editSave === "Save") {
+            this.setState({ disabled: true })
+            const { code, title, semesterOffered, yearOffered, creditUnit, hasExam, examFullDateTime, examVenue, faculty, department, maxEnrollment, assignedTeacher, lectureDay } = this.state
+            axios.post(`http://localhost:8080/LMS-war/webresources/ModuleMounting/updateModule?moduleId=${index}&userId=2`, {
+                code: code,
+                title: title,
+                semesterOffered: semesterOffered,
+                yearOffered: yearOffered,
+                creditUnit: creditUnit,
+                hasExam: hasExam,
+                examFullDateTime: examFullDateTime,
+                examVenue: examVenue,
+                faculty: faculty,
+                department: department,
+                maxEnrollment: maxEnrollment,
+                assignedTeacher: assignedTeacher,
+                lectureDay: lectureDay
+            })
+                .then(result => {
+                    console.log(result.data)
+                    alert("Updated")
+                    this.props.history.go(-1)
                 })
-                    .then(result => {
-                        console.log(result.data)
-                        alert("Updated")
-                        this.props.history.go(-1)
-                    })
-                    .catch(error => {
-                        alert(error)
-                        console.error("error in axios " + error);
-                    });
-            }
+                .catch(error => {
+                    alert(error)
+                    console.error("error in axios " + error);
+                });
         }
+    }
 
     mountModuleTutorialCreate = event => {
-            var modId = this.props.dataStore.getMountSingleModuleIndex
-            let path = `${modId}/create`;
-            this.props.history.push(path);
-        }
+        var modId = this.props.dataStore.getMountSingleModuleIndex
+        let path = `${modId}/create`;
+        this.props.history.push(path);
+    }
 
     viewTutorials = event => {
-            var modId = this.props.dataStore.getMountSingleModuleIndex
-            let path = modId + `/tutorial`;
-            console.log(path)
-            this.props.history.push(path);
-        }
+        var modId = this.props.dataStore.getMountSingleModuleIndex
+        let path = modId + `/tutorial`;
+        console.log(path)
+        this.props.history.push(path);
+    }
     render() {
-        return(
-            <MDBContainer style = {{ paddingTop: "80px" }} >
-    <h3>Module Details</h3>
-    <MDBBtn color="primary" onClick={this.mountModuleTutorialCreate}>Mount Tutorial</MDBBtn>
-    <MDBBtn color="primary" onClick={this.viewTutorials}>View Tutorial</MDBBtn>
+        return (
+            <MDBContainer style={{ paddingTop: "80px" }} >
+                <MDBRow>
+                    <MDBCol>
+                        <h3>Module Details</h3>
+                    </MDBCol>
 
-    <MDBRow>{this.displayModuleDetails()}</MDBRow>
+                    <MDBCol align="right">
+                        <MDBBtn color="primary" onClick={this.mountModuleTutorialCreate}>Mount Tutorial</MDBBtn>
+                        <MDBBtn color="primary" onClick={this.viewTutorials}>View Tutorial</MDBBtn>
+                    </MDBCol>
+                </MDBRow>
+                <MDBRow>{this.displayModuleDetails()}</MDBRow>
             </MDBContainer >
         )
     }
