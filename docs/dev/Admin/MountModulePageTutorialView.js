@@ -1,9 +1,10 @@
 import React, { Component } from "react";
-import { MDBContainer, MDBCol, MDBRow, MDBInput, MDBFormInline, MDBBtn } from "mdbreact";
+import { MDBContainer, MDBCol, MDBRow } from "mdbreact";
 import axios from "axios";
 import SectionContainer from "../../components/sectionContainer";
 import { Button, Grid } from "@material-ui/core";
 
+const API = "http://localhost:8080/LMS-war/webresources/";
 
 class MountModulePageTutorialView extends Component {
 
@@ -23,7 +24,7 @@ class MountModulePageTutorialView extends Component {
         var modId = pathnameSplit[pathnameSplit.length - 2]
         this.setState({ moduleId: modId })
 
-        axios.get("http://localhost:8080/LMS-war/webresources/ModuleMounting/getAllTutorialByModule?moduleId=" + modId)
+        axios.get(`${API}ModuleMounting/getAllTutorialByModule?moduleId=${modId}`)
             .then(result => {
                 this.setState({ tutorialDetails: result.data.tutorials })
             })
@@ -143,21 +144,20 @@ class MountModulePageTutorialView extends Component {
 
     delete = (tutorialId) => {
         const { moduleId } = this.state
-        axios.delete(`http://localhost:8080/LMS-war/webresources/ModuleMounting/deleteTutorial?moduleId=${moduleId}&tutorialId=${tutorialId}`)
+        axios.delete(`${API}ModuleMounting/deleteTutorial?moduleId=${moduleId}&tutorialId=${tutorialId}`)
             .then(result => {
                 window.location.reload()
             })
             .catch(error => {
                 console.error("error in axios " + error);
             });
-
     }
 
     editSave = id => {
         this.setState({ disabled: false, editSave: "Save" })
         if (this.state.editSave === "Save") {
             this.setState({ disabled: true })
-            axios.post(`http://localhost:8080/LMS-war/webresources/ModuleMounting/updateTutorial?tutorialId=${id}`, {
+            axios.post(`${API}ModuleMounting/updateTutorial?tutorialId=${id}`, {
                 maxEnrollment: this.state.maxEnrollment,
                 venue: this.state.venue,
                 timing: this.state.timing

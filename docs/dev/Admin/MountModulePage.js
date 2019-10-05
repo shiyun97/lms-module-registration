@@ -5,7 +5,7 @@ import { MDBDataTable } from 'mdbreact';
 import { Button } from "@material-ui/core";
 import { observer, inject } from 'mobx-react'
 
-const url = "http://localhost:8080/LMS-war/webresources/";
+const API = "http://localhost:8080/LMS-war/webresources/";
 
 @inject('dataStore')
 @observer
@@ -15,7 +15,7 @@ class MountModulePage extends Component {
     };
 
     componentDidMount() {
-        axios.get(url + "ModuleMounting/getAllModule")
+        axios.get(`${API}ModuleMounting/getAllModule`)
             .then(result => {
                 this.setState({ allModules: result.data.module })
             })

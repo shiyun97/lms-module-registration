@@ -3,7 +3,7 @@ import axios from "axios";
 import { MDBContainer, MDBCol, MDBRow, MDBBtn, MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter } from "mdbreact";
 import SectionContainer from "../../components/sectionContainer";
 
-const url = "http://localhost:8080/LMS-war/webresources/"
+const API = "http://localhost:8080/LMS-war/webresources/"
 
 class AppealViewPage extends Component {
 
@@ -24,7 +24,7 @@ class AppealViewPage extends Component {
         var pathname = window.location.pathname, part = pathname.substr(pathname.lastIndexOf('/') + 1);
         this.setState({ index: part })
 
-        axios.get(url + "studentEnrollment/getAppealById/" + part)
+        axios.get(`${API}studentEnrollment/getAppealById/${part}`)
             .then(result => {
                 this.setState({
                     appealDetails: result.data,
@@ -44,7 +44,7 @@ class AppealViewPage extends Component {
 
     displayAppealDetails = () => {
         const { appealDetails, lastName, firstName, moduleCode } = this.state
-        
+
         return (
             <MDBContainer>
                 <SectionContainer>
@@ -62,11 +62,11 @@ class AppealViewPage extends Component {
                         </MDBCol>
                     </MDBRow>
                     <MDBRow>
-                            <MDBCol sm="4"><h6>Module: </h6> </MDBCol>
-                            <MDBCol sm="8">
-                                <h6>{moduleCode}</h6>
-                            </MDBCol>
-                        </MDBRow>  
+                        <MDBCol sm="4"><h6>Module: </h6> </MDBCol>
+                        <MDBCol sm="8">
+                            <h6>{moduleCode}</h6>
+                        </MDBCol>
+                    </MDBRow>
 
                     <MDBRow>
                         <MDBCol sm="4"><h6>Status: </h6></MDBCol>
@@ -88,26 +88,6 @@ class AppealViewPage extends Component {
                         </MDBCol>
                         <MDBCol sm="8">
                             {this.showAcceptRejectButton()}
-                            {/*FIXME: only show when it is pending */}
-                            {/* <MDBBtn color="success" onClick={this.handleAccept}>Accept</MDBBtn>
-                            <MDBBtn color="red" onClick={this.handleReject}>Reject</MDBBtn>
-                            <MDBModal isOpen={this.state.rejectModal} toggle={this.handleReject}>
-                                <MDBModalHeader toggle={this.rejectModal}>Reject Appeal</MDBModalHeader>
-                                <MDBModalBody>
-                                    <textarea
-                                        className="form-control"
-                                        rows="5"
-                                        placeholder="Enter reject reason"
-                                        required
-                                        onChange={this.handleOnChange}
-                                    />
-                                </MDBModalBody>
-                                <MDBModalFooter>
-                                    <MDBBtn color="secondary" onClick={this.handleReject}>Cancel</MDBBtn>
-                                    <MDBBtn color="primary" onClick={this.submitRejectReason}>Submit</MDBBtn>
-                                </MDBModalFooter>
-                            </MDBModal>
-                        </MDBCol> */}
                         </MDBCol>
                     </MDBRow>
 
@@ -118,27 +98,27 @@ class AppealViewPage extends Component {
     }
 
     showAcceptRejectButton = () => {
-        if (this.state.appealDetails.status==="Pending") {
+        if (this.state.appealDetails.status === "Pending") {
             return (
                 <MDBContainer>
                     <MDBBtn color="success" onClick={this.handleAccept}>Accept</MDBBtn>
-                            <MDBBtn color="red" onClick={this.handleReject}>Reject</MDBBtn>
-                            <MDBModal isOpen={this.state.rejectModal} toggle={this.handleReject}>
-                                <MDBModalHeader toggle={this.rejectModal}>Reject Appeal</MDBModalHeader>
-                                <MDBModalBody>
-                                    <textarea
-                                        className="form-control"
-                                        rows="5"
-                                        placeholder="Enter reject reason"
-                                        required
-                                        onChange={this.handleOnChange}
-                                    />
-                                </MDBModalBody>
-                                <MDBModalFooter>
-                                    <MDBBtn color="secondary" onClick={this.handleReject}>Cancel</MDBBtn>
-                                    <MDBBtn color="primary" onClick={this.submitRejectReason}>Submit</MDBBtn>
-                                </MDBModalFooter>
-                            </MDBModal>
+                    <MDBBtn color="red" onClick={this.handleReject}>Reject</MDBBtn>
+                    <MDBModal isOpen={this.state.rejectModal} toggle={this.handleReject}>
+                        <MDBModalHeader toggle={this.rejectModal}>Reject Appeal</MDBModalHeader>
+                        <MDBModalBody>
+                            <textarea
+                                className="form-control"
+                                rows="5"
+                                placeholder="Enter reject reason"
+                                required
+                                onChange={this.handleOnChange}
+                            />
+                        </MDBModalBody>
+                        <MDBModalFooter>
+                            <MDBBtn color="secondary" onClick={this.handleReject}>Cancel</MDBBtn>
+                            <MDBBtn color="primary" onClick={this.submitRejectReason}>Submit</MDBBtn>
+                        </MDBModalFooter>
+                    </MDBModal>
                 </MDBContainer>
             )
         } else {
@@ -150,7 +130,7 @@ class AppealViewPage extends Component {
         const { index, reason } = this.state
         let userId = localStorage.getItem("userId")
 
-        axios.post(`http://localhost:8080/LMS-war/webresources/studentEnrollment/reviewAppeal?userId=${userId}&appealId=${index}&result=accept&detail=${reason}`)
+        axios.post(`${API}studentEnrollment/reviewAppeal?userId=${userId}&appealId=${index}&result=accept&detail=${reason}`)
             .then(result => {
                 window.location.reload();
                 this.props.history.go(-1)
@@ -168,7 +148,7 @@ class AppealViewPage extends Component {
         const { index, reason } = this.state
         let userId = localStorage.getItem("userId")
 
-        axios.post(`http://localhost:8080/LMS-war/webresources/studentEnrollment/reviewAppeal?userId=${userId}&appealId=${index}&result=reject&detail=${reason}`)
+        axios.post(`${API}studentEnrollment/reviewAppeal?userId=${userId}&appealId=${index}&result=reject&detail=${reason}`)
             .then(result => {
                 window.location.reload();
                 this.props.history.go(-1)
@@ -188,5 +168,4 @@ class AppealViewPage extends Component {
         )
     }
 }
-
 export default AppealViewPage

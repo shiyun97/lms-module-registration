@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import axios from "axios";
 import SectionContainer from "../../components/sectionContainer";
-import { MDBContainer, MDBCol, MDBRow, MDBInput, MDBFormInline, MDBBtn } from "mdbreact";
-import { Button, FormControlLabel, RadioGroup, Radio, FormGroup, Switch, Grid } from "@material-ui/core";
+import { MDBContainer, MDBCol, MDBRow, MDBBtn } from "mdbreact";
+import { Button, Grid } from "@material-ui/core";
 import { observer, inject } from 'mobx-react'
 import { withRouter } from 'react-router-dom';
 
-const url = "http://localhost:8080/LMS-war/webresources/";
+const API = "http://localhost:8080/LMS-war/webresources/";
 
 @inject('dataStore')
 @observer
@@ -43,7 +43,7 @@ class MountModulePageForm extends Component {
         var pathname = window.location.pathname, part = pathname.substr(pathname.lastIndexOf('/') + 1);
         this.setState({ index: part })
 
-        axios.get(url + "ModuleMounting/getModule/" + part)
+        axios.get(`${API}ModuleMounting/getModule/${part}`)
             .then(result => {
                 this.setState({
                     code: result.data.code,
@@ -66,7 +66,7 @@ class MountModulePageForm extends Component {
                 console.error("error in axios " + error);
             });
 
-        axios.get(url + "User/getAllUser")
+        axios.get(`${API}User/getAllUser`)
             .then(result => {
                 this.setState({ userList: result.data.userList })
             })
@@ -76,8 +76,6 @@ class MountModulePageForm extends Component {
     }
 
     handleOnChange = event => {
-        console.log(event.target.value)
-        console.log(event.target.name)
         this.setState({ [event.target.name]: event.target.value })
     }
 
@@ -279,7 +277,7 @@ class MountModulePageForm extends Component {
         var userList = this.state.userList
         var userListLength = userList.length
         for (var i = 0; i < userListLength; i++) {
-            if (userList[i].accessRight === "Teacher") { //take note of the id
+            if (userList[i].accessRight === "Teacher") { 
                 teachers.push({
                     userId: userList[i].userId,
                     name: userList[i].firstName + " " + userList[i].lastName
@@ -309,8 +307,6 @@ class MountModulePageForm extends Component {
             )
         }
     }
-
-
 
     renderLecture = () => {
         if (this.state.lectureDetails === null) {
@@ -353,7 +349,7 @@ class MountModulePageForm extends Component {
                         </MDBCol>
                     </MDBRow>
 
-                    {/*FIXME:*/}
+                    
                     <MDBRow style={{ paddingTop: "20px" }}>
                         <MDBCol sm="4" style={{ paddingTop: "10px" }}>Exam Time: </MDBCol>
                         <MDBCol sm="8">
@@ -396,14 +392,13 @@ class MountModulePageForm extends Component {
 
     delete = event => {
         var index = this.state.index
-        axios.delete(url + `ModuleMounting/deleteModule?moduleId=${index}`)
+        axios.delete(`${API}ModuleMounting/deleteModule?moduleId=${index}`)
             .then(result => {
                 this.props.history.go(-1)
                 alert("Deleted");
             })
             .catch(error => {
                 console.error("error in axios " + error);
-
             })
     }
 
@@ -414,7 +409,7 @@ class MountModulePageForm extends Component {
         if (this.state.editSave === "Save") {
             this.setState({ disabled: true })
             const { code, title, semesterOffered, yearOffered, creditUnit, hasExam, examFullDateTime, examVenue, faculty, department, maxEnrollment, assignedTeacher, lectureDay } = this.state
-            axios.post(`http://localhost:8080/LMS-war/webresources/ModuleMounting/updateModule?moduleId=${index}&userId=2`, {
+            axios.post(`${API}ModuleMounting/updateModule?moduleId=${index}&userId=2`, {
                 code: code,
                 title: title,
                 semesterOffered: semesterOffered,
@@ -449,7 +444,6 @@ class MountModulePageForm extends Component {
     viewTutorials = event => {
         var modId = this.props.dataStore.getMountSingleModuleIndex
         let path = modId + `/tutorial`;
-        console.log(path)
         this.props.history.push(path);
     }
     render() {

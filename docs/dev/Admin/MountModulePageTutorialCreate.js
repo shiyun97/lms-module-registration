@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import { MDBContainer, MDBCol, MDBRow, MDBInput, MDBFormInline } from "mdbreact";
+import { MDBContainer, MDBCol, MDBRow } from "mdbreact";
 import SectionContainer from "../../components/sectionContainer";
 import axios from "axios";
-import { Button, TextField } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 import { observer, inject } from 'mobx-react'
 
-const url = "http://localhost:8080/LMS-war/webresources/";
+const API = "http://localhost:8080/LMS-war/webresources/";
 
 @inject('dataStore')
 @observer
@@ -27,7 +27,7 @@ class MountModulePageTutorialCreate extends Component {
         var modId = pathnameSplit[pathnameSplit.length - 2]
         this.setState({ moduleId: modId })
 
-        axios.get(url + "ModuleMounting/getModule/" + modId)
+        axios.get(`${API}ModuleMounting/getModule/${modId}`)
             .then(result => {
                 this.setState({ moduleCode: result.data.code })
             })
@@ -143,12 +143,10 @@ class MountModulePageTutorialCreate extends Component {
     }
 
     create = event => {
-
-
         const { startTime, endTime, tutorialDay, venue, maxEnrollment } = this.state
         var timing = tutorialDay + " " + startTime + " - " + endTime
 
-        axios.put(url + `ModuleMounting/mountTutorial?moduleId=${this.state.moduleId}`, { maxEnrollment: maxEnrollment, venue: venue, timing: timing })
+        axios.put(`${API}ModuleMounting/mountTutorial?moduleId=${this.state.moduleId}`, { maxEnrollment: maxEnrollment, venue: venue, timing: timing })
             .then(result => {
                 window.location.reload()
                 this.props.history.go(-1)
@@ -161,7 +159,6 @@ class MountModulePageTutorialCreate extends Component {
     render() {
         return (
             <MDBContainer style={{ paddingTop: "80px" }}>
-
                 <h3>Mount Tutorial for {this.state.moduleCode} </h3>
                 <MDBRow>{this.displayMountModuleTutorialForm()}</MDBRow>
             </MDBContainer>

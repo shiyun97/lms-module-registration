@@ -6,6 +6,7 @@ import { Button, Dialog, DialogTitle, DialogContent, DialogActions } from '@mate
 import { observer, inject } from 'mobx-react';
 import { toJS } from "mobx"
 
+const API = "http://localhost:8080/LMS-war/webresources/"
 
 @inject('dataStore')
 @observer
@@ -29,7 +30,7 @@ class SubmitAppealPage extends Component {
   componentDidMount() {
     let userId = localStorage.getItem("userId")
 
-    axios.get(`http://localhost:8080/LMS-war/webresources/studentEnrollment/retrieveStudentAppeals?userId=${userId}`)
+    axios.get(`${API}studentEnrollment/retrieveStudentAppeals?userId=${userId}`)
       .then(result => {
         this.setState({ allAppeals: result.data.appeals })
       })
@@ -37,7 +38,7 @@ class SubmitAppealPage extends Component {
         console.error("error in axios " + error);
       });
 
-    axios.get("http://localhost:8080/LMS-war/webresources/studentEnrollment/isAppealOpen")
+    axios.get(`${API}/studentEnrollment/isAppealOpen`)
       .then(result => {
         this.setState({ appealOpen: result.data })
       })
@@ -45,7 +46,7 @@ class SubmitAppealPage extends Component {
         console.error("error in axios " + error);
       });
 
-    axios.get(`http://localhost:8080/LMS-war/webresources/studentEnrollment/retrieveStudentModules/${userId}`)
+    axios.get(`${API}studentEnrollment/retrieveStudentModules/${userId}`)
       .then(result => {
         this.setState({ enrolledModules: result.data.modules })
       })
@@ -53,7 +54,7 @@ class SubmitAppealPage extends Component {
         console.error("error in axios " + error);
       });
 
-    axios.get(`http://localhost:8080/LMS-war/webresources/studentEnrollment/retrieveStudentTutorials/${userId}`)
+    axios.get(`${API}studentEnrollment/retrieveStudentTutorials/${userId}`)
       .then(result => {
         this.setState({ enrolledTutorials: result.data.tutorials })
       })
@@ -88,7 +89,7 @@ class SubmitAppealPage extends Component {
     event.preventDefault();
     const { value, appealModule, appealReason } = this.state;
 
-    axios.post("http://localhost:8080/LMS-war/webresources/studentEnrollment/createAppeal/", {
+    axios.post(`http://localhost:8080/LMS-war/webresources/studentEnrollment/createAppeal/`, {
       reason: appealReason,
       userId: 2,
       type: value,
@@ -107,7 +108,7 @@ class SubmitAppealPage extends Component {
     let userId = localStorage.getItem("userId")
     const { appealReason, value, currentGroup, appealGroup } = this.state;
 
-    axios.post("http://localhost:8080/LMS-war/webresources/studentEnrollment/createAppeal/", {
+    axios.post(`http://localhost:8080/LMS-war/webresources/studentEnrollment/createAppeal/`, {
       reason: appealReason,
       userId: userId,
       type: value,

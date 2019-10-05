@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-import { MDBContainer, MDBCol, MDBRow, MDBInput, MDBFormInline } from "mdbreact";
+import { MDBContainer, MDBCol, MDBRow } from "mdbreact";
 import SectionContainer from "../../components/sectionContainer";
 import axios from "axios";
-import { Button, TextField, Switch, FormControlLabel, Grid } from "@material-ui/core";
+import { Button, Grid } from "@material-ui/core";
 
-const url = "http://localhost:8080/LMS-war/webresources/";
+const API = "http://localhost:8080/LMS-war/webresources/";
 
 class MountModulePageFormCreate extends Component {
 
@@ -30,9 +30,8 @@ class MountModulePageFormCreate extends Component {
         tutorial: "",
     }
 
-    // get the list of all users and filter out teacher
     componentDidMount() {
-        axios.get(url + "User/getAllUser")
+        axios.get(`${API}User/getAllUser`)
             .then(result => {
                 this.setState({ userList: result.data.userList })
             })
@@ -368,7 +367,7 @@ class MountModulePageFormCreate extends Component {
         //var examFullDateTime = this.state.examDate + " " + this.state.examTime
         const { moduleCode, moduleTitle, semester, year, credit, maxEnrollment, hasExam, examVenue, faculty, department, assignedTeacher } = this.state
         var lectureDetails = this.state.lectureDay + " " + this.state.lectureStartTime + " - " + this.state.lectureEndTime
-        axios.put(`http://localhost:8080/LMS-war/webresources/ModuleMounting/mountModule?userId=${assignedTeacher}`, {
+        axios.put(`${API}ModuleMounting/mountModule?userId=${assignedTeacher}`, {
             code: moduleCode,
             title: moduleTitle,
             semesterOffered: semester,
@@ -394,8 +393,6 @@ class MountModulePageFormCreate extends Component {
     }
 
     render() {
-
-
         return (
             <MDBContainer style={{ paddingTop: "80px" }}>
                 <h3>Mount Module</h3>
