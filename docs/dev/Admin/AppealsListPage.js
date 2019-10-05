@@ -5,8 +5,7 @@ import { MDBDataTable } from 'mdbreact';
 import { Button } from "@material-ui/core";
 import { observer, inject } from 'mobx-react'
 
-
-const url = "http://localhost:8080/LMS-war/webresources/"
+const API = "http://localhost:8080/LMS-war/webresources/"
 
 @inject('dataStore')
 @observer
@@ -19,19 +18,18 @@ class AppealsListPage extends Component {
     };
 
     componentDidMount() {
-        axios.get(url + "studentEnrollment/retrievePendingAppeals?userId=1")
+        let userId = localStorage.getItem("userId")
+        axios.get(`${API}studentEnrollment/retrievePendingAppeals?userId=${userId}`)
             .then(result => {
                 this.setState({ pendingAppeals: result.data.appeals })
-                //console.log(this.state.pendingAppeals)
             })
             .catch(error => {
                 console.error("error in axios " + error);
             });
 
-        axios.get(url + "studentEnrollment/retrieveReviewedAppeals?userId=1")
+        axios.get(`${API}studentEnrollment/retrieveReviewedAppeals?userId=${userId}`)
             .then(result => {
                 this.setState({ reviewedAppeals: result.data.appeals })
-                //console.log(this.state.reviewAppeals)
             })
             .catch(error => {
                 console.error("error in axios " + error);
@@ -82,30 +80,36 @@ class AppealsListPage extends Component {
                     label: 'Id',
                     field: 'appealId',
                     sort: 'asc',
+                    width: 150,
                 },
                 {
                     label: 'Date',
                     field: 'createDate',
                     sort: 'asc',
+                    width: 150,
                 },
                 {
                     label: 'Module Code',
                     field: 'moduleCode',
                     sort: 'asc',
+                    width: 150,
                 },
                 {
                     label: 'Appeal Type',
                     field: 'type',
                     sort: 'asc',
+                    width: 150,
                 },
                 {
                     label: 'Status',
                     field: 'status',
                     sort: 'asc',
+                    width: 150
                 },
                 {
                     label: 'Details',
                     field: 'button',
+                    width: 150
                 },
             ]
         )
@@ -121,21 +125,16 @@ class AppealsListPage extends Component {
             return (
                 <MDBDataTable
                     style={{ textAlign: "center", verticalAlign: "center" }}
-                    autoWidth={true}
+                    striped
                     bordered
                     hover
                     data={data}
                     responsive
-                    responsiveSm
-                    responsiveMd
-                    responsiveLg
-                    responsiveXl
-                    theadColor="rgba-blue-slight"
                 />
             )
         } else {
             return (
-                <h3>No appeals</h3>
+                <h6>No appeals</h6>
             );
         }
     }
@@ -145,21 +144,22 @@ class AppealsListPage extends Component {
             columns: this.getColumns(),
             rows: this.rowsDataAll()
         }
-        return (
-            <MDBDataTable
-                style={{ textAlign: "center", verticalAlign: "center" }}
-                autoWidth={true}
-                bordered
-                hover
-                data={data}
-                responsive
-                responsiveSm
-                responsiveMd
-                responsiveLg
-                responsiveXl
-                theadColor="rgba-blue-slight"
-            />
-        )
+        if (this.state.pendingAppeals.length !== 0 && this.state.reviewedAppeals.length !== 0) {
+            return (
+                <MDBDataTable
+                    style={{ textAlign: "center", verticalAlign: "center" }}
+                    striped
+                    bordered
+                    hover
+                    data={data}
+                    responsive
+                />
+            )
+        } else {
+            return (
+                <h6>No appeals</h6>
+            )
+        }
     }
 
     showAllPendingAppeals = () => {
@@ -173,21 +173,16 @@ class AppealsListPage extends Component {
 
                 <MDBDataTable
                     style={{ textAlign: "center", verticalAlign: "center" }}
-                    autoWidth={true}
+                    striped
                     bordered
                     hover
                     data={data}
                     responsive
-                    responsiveSm
-                    responsiveMd
-                    responsiveLg
-                    responsiveXl
-                    theadColor="rgba-blue-slight"
                 />
             )
         } else {
             return (
-                <h3>No appeals</h3>
+                <h6>No appeals</h6>
             )
         }
     }
@@ -258,8 +253,6 @@ class AppealsListPage extends Component {
     }
 
     handleRowClick = index => {
-        //create a new page. go to form edit page. 
-        console.log(index)
         let path = `appealsList/view/` + index;
         this.props.history.push(path);
     }
@@ -273,5 +266,4 @@ class AppealsListPage extends Component {
         );
     }
 }
-
 export default AppealsListPage;

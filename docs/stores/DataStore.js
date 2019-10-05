@@ -1,4 +1,6 @@
-import { action, computed, observable } from "mobx"
+import { action, computed, observable, toJS } from "mobx"
+import axios from "axios";
+
 
 class DataStore {
   @observable path = "/"
@@ -12,7 +14,8 @@ class DataStore {
   @observable username = ""
   @observable userId = ""
   @observable mountSingleModuleIndex = ""
-  @observable allAppeals = ""
+  @observable appealModuleId = ""
+  @observable tutorialList = ""
 
   @action setSignInStatus(status, email, password, accessRight) {
     this.signInStatus = status;
@@ -80,6 +83,20 @@ class DataStore {
 
   @computed get getMountSingleModuleIndex() {
     return this.mountSingleModuleIndex;
+  }
+
+  @action setAppealModuleId(index) {
+    this.appealModuleId = index;
+    axios.get("http://localhost:8080/LMS-war/webresources/ModuleMounting/getAllTutorialByModule?moduleId=" + index)
+      .then(result => this.tutorialList = result.data.tutorials)
+      .catch(error => {
+        console.error("error in axios " + error);
+        alert("Please try again later")
+      });
+  }
+
+  @computed get getTutorialList() {
+    return toJS(this.tutorialList);
   }
 
 }

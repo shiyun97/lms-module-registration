@@ -5,8 +5,7 @@ import { MDBDataTable } from 'mdbreact';
 import { Button } from "@material-ui/core";
 import { observer, inject } from 'mobx-react'
 
-
-const url = "http://localhost:8080/LMS-war/webresources/";
+const API = "http://localhost:8080/LMS-war/webresources/";
 
 @inject('dataStore')
 @observer
@@ -16,12 +15,11 @@ class MountModulePage extends Component {
     };
 
     componentDidMount() {
-        axios.get(url + "ModuleMounting/getAllModule")
+        axios.get(`${API}ModuleMounting/getAllModule`)
             .then(result => {
                 this.setState({ allModules: result.data.module })
             })
             .catch(error => {
-                alert("Error")
                 console.error("error in axios " + error);
             });
     }
@@ -33,40 +31,49 @@ class MountModulePage extends Component {
                     label: 'Code',
                     field: 'code',
                     sort: 'asc',
+                    width: 150
                 },
                 {
                     label: 'Module Title',
                     field: 'title',
                     sort: 'asc',
+                    width: 150
                 },
                 {
                     label: 'Semester Offered',
                     field: 'semesterOffered',
                     sort: 'asc',
+                    width: 150
                 },
                 {
                     label: 'Year Offered',
                     field: 'yearOffered',
                     sort: 'asc',
+                    width: 150
+
                 },
                 {
                     label: 'Faculty',
                     field: 'faculty',
                     sort: 'asc',
+                    width: 150
                 },
                 {
                     label: 'Department',
                     field: 'department',
                     sort: 'asc',
+                    width: 150
                 },
                 {
                     label: 'Assigned Teacher',
                     field: 'assignedTeacher',
                     sort: 'asc',
+                    width: 150
                 },
                 {
                     label: 'Details',
                     field: 'button',
+                    width: 150
                 },
             ],
             rows:
@@ -77,19 +84,13 @@ class MountModulePage extends Component {
             return (
                 <MDBDataTable
                     style={{ textAlign: "center", verticalAlign: "center" }}
-                    autoWidth={true}
-                    bordered
+                    striped 
+                    bordered 
                     hover
                     data={data}
                     responsive
-                    responsiveSm
-                    responsiveMd
-                    responsiveLg
-                    responsiveXl
-                    small
-                    theadColor="rgba-blue-slight"
                 />
-            )
+                )
         } else {
             return (
                 <h5>Select "Mount Module" to create new modules</h5>
@@ -130,12 +131,7 @@ class MountModulePage extends Component {
     }
 
     handleMountModule = event => {
-        let path = `form-create/`;
-        this.props.history.push(path);
-    }
-
-    handleMountTutorial = event => {
-        let path = `mountModule/tutorial-create/`;
+        let path = `mountModule/form-create`;
         this.props.history.push(path);
     }
 

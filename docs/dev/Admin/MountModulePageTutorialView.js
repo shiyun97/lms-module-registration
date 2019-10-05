@@ -1,9 +1,10 @@
 import React, { Component } from "react";
-import { MDBContainer, MDBCol, MDBRow, MDBInput, MDBFormInline, MDBBtn } from "mdbreact";
+import { MDBContainer, MDBCol, MDBRow } from "mdbreact";
 import axios from "axios";
 import SectionContainer from "../../components/sectionContainer";
-import { Button } from "@material-ui/core";
+import { Button, Grid } from "@material-ui/core";
 
+const API = "http://localhost:8080/LMS-war/webresources/";
 
 class MountModulePageTutorialView extends Component {
 
@@ -11,7 +12,10 @@ class MountModulePageTutorialView extends Component {
         tutorialDetails: "",
         disabled: true,
         editSave: "Edit",
-        moduleId: ""
+        moduleId: "",
+        maxEnrollment: "",
+        venue: "",
+        timing: "",
     }
 
     componentDidMount() {
@@ -20,7 +24,7 @@ class MountModulePageTutorialView extends Component {
         var modId = pathnameSplit[pathnameSplit.length - 2]
         this.setState({ moduleId: modId })
 
-        axios.get("http://localhost:8080/LMS-war/webresources/ModuleMounting/getAllTutorialByModule?moduleId=" + modId)
+        axios.get(`${API}ModuleMounting/getAllTutorialByModule?moduleId=${modId}`)
             .then(result => {
                 this.setState({ tutorialDetails: result.data.tutorials })
             })
@@ -30,7 +34,14 @@ class MountModulePageTutorialView extends Component {
     }
 
     handleOnChange = event => {
+        if (event.target.name === "maxEnrollment") {
+            this.setState({ maxEnrollment: event.target.value })
+        } else if (event.target.name === "venue") {
+            this.setState({ venue: event.target.value })
 
+        } else {
+            this.setState({ timing: event.target.value })
+        }
     }
 
     displayTutorialDetails = () => {
@@ -60,7 +71,7 @@ class MountModulePageTutorialView extends Component {
                                 </MDBRow>
 
                                 <MDBRow style={{ paddingTop: "20px" }}>
-                                    <MDBCol sm="4">Max Enrollment: </MDBCol>
+                                    <MDBCol sm="4">Maximum Enrollment: </MDBCol>
                                     <MDBCol sm="8">
                                         <input
                                             defaultValue={tutorials.maxEnrollment}
@@ -104,12 +115,22 @@ class MountModulePageTutorialView extends Component {
                                         />
                                     </MDBCol>
                                 </MDBRow>
-                                <Button onClick={() => this.delete(tutorials.tutorialId)} color="secondary" variant="contained">Delete</Button>
-                                <Button onClick={this.editSave} color="primary" variant="contained" >{this.state.editSave}</Button>
 
-
-
-
+                                <MDBRow style={{ paddingTop: "20px" }}>
+                                    <Grid
+                                        container
+                                        direction="row"
+                                        justify="flex-end"
+                                        alignItems="center"
+                                    >
+                                        <Grid style={{ paddingRight: '20px' }}>
+                                            <Button onClick={() => this.editSave(tutorials.tutorialId)} color="primary" variant="contained" >{this.state.editSave}</Button>
+                                        </Grid>
+                                        <Grid style={{ paddingRight: '20px' }}>
+                                            <Button onClick={() => this.delete(tutorials.tutorialId)} color="secondary" variant="contained">Delete</Button>
+                                        </Grid>
+                                    </Grid>
+                                </MDBRow>
                             </SectionContainer>
                     )}
                 </MDBContainer>
@@ -123,36 +144,32 @@ class MountModulePageTutorialView extends Component {
 
     delete = (tutorialId) => {
         const { moduleId } = this.state
-        axios.delete(`http://localhost:8080/LMS-war/webresources/ModuleMounting/deleteTutorial?moduleId=${moduleId}&tutorialId=${tutorialId}`)
+        axios.delete(`${API}ModuleMounting/deleteTutorial?moduleId=${moduleId}&tutorialId=${tutorialId}`)
             .then(result => {
                 window.location.reload()
-                alert("Successfully deleted")
             })
             .catch(error => {
                 console.error("error in axios " + error);
             });
-
     }
 
-    editSave = event => {
+    editSave = id => {
         this.setState({ disabled: false, editSave: "Save" })
-        const { index } = this.state
         if (this.state.editSave === "Save") {
             this.setState({ disabled: true })
-            //FIXME: Post to update
-            /*  axios.post(`http://localhost:8080/LMS-war/webresources/ModuleMounting/updateModule?moduleId=${index}&userId=2`, {})
-                 .then(result => {
-                     console.log(result.data)
-                     alert("Updated")
-                     this.props.history.go(-1)
-                 })
-                 .catch(error => {
-                     console.error("error in axios " + error);
-                 }); */
+            axios.post(`${API}ModuleMounting/updateTutorial?tutorialId=${id}`, {
+                maxEnrollment: this.state.maxEnrollment,
+                venue: this.state.venue,
+                timing: this.state.timing
+            })
+                .then(result => {
+                    window.location.reload();
+                })
+                .catch(error => {
+                    console.error("error in axios " + error);
+                });
         }
-
     }
-
 
     render() {
         return (
