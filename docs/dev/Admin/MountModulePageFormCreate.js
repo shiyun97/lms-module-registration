@@ -384,8 +384,8 @@ class MountModulePageFormCreate extends Component {
             assignedTeacher: assignedTeacher,
         })
             .then(result => {
+                window.location.reload()
                 this.props.history.go(-1)
-                alert("Successful mounted");
             })
             .catch(error => {
                 console.error("error in axios " + error);

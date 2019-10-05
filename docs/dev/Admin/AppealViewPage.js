@@ -152,8 +152,8 @@ class AppealViewPage extends Component {
 
         axios.post(`http://localhost:8080/LMS-war/webresources/studentEnrollment/reviewAppeal?userId=${userId}&appealId=${index}&result=accept&detail=${reason}`)
             .then(result => {
+                window.location.reload();
                 this.props.history.go(-1)
-                alert("Successful accepted");
             })
             .catch(error => {
                 console.error("error in axios " + error);
@@ -170,8 +170,8 @@ class AppealViewPage extends Component {
 
         axios.post(`http://localhost:8080/LMS-war/webresources/studentEnrollment/reviewAppeal?userId=${userId}&appealId=${index}&result=reject&detail=${reason}`)
             .then(result => {
+                window.location.reload();
                 this.props.history.go(-1)
-                alert("Successful rejected");
             })
             .catch(error => {
                 console.error("error in axios " + error);

@@ -96,11 +96,9 @@ class SubmitAppealPage extends Component {
     })
       .then(res => {
         window.location.reload();
-        alert("Successful");
       })
       .catch(error => {
         console.error("error in axios " + error);
-        alert("Please try again later")
       });
   };
 
@@ -118,12 +116,10 @@ class SubmitAppealPage extends Component {
     })
       .then(res => {
         window.location.reload();
-        alert("Successful");
       })
       .catch(error => {
         window.location.reload();
         console.error("error in axios " + error);
-        alert("Please try again later")
       });
   }
 

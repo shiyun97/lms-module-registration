@@ -150,8 +150,8 @@ class MountModulePageTutorialCreate extends Component {
 
         axios.put(url + `ModuleMounting/mountTutorial?moduleId=${this.state.moduleId}`, { maxEnrollment: maxEnrollment, venue: venue, timing: timing })
             .then(result => {
+                window.location.reload()
                 this.props.history.go(-1)
-                alert("Successful mounted tutorial");
             })
             .catch(error => {
                 console.error("error in axios " + error);

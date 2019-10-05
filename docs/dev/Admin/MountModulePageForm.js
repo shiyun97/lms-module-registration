@@ -430,8 +430,7 @@ class MountModulePageForm extends Component {
                 lectureDay: lectureDay
             })
                 .then(result => {
-                    console.log(result.data)
-                    alert("Updated")
+                    window.location.reload()
                     this.props.history.go(-1)
                 })
                 .catch(error => {

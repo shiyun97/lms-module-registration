@@ -26,7 +26,6 @@ class MountModulePageTutorialView extends Component {
         axios.get("http://localhost:8080/LMS-war/webresources/ModuleMounting/getAllTutorialByModule?moduleId=" + modId)
             .then(result => {
                 this.setState({ tutorialDetails: result.data.tutorials })
-                console.log(this.state.tutorialDetails[1])
             })
             .catch(error => {
                 console.error("error in axios " + error);
@@ -71,7 +70,7 @@ class MountModulePageTutorialView extends Component {
                                 </MDBRow>
 
                                 <MDBRow style={{ paddingTop: "20px" }}>
-                                    <MDBCol sm="4">Max Enrollment: </MDBCol>
+                                    <MDBCol sm="4">Maximum Enrollment: </MDBCol>
                                     <MDBCol sm="8">
                                         <input
                                             defaultValue={tutorials.maxEnrollment}
@@ -147,7 +146,6 @@ class MountModulePageTutorialView extends Component {
         axios.delete(`http://localhost:8080/LMS-war/webresources/ModuleMounting/deleteTutorial?moduleId=${moduleId}&tutorialId=${tutorialId}`)
             .then(result => {
                 window.location.reload()
-                alert("Successfully deleted")
             })
             .catch(error => {
                 console.error("error in axios " + error);
@@ -165,9 +163,7 @@ class MountModulePageTutorialView extends Component {
                 timing: this.state.timing
             })
                 .then(result => {
-                    console.log(result.data)
-                    alert("Updated")
-                    this.props.history.go(-1)
+                    window.location.reload();
                 })
                 .catch(error => {
                     console.error("error in axios " + error);
