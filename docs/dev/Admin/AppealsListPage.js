@@ -266,7 +266,7 @@ class AppealsListPage extends Component {
         handleRowClick = index => {
             //create a new page. go to form edit page. 
             console.log(index)
-            let path = `view/` + index;
+            let path = `appealsList/view/` + index;
             this.props.history.push(path);
         }
 

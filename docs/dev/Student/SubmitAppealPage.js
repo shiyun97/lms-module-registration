@@ -16,33 +16,25 @@ class SubmitAppealPage extends Component {
     appealModule: "",
     appealReason: "",
     appealStatus: "Pending",
-    availableModules: "",
     allAppeals: "",
     appealOpen: false,
     open: false,
     viewDetailsIndex: 0,
     currentGroup: "",
     appealGroup: "",
+    enrolledModules: "",
+    enrolledTutorials: "",
   };
 
   componentDidMount() {
-    axios.get("http://localhost:8080/LMS-war/webresources/studentEnrollment/retrieveAvailableModules")
-      .then(result => {
-        this.setState({ availableModules: result.data.modules })
-      })
-      .catch(error => {
-        console.error("error in axios " + error);
-        alert("Please try again later")
-      });
-
     let userId = localStorage.getItem("userId")
+
     axios.get(`http://localhost:8080/LMS-war/webresources/studentEnrollment/retrieveStudentAppeals?userId=${userId}`)
       .then(result => {
         this.setState({ allAppeals: result.data.appeals })
       })
       .catch(error => {
         console.error("error in axios " + error);
-        alert("Please try again later")
       });
 
     axios.get("http://localhost:8080/LMS-war/webresources/studentEnrollment/isAppealOpen")
@@ -51,7 +43,22 @@ class SubmitAppealPage extends Component {
       })
       .catch(error => {
         console.error("error in axios " + error);
-        alert("Please try again later")
+      });
+
+    axios.get(`http://localhost:8080/LMS-war/webresources/studentEnrollment/retrieveStudentModules/${userId}`)
+      .then(result => {
+        this.setState({ enrolledModules: result.data.modules })
+      })
+      .catch(error => {
+        console.error("error in axios " + error);
+      });
+
+    axios.get(`http://localhost:8080/LMS-war/webresources/studentEnrollment/retrieveStudentTutorials/${userId}`)
+      .then(result => {
+        this.setState({ enrolledTutorials: result.data.tutorials })
+      })
+      .catch(error => {
+        console.error("error in axios " + error);
       });
   }
 
@@ -81,11 +88,11 @@ class SubmitAppealPage extends Component {
     event.preventDefault();
     const { value, appealModule, appealReason } = this.state;
 
-    axios.post("http://localhost:8080/LMS-war/webresources/studentEnrollment/createAppeal/", { 
-      reason: appealReason, 
-      userId: 2, 
-      type: value, 
-      moduleId: appealModule 
+    axios.post("http://localhost:8080/LMS-war/webresources/studentEnrollment/createAppeal/", {
+      reason: appealReason,
+      userId: 2,
+      type: value,
+      moduleId: appealModule
     })
       .then(res => {
         window.location.reload();
@@ -102,12 +109,12 @@ class SubmitAppealPage extends Component {
     let userId = localStorage.getItem("userId")
     const { appealReason, value, currentGroup, appealGroup } = this.state;
 
-    axios.post("http://localhost:8080/LMS-war/webresources/studentEnrollment/createAppeal/", { 
-      reason: appealReason, 
-      userId: userId, 
-      type: value, 
-      oldTutorialId: currentGroup, 
-      newTutorialId: appealGroup 
+    axios.post("http://localhost:8080/LMS-war/webresources/studentEnrollment/createAppeal/", {
+      reason: appealReason,
+      userId: userId,
+      type: value,
+      oldTutorialId: currentGroup,
+      newTutorialId: appealGroup
     })
       .then(res => {
         window.location.reload();
@@ -173,7 +180,7 @@ class SubmitAppealPage extends Component {
             <MDBCol sm="8">
               <select value={this.state.appealModule} onChange={this.handleChangeCode} className="browser-default custom-select">
                 <option>Choose your option</option>
-                {this.state.availableModules && this.state.availableModules.map(
+                {this.state.enrolledModules && this.state.enrolledModules.map(
                   (code) => <option key={code.moduleId} value={code.moduleId}>{code.code}</option>)
                 }
               </select>
@@ -192,50 +199,54 @@ class SubmitAppealPage extends Component {
           </MDBRow>
 
           <MDBRow style={{ paddingTop: "20px" }}>
+            <MDBCol align="center">
             <MDBBtn color="primary" onClick={this.handleSubmitAppealMod}>
               Submit
             </MDBBtn>
+            </MDBCol>
           </MDBRow>
         </div>
       );
     }
     else if (this.state.value === "Tutorial") {
-      return (
-        <div>
-          <MDBRow style={{ paddingTop: "20px" }}>
-            <MDBCol sm="4">Module Code: </MDBCol>
-            <MDBCol sm="8">
-              <select value={this.state.appealModule} onChange={this.handleChangeCode} className="browser-default custom-select">
-                <option>Choose your option</option>
-                {this.state.availableModules && this.state.availableModules.map(
-                  (code) => <option key={code.moduleId} value={code.moduleId}>{code.code}</option>)
-                }
-              </select>
-            </MDBCol>
-          </MDBRow>
+        return (
+          <div>
+            <MDBRow style={{ paddingTop: "20px" }}>
+              <MDBCol sm="4">Module Code: </MDBCol>
+              <MDBCol sm="8">
+                <select value={this.state.appealModule} onChange={this.handleChangeCode} className="browser-default custom-select">
+                  <option>Choose your option</option>
+                  {this.state.enrolledModules && this.state.enrolledModules.map(
+                    (code) => <option key={code.moduleId} value={code.moduleId}>{code.code}</option>)
+                  }
+                </select>
+              </MDBCol>
+            </MDBRow>
 
-          {this.getTutorials()}
+            {this.getTutorials()}
 
-          <MDBRow style={{ paddingTop: "20px" }}>
-            <MDBCol sm="4">Appeal Reason: </MDBCol>
-            <MDBCol>
-              <textarea
-                className="form-control"
-                rows="5"
-                onChange={this.handleChangeReason}
-              />
-            </MDBCol>
-          </MDBRow>
+            <MDBRow style={{ paddingTop: "20px" }}>
+              <MDBCol sm="4">Appeal Reason: </MDBCol>
+              <MDBCol>
+                <textarea
+                  className="form-control"
+                  rows="5"
+                  onChange={this.handleChangeReason}
+                />
+              </MDBCol>
+            </MDBRow>
 
-          <MDBRow style={{ paddingTop: "20px" }}>
-            <MDBBtn color="primary" onClick={this.handleSubmitChangeGroup}>
-              Submit
+            <MDBRow style={{ paddingTop: "20px" }}>
+            <MDBCol align="center">
+              <MDBBtn color="primary" onClick={this.handleSubmitChangeGroup}>
+                Submit
             </MDBBtn>
-          </MDBRow>
-        </div>
-      );
-    } else {
-      return null;
+            </MDBCol>
+            </MDBRow>
+          </div>
+        );
+      } else {
+        return null;
     }
   };
 
@@ -250,7 +261,7 @@ class SubmitAppealPage extends Component {
               <option>Choose your option</option>
               {
                 tutorial && tutorial.map(
-                (code) => <option key={code.tutorialId} value={code.tutorialId}>{code.tutorialId}</option>)
+                  (code) => <option key={code.tutorialId} value={code.tutorialId}>{code.tutorialId}</option>)
               }
             </select>
           </MDBCol>
@@ -263,7 +274,7 @@ class SubmitAppealPage extends Component {
               <option>Choose your option</option>
               {
                 tutorial && tutorial.map(
-                (code) => <option key={code.tutorialId} value={code.tutorialId}>{code.tutorialId}</option>)
+                  (code) => <option key={code.tutorialId} value={code.tutorialId}>{code.tutorialId}</option>)
               }
             </select>
           </MDBCol>
