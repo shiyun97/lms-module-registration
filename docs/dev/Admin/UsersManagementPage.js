@@ -301,14 +301,14 @@ class UsersManagementPage extends Component {
                                         </label>
                                 <input type="text" className="form-control" defaultValue={this.state.email} onChange={this.handleChange} name="email" />
                             </MDBCol>
-                            <MDBCol md="12" className="mt-4">
+                            {/* <MDBCol md="12" className="mt-4">
                                 <label className="grey-text">
                                     Password
                                         </label>
                             </MDBCol>
                             <MDBCol md="12">
                                 <input type="text" className="form-control" onChange={this.handleChange} defaultValue={this.state.password} name="password" />
-                            </MDBCol>
+                            </MDBCol> */}
                             <MDBCol md="6" className="mt-4">
                                 <MDBInputGroup
                                     style={{ paddingTop: 32 }}
@@ -560,7 +560,7 @@ class UsersManagementPage extends Component {
                 lastName: row[i].lastName,
                 gender: row[i].gender,
                 email: row[i].email,
-                password: row[i].password,
+                password: "********",
                 accessRight: row[i].accessRight,
                 username: row[i].username,
                 editButton: <MDBRow align="center">
