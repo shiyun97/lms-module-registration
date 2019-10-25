@@ -19,6 +19,7 @@ class MountModulePageTutorialCreate extends Component {
         endTime: "",
         tutorialDay: "",
         venue: "",
+        venueList: ""
     }
 
     componentDidMount() {
@@ -34,6 +35,15 @@ class MountModulePageTutorialCreate extends Component {
             .catch(error => {
                 console.error("error in axios " + error);
             });
+
+        //get all venues
+        axios.get(`${API}ModuleMounting/getAllVenue`)
+            .then(result => {
+                this.setState({ venueList: result.data.venueList })
+            })
+            .catch(error => {
+                console.error("error in axios " + error);
+            });
     }
 
     handleOnChange = event => {
@@ -42,6 +52,10 @@ class MountModulePageTutorialCreate extends Component {
 
     handleSelect = event => {
         this.setState({ tutorialDay: event.target.value })
+    }
+
+    handleChangeVenue = event => {
+        this.setState({ venue: event.target.value })
     }
 
     displayMountModuleTutorialForm = () => {
@@ -114,14 +128,12 @@ class MountModulePageTutorialCreate extends Component {
                     <MDBRow style={{ paddingTop: "20px" }}>
                         <MDBCol sm="4">Venue: </MDBCol>
                         <MDBCol sm="8">
-                            <input
-                                value={this.state.venue}
-                                name="venue"
-                                type="text"
-                                className="form-control"
-                                placeholder="Venue"
-                                onChange={this.handleOnChange}
-                            />
+                            <select value={this.state.venue} onChange={this.handleChangeVenue} className="browser-default custom-select">
+                                <option>Choose your option</option>
+                                {this.state.venueList && this.state.venueList.map(
+                                    (venue) => <option key={venue.id} value={venue.id}>{venue.name}</option>)
+                                }
+                            </select>
                         </MDBCol>
                     </MDBRow>
 
@@ -146,7 +158,7 @@ class MountModulePageTutorialCreate extends Component {
         const { startTime, endTime, tutorialDay, venue, maxEnrollment } = this.state
         var timing = tutorialDay + " " + startTime + " - " + endTime
 
-        axios.put(`${API}ModuleMounting/mountTutorial?moduleId=${this.state.moduleId}`, { maxEnrollment: maxEnrollment, venue: venue, timing: timing })
+        axios.put(`${API}ModuleMounting/mountTutorial?moduleId=${this.state.moduleId}/venueId=${this.state.venue}`, { maxEnrollment: maxEnrollment, venue: venue, timing: timing })
             .then(result => {
                 window.location.reload()
                 this.props.history.go(-1)

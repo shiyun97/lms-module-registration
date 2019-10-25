@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { MDBContainer, MDBCol, MDBRow } from "mdbreact";
+import { MDBContainer, MDBCol, MDBRow, MDBBtn } from "mdbreact";
 import SectionContainer from "../../components/sectionContainer";
 import axios from "axios";
 import { Button, Grid } from "@material-ui/core";
@@ -28,12 +28,21 @@ class MountModulePageFormCreate extends Component {
         lectureEndTime: "",
         lectureDetails: "",
         tutorial: "",
+        venueList: "",
     }
 
     componentDidMount() {
         axios.get(`${API}User/getAllUser`)
             .then(result => {
                 this.setState({ userList: result.data.userList })
+            })
+            .catch(error => {
+                console.error("error in axios " + error);
+            });
+        //get all venues
+        axios.get(`${API}ModuleMounting/getAllVenue`)
+            .then(result => {
+                this.setState({ venueList: result.data.venueList })
             })
             .catch(error => {
                 console.error("error in axios " + error);
@@ -46,6 +55,10 @@ class MountModulePageFormCreate extends Component {
 
     handleChangeTeacher = event => {
         this.setState({ assignedTeacher: event.target.value })
+    }
+
+    handleChangeExamVenue = event => {
+        this.setState({ examVenue: event.target.value })
     }
 
     handleSelectSemester = event => {
@@ -235,12 +248,12 @@ class MountModulePageFormCreate extends Component {
                             justify="flex-end"
                             alignItems="center"
                         >
-                        <Grid style={{ paddingRight: '20px' }}>
-                            <Button onClick={this.create} color="secondary" variant="contained">Create</Button>
-                        </Grid>
-                        <Grid style={{ paddingRight: '20px' }}>
-                            <Button onClick={this.cancel} color="primary" variant="contained">Cancel</Button>
-                        </Grid>
+                            <Grid style={{ paddingRight: '20px' }}>
+                                <MDBBtn onClick={this.create} color="secondary" variant="contained">Create</MDBBtn>
+                            </Grid>
+                            <Grid style={{ paddingRight: '20px' }}>
+                                <MDBBtn onClick={this.cancel} color="primary" variant="contained">Cancel</MDBBtn>
+                            </Grid>
                         </Grid>
 
                     </MDBRow>
@@ -341,14 +354,12 @@ class MountModulePageFormCreate extends Component {
                         <MDBCol sm="4" style={{ paddingTop: "10px" }}>Exam Venue: </MDBCol>
 
                         <MDBCol sm="8">
-                            <input
-                                value={this.state.examVenue}
-                                name="examVenue"
-                                type="text"
-                                className="form-control"
-                                placeholder="Exam Venue"
-                                onChange={this.handleOnChange}
-                            />
+                            <select value={this.state.examVenue} onChange={this.handleChangeExamVenue} className="browser-default custom-select">
+                                <option>Choose your option</option>
+                                {this.state.venueList && this.state.venueList.map(
+                                    (venue) => <option key={venue.id} value={venue.id}>{venue.name}</option>)
+                                }
+                            </select>
                         </MDBCol>
                     </MDBRow>
 
@@ -367,7 +378,7 @@ class MountModulePageFormCreate extends Component {
         //var examFullDateTime = this.state.examDate + " " + this.state.examTime
         const { moduleCode, moduleTitle, semester, year, credit, maxEnrollment, hasExam, examVenue, faculty, department, assignedTeacher } = this.state
         var lectureDetails = this.state.lectureDay + " " + this.state.lectureStartTime + " - " + this.state.lectureEndTime
-        axios.put(`${API}ModuleMounting/mountModule?userId=${assignedTeacher}`, {
+        axios.put(`${API}ModuleMounting/mountModule?userId=${assignedTeacher}/${examVenue}`, {
             code: moduleCode,
             title: moduleTitle,
             semesterOffered: semester,
