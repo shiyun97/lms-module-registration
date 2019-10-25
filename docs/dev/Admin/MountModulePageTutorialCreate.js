@@ -158,7 +158,7 @@ class MountModulePageTutorialCreate extends Component {
         const { startTime, endTime, tutorialDay, venue, maxEnrollment } = this.state
         var timing = tutorialDay + " " + startTime + " - " + endTime
 
-        axios.put(`${API}ModuleMounting/mountTutorial?moduleId=${this.state.moduleId}/venueId=${this.state.venue}`, { maxEnrollment: maxEnrollment, venue: venue, timing: timing })
+        axios.put(`${API}ModuleMounting/mountTutorial?moduleId=${this.state.moduleId}&venueId=${this.state.venue}`, { maxEnrollment: maxEnrollment, venue: venue, timing: timing })
             .then(result => {
                 window.location.reload()
                 this.props.history.go(-1)
