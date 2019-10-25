@@ -378,7 +378,7 @@ class MountModulePageFormCreate extends Component {
         //var examFullDateTime = this.state.examDate + " " + this.state.examTime
         const { moduleCode, moduleTitle, semester, year, credit, maxEnrollment, hasExam, examVenue, faculty, department, assignedTeacher } = this.state
         var lectureDetails = this.state.lectureDay + " " + this.state.lectureStartTime + " - " + this.state.lectureEndTime
-        axios.put(`${API}ModuleMounting/mountModule?userId=${assignedTeacher}/${examVenue}`, {
+        axios.put(`${API}ModuleMounting/mountModule?userId=${assignedTeacher}&venueId=${examVenue}`, {
             code: moduleCode,
             title: moduleTitle,
             semesterOffered: semester,
