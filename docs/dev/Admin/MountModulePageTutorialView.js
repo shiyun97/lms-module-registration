@@ -16,6 +16,7 @@ class MountModulePageTutorialView extends Component {
         maxEnrollment: "",
         venue: "",
         timing: "",
+        venueList: ""
     }
 
     componentDidMount() {
@@ -27,6 +28,15 @@ class MountModulePageTutorialView extends Component {
         axios.get(`${API}ModuleMounting/getAllTutorialByModule?moduleId=${modId}`)
             .then(result => {
                 this.setState({ tutorialDetails: result.data.tutorials })
+            })
+            .catch(error => {
+                console.error("error in axios " + error);
+            });
+
+        //get all venues
+        axios.get(`${API}ModuleMounting/getAllVenue`)
+            .then(result => {
+                this.setState({ venueList: result.data.venueList })
             })
             .catch(error => {
                 console.error("error in axios " + error);
@@ -90,7 +100,7 @@ class MountModulePageTutorialView extends Component {
                                     <MDBCol sm="4" style={{ paddingTop: "10px" }}>Venue: </MDBCol>
                                     <MDBCol sm="8">
                                         <input
-                                            defaultValue={tutorials.venue}
+                                            defaultValue={tutorials.venue.name}
                                             name="venue"
                                             type="text"
                                             className="form-control"
