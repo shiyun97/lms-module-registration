@@ -62,11 +62,11 @@ class UsersManagementPage extends Component {
                 "field": "email",
                 "width": 270
             },
-            {
-                "label": "Password",
-                "field": "password",
-                "width": 200
-            },
+            // {
+            //     "label": "Password",
+            //     "field": "password",
+            //     "width": 200
+            // },
             {
                 "label": "Access Right",
                 "field": "accessRight",
@@ -401,7 +401,7 @@ class UsersManagementPage extends Component {
                                         </label>
                             </MDBCol>
                             <MDBCol md="6">
-                                <input type="text" className="form-control" onChange={this.handleChange} placeholder="********" value={this.state.password} />
+                                <input type="text" className="form-control" onChange={this.handleChange} value={this.state.password} />
                             </MDBCol>
                             <MDBCol md="6" align="right">
                                 <MDBBtn onClick={() => this.generatePwd()} outline size="sm" color="primary">Generate Password</MDBBtn>
@@ -560,7 +560,7 @@ class UsersManagementPage extends Component {
                 lastName: row[i].lastName,
                 gender: row[i].gender,
                 email: row[i].email,
-                password: "********",
+                // password: "********",
                 accessRight: row[i].accessRight,
                 username: row[i].username,
                 editButton: <MDBRow align="center">
