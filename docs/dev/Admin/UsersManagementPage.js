@@ -24,6 +24,7 @@ class UsersManagementPage extends Component {
         gender: "",
         userRole: "",
         username: "",
+        hashedPassword: "",
         columns: [
             {
                 "label": "User Id",
@@ -62,11 +63,11 @@ class UsersManagementPage extends Component {
                 "field": "email",
                 "width": 270
             },
-            {
-                "label": "Password",
-                "field": "password",
-                "width": 200
-            },
+            // {
+            //     "label": "Password",
+            //     "field": "password",
+            //     "width": 200
+            // },
             {
                 "label": "Access Right",
                 "field": "accessRight",
@@ -236,19 +237,13 @@ class UsersManagementPage extends Component {
             .setNumberCase(true)
             .setSymbol(false)
             .generate();
-        this.setState({ password: pwd });
+        this.setState({ password: pwd, hashedPassword: "********" });
     }
 
     handleChange = event => {
         event.preventDefault();
         this.setState({ [event.target.name]: event.target.value });
-        // console.log(this.state.accessRight) 
-        // console.log(this.state.gender)
-        // console.log(this.state.password)
-        // console.log(this.state.email)
-        // console.log(this.state.username)
-        // console.log(this.state.firstName)
-        // console.log(this.state.lastName)
+        console.log(this.state)
     }
 
     toggle = (nr, row) => {
@@ -401,7 +396,7 @@ class UsersManagementPage extends Component {
                                         </label>
                             </MDBCol>
                             <MDBCol md="6">
-                                <input type="text" className="form-control" onChange={this.handleChange} placeholder="********" value={this.state.password} />
+                                <input type="text" className="form-control" value={this.state.hashedPassword} />
                             </MDBCol>
                             <MDBCol md="6" align="right">
                                 <MDBBtn onClick={() => this.generatePwd()} outline size="sm" color="primary">Generate Password</MDBBtn>
@@ -560,7 +555,7 @@ class UsersManagementPage extends Component {
                 lastName: row[i].lastName,
                 gender: row[i].gender,
                 email: row[i].email,
-                password: "********",
+                // password: "********",
                 accessRight: row[i].accessRight,
                 username: row[i].username,
                 editButton: <MDBRow align="center">
