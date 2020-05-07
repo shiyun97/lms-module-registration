@@ -35,17 +35,6 @@ This is a simple system to conduct administration and enrollment purposes to sup
                   |__ SelectTutorialsPage
                   |__ SubmitAppeal
 
-## Available Scripts
-
-In the project directory, you can run:
-
-#### `npm run webpack`
-
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.<br>
-
 ## Special Instructions and Handlings
 ### Setup Guide
 1. Open Git Bash/ Command Prompt/ Terminal. Clone repository.
